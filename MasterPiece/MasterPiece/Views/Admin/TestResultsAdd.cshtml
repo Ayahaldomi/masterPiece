@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "TestResultsAdd";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .card {
+        padding: 15px;
+    }
+    .container {
+        margin-top: 50px;
+    }
+
+    .form-container, .table-container {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="card">
+    <div class="container">
+        <h1 class="text-center">Add Test Result</h1>
+        <div class="form-group row">
+            <label for="patientId" class="col-sm-2 col-form-label">Patient ID</label>
+            <span class="col-sm-2 col-form-label">8855</span>
+
+            <label for="fullName" class="col-sm-2 col-form-label">Full Name</label>
+            <span class="col-sm-2 col-form-label">Ayah hasan</span>
+
+            <label for="fullName" class="col-sm-2 col-form-label">Test_Order</label>
+            <span class="col-sm-2 col-form-label">5518</span>
+
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Test Name</th>
+                            <th scope="col">Result</th>
+                            <th scope="col">Normal Range</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CBC</td>
+                            <td><input type="text" class="form-control" placeholder="Enter result"></td>
+                            <td>4.5-11 x10^9/L</td>
+                        </tr>
+                        <tr>
+                            <td>TSH</td>
+                            <td><input type="text" class="form-control" placeholder="Enter result"></td>
+                            <td>0.4-4.0 mU/L</td>
+                        </tr>
+                        <!-- More rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-4">
+                <button id="save-button" class="btn btn-primary">Save</button>
+                <button id="print-button" class="btn btn-secondary" disabled>Print</button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    document.getElementById('save-button').addEventListener('click', function() {
+      // Add save functionality here
+      document.getElementById('print-button').disabled = false;
+    });
+</script>

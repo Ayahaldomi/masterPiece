@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "ManagePatient";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .container {
+        margin-top: 50px;
+    }
+
+    .table-container {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="card">
+    <div class="container">
+        <h1 class="text-center">Manage Patients</h1>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search by Patient Name or ID" aria-label="Search">
+                    <button class="btn btn-outline-secondary" type="button">Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Patient ID</th>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">Patient Phone Number</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>+123456789</td>
+                        <td><button class="btn btn-primary btn-sm">View Details</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>+987654321</td>
+                        <td><a href="managePatientDetails.html"><button class="btn btn-primary btn-sm">View Details</button></a></td>
+                    </tr>
+                    <!-- More rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -976,6 +976,14 @@
     <Content Include="Views\Admin\AdminDashboard.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\AddPatient.cshtml" />
+    <Content Include="Views\Admin\AddPatientTests.cshtml" />
+    <Content Include="Views\Admin\AddPatientPayment.cshtml" />
+    <Content Include="Views\Admin\ManagePatient.cshtml" />
+    <Content Include="Views\Admin\ManagePatientDetails.cshtml" />
+    <Content Include="Views\Admin\TestResults.cshtml" />
+    <Content Include="Views\Admin\TestResultsAdd.cshtml" />
+    <Content Include="Views\Admin\InventoryManagement.cshtml" />
+    <Content Include="Views\Admin\TestsDocumentation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

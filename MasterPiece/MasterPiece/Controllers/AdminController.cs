@@ -18,5 +18,45 @@ namespace MasterPiece.Controllers
         {
             return View();
         }
+
+        public ActionResult AddPatientTests()
+        {
+            return View();
+        }
+
+        public ActionResult AddPatientPayment()
+        {
+            return View();
+        }
+
+        public ActionResult ManagePatient()
+        {
+            return View();
+        }
+
+        public ActionResult ManagePatientDetails()
+        {
+            return View();
+        }
+
+        public ActionResult TestResults()
+        {
+            return View();
+        }
+
+        public ActionResult TestResultsAdd()
+        {
+            return View();
+        }
+
+        public ActionResult InventoryManagement()
+        {
+            return View();
+        }
+
+        public ActionResult TestsDocumentation()
+        {
+            return View();
+        }
     }
 }

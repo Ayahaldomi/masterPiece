@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "AddPatientPayment";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<link rel="stylesheet" href="~/myContent/assets/css/styles1.css">
+
+<style>
+    .card {
+        padding: 1em;
+    }
+
+    button.btn.btn-success {
+        margin: 0.5em;
+    }
+
+    body {
+        background-color: #69acc759;
+    }
+
+    .container-fluid {
+        padding-top: 120px !important;
+    }
+</style>
+
+<div class="card">
+    <div class="container mt-5">
+        <h2 class="mb-4">Payment</h2>
+        <form>
+            <div class="form-group row">
+                <label for="patientId" class="col-sm-2 col-form-label">Patient ID</label>
+                <span class="col-sm-2 col-form-label">8855</span>
+
+                <label for="fullName" class="col-sm-2 col-form-label">Full Name</label>
+                <span class="col-sm-2 col-form-label">Ayah hasan</span>
+
+                <label for="fullName" class="col-sm-2 col-form-label">Test_Order</label>
+                <span class="col-sm-2 col-form-label">5518</span>
+
+            </div>
+            <br>
+
+
+        </form>
+
+        <h3 class="mt-5">Tests Ordered</h3>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Test Name</th>
+                    <th>Test Description</th>
+                    <th>Test Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="testsTableBody">
+                <!-- Dynamically added test rows will appear here -->
+            <td>54</td>
+            <td>CBC</td>
+            <td>Complete Blood Count</td>
+            <td>8 JOD</td>
+            <td><button class="btn btn-danger" onclick="removeTest(this)">Remove</button></td>
+            </tbody>
+        </table>
+        <div class="form-group row">
+            <label for="patientId" class="col-sm-2 col-form-label">Total</label>
+            <span class="col-sm-2 col-form-label">8 JOD</span>
+
+            <label for="testName" class="col-sm-2 col-form-label">Amount Payed</label>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" id="testName" placeholder="">
+                <!-- <button type="button" class="btn btn-primary mt-2" onclick="searchTest()">Search</button> -->
+            </div>
+
+        </div>
+
+        <a href=""><button class="btn btn-success">Save Payment</button></a>
+    </div>
+
+</div>
