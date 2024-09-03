@@ -1,4 +1,6 @@
-﻿
+﻿@model MasterPiece.Models.Patient
+
+
 <style>
     body {
         background-color: #eee;
@@ -41,103 +43,102 @@
     }
 </style>
 <section>
-<div class="container py-5">
-    <div class="row">
-        <div class="col">
-            <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">User</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
-                </ol>
-            </nav>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">User</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card mb-4">
-                <div class="card-body text-center">
-                    <img src="img/blank-profile-picture-973460_960_720.jpg" alt="avatar"
-                         class="rounded-circle img-fluid" style="width: 150px;">
-                    <h5 class="my-3">John Smith</h5>
-                    <p class="text-muted mb-1">Full Stack Developer</p>
-                    <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-                    <div class="d-flex justify-content-center mb-2">
-                        <!-- <a href="profile-Edit.html"> <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">View Profile</button> </a> -->
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img src="img/blank-profile-picture-973460_960_720.jpg" alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-3">@Model.Full_Name</h5>
+                        <p class="text-muted mb-1">@Model.Gender</p>
+                        <div class="d-flex justify-content-center mb-2">
+                            <!-- <a href="profile-Edit.html"> <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">View Profile</button> </a> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="container">
+                        <h2>Patient Form</h2>
+                        <form id="patient-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="patient-id">Patient ID</label>
+                                    <input type="text" id="fpatient-id" name="patient-id" disabled value="@Model.Patient_ID">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="full-name">Full Name</label>
+                                    <input type="text" id="full-name" name="full-name" disabled value="@Model.Full_Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" id="dob" name="dob" value="@Model.Date_Of_Birth" disabled >
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select id="gender" name="gender" disabled >
+                                        <option selected value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="marital-status">Marital Status</label>
+                                    <select id="marital-status" name="marital-status" disabled>
+                                        <option selected value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="divorced">Divorced</option>
+                                        <option value="widowed">Widowed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nationality">Nationality</label>
+                                    <input type="text" id="nationality" name="nationality" disabled value="@Model.Nationality">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone-number">Phone Number</label>
+                                    <input type="tel" id="phone-number" name="phone-number" disabled value="@Model.Phone_Number">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="home-address">Home Address</label>
+                                    <input type="text" id="home-address" name="home-address" disabled value="@Model.Home_Address">
+                                </div>
+
+                            </div>
+
+                            <div class="form-buttons">
+
+                                <button type="button" class="btn btn-outline-secondary m-1">Edit</button>
+                                <button type="button" class="btn btn-outline-primary m-1" id="save-button">Save Edit</button>
+
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div class="col-lg-8">
-            <div class="card mb-4">
-                <div class="container">
-                    <h2>Patient Form</h2>
-                    <form id="patient-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="patient-id">Patient ID</label>
-                                <input type="text" id="fpatient-id" name="patient-id" disabled>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="full-name">Full Name</label>
-                                <input type="text" id="full-name" name="full-name" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="dob">Date of Birth</label>
-                                <input type="date" id="dob" name="dob" value="1990-07-07" disabled>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <select id="gender" name="gender" disabled>
-                                    <option selected value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="marital-status">Marital Status</label>
-                                <select id="marital-status" name="marital-status" disabled>
-                                    <option selected value="single">Single</option>
-                                    <option value="married">Married</option>
-                                    <option value="divorced">Divorced</option>
-                                    <option value="widowed">Widowed</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nationality">Nationality</label>
-                                <input type="text" id="nationality" name="nationality" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone-number">Phone Number</label>
-                                <input type="tel" id="phone-number" name="phone-number" disabled value="0795554441">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="home-address">Home Address</label>
-                                <input type="text" id="home-address" name="home-address" disabled value="Bay Area, San Francisco, CA">
-                            </div>
-
-                        </div>
-
-                        <div class="form-buttons">
-
-                            <button type="button" class="btn btn-outline-secondary m-1">Edit</button>
-                            <button type="button" class="btn btn-outline-primary m-1" id="save-button">Save Edit</button>
-
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
-</div>
 </section>

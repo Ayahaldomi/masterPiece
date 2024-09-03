@@ -1,4 +1,10 @@
-﻿
+﻿@model IEnumerable<MasterPiece.Models.Test_Order>
+
+@{ 
+    var user = Session["userSession"] as MasterPiece.Models.Patient;
+}
+
+
 <style>
     html,
     body,
@@ -49,11 +55,10 @@
                     <div class="card-body text-center">
                         <img src="img/blank-profile-picture-973460_960_720.jpg" alt="avatar"
                              class="rounded-circle img-fluid" style="width: 150px;">
-                        <h5 class="my-3">John Smith</h5>
-                        <p class="text-muted mb-1">Full Stack Developer</p>
-                        <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                        <h5 class="my-3">@user.Full_Name</h5>
+                        <p class="text-muted mb-4">@user.Gender</p>
                         <div class="d-flex justify-content-center mb-2">
-                            <a href="profile-Edit.html"> <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">View Profile</button> </a>
+                            <a href="@Url.Action("ProfileEdit", "User", new {id = user.Patient_ID})"> <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">View Profile</button> </a>
                         </div>
                     </div>
                 </div>
@@ -72,12 +77,23 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach (var s in Model)
+                                {
                                 <tr>
-                                    <th scope="row">1258</th>
-                                    <td>CBC, Urin Analysis</td>
-                                    <td>07/07/2024</td>
+                                    <th scope="row">@s.Order_ID</th>
+                                    <td>
+                                        @foreach(var n in s.Test_Order_Tests)
+                                        {
+                                            if (n.Order_ID == s.Order_ID)
+                                            {
+                                                <span>@n.Test.Test_Name</span>,
+                                            }
+                                        }
+                                    </td>
+                                    <td>@s.Date</td>
                                     <td><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-secondary">Download Results As PDF</button></td>
                                 </tr>
+                                }
                             </tbody>
                         </table>
                     </div>

@@ -51,6 +51,8 @@ C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\r
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\roslyn\VBCSCompiler.exe
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Antlr3.Runtime.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\EntityFramework.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\EntityFramework.SqlServer.dll
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Newtonsoft.Json.dll
@@ -62,6 +64,8 @@ C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\S
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\System.Web.WebPages.dll
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\System.Web.WebPages.Razor.dll
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\WebGrease.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\EntityFramework.xml
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\EntityFramework.SqlServer.xml
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\System.Web.Helpers.xml
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\System.Web.Mvc.xml
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\System.Web.Optimization.xml

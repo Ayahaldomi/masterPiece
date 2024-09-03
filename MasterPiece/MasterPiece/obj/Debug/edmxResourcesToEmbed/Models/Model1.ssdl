@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MasterPieceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Appointments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Full_Name" Type="nvarchar(max)" />
+    <Property Name="Gender" Type="nvarchar(max)" />
+    <Property Name="Date_Of_Birth" Type="date" />
+    <Property Name="Email_Address" Type="nvarchar(max)" />
+    <Property Name="Phone_Number" Type="nvarchar(max)" />
+    <Property Name="Home_Address" Type="nvarchar(max)" />
+    <Property Name="Date_Of_Appo" Type="date" />
+    <Property Name="Tests_IDs" Type="int" />
+    <Property Name="Billing_ID" Type="int" />
+    <Property Name="Status" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Billing">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Lab_Tech">
+    <Key>
+      <PropertyRef Name="Tech_ID" />
+    </Key>
+    <Property Name="Tech_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar(max)" />
+    <Property Name="Password" Type="nvarchar" MaxLength="1" />
+    <Property Name="Status" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Packages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Patients">
+    <Key>
+      <PropertyRef Name="Patient_ID" />
+    </Key>
+    <Property Name="Patient_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Full_Name" Type="nvarchar(max)" />
+    <Property Name="Date_Of_Birth" Type="date" />
+    <Property Name="Gender" Type="nvarchar(max)" />
+    <Property Name="Marital_Status" Type="nvarchar(max)" />
+    <Property Name="Nationality" Type="nvarchar(max)" />
+    <Property Name="Phone_Number" Type="int" />
+    <Property Name="Home_Address" Type="nvarchar(max)" />
+    <Property Name="Note" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Test_Order">
+    <Key>
+      <PropertyRef Name="Order_ID" />
+    </Key>
+    <Property Name="Order_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Patient_ID" Type="int" />
+    <Property Name="Date" Type="date" />
+    <Property Name="Tech_ID" Type="int" />
+    <Property Name="Status" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Test_Order_Tests">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Order_ID" Type="int" />
+    <Property Name="Test_ID" Type="int" />
+    <Property Name="Result" Type="nvarchar(max)" />
+    <Property Name="Date_Of_Result" Type="date" />
+    <Property Name="Comment" Type="nvarchar(max)" />
+    <Property Name="Status" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Tests">
+    <Key>
+      <PropertyRef Name="Test_ID" />
+    </Key>
+    <Property Name="Test_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Test_Name" Type="nvarchar(max)" />
+    <Property Name="Alternative_Name" Type="nvarchar(max)" />
+    <Property Name="Normal_Range" Type="nvarchar(max)" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Inventory" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Sample_Type" Type="nvarchar" MaxLength="1" />
+    <Property Name="Expiration_Date" Type="date" />
+  </EntityType>
+  <Association Name="FK__Appointme__Billi__403A8C7D">
+    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
+    <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Billing">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointments">
+        <PropertyRef Name="Billing_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Appointme__Tests__3F466844">
+    <End Role="Tests" Type="Self.Tests" Multiplicity="0..1" />
+    <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tests">
+        <PropertyRef Name="Test_ID" />
+      </Principal>
+      <Dependent Role="Appointments">
+        <PropertyRef Name="Tests_IDs" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Test_Orde__Order__48CFD27E">
+    <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="0..1" />
+    <End Role="Test_Order_Tests" Type="Self.Test_Order_Tests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Test_Order">
+        <PropertyRef Name="Order_ID" />
+      </Principal>
+      <Dependent Role="Test_Order_Tests">
+        <PropertyRef Name="Order_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Test_Orde__Patie__44FF419A">
+    <End Role="Patients" Type="Self.Patients" Multiplicity="0..1" />
+    <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patients">
+        <PropertyRef Name="Patient_ID" />
+      </Principal>
+      <Dependent Role="Test_Order">
+        <PropertyRef Name="Patient_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Test_Orde__Tech___45F365D3">
+    <End Role="Lab_Tech" Type="Self.Lab_Tech" Multiplicity="0..1" />
+    <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lab_Tech">
+        <PropertyRef Name="Tech_ID" />
+      </Principal>
+      <Dependent Role="Test_Order">
+        <PropertyRef Name="Tech_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Test_Orde__Test___49C3F6B7">
+    <End Role="Tests" Type="Self.Tests" Multiplicity="0..1" />
+    <End Role="Test_Order_Tests" Type="Self.Test_Order_Tests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tests">
+        <PropertyRef Name="Test_ID" />
+      </Principal>
+      <Dependent Role="Test_Order_Tests">
+        <PropertyRef Name="Test_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MasterPieceModelStoreContainer">
+    <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Billing" EntityType="Self.Billing" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Lab_Tech" EntityType="Self.Lab_Tech" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Test_Order" EntityType="Self.Test_Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Test_Order_Tests" EntityType="Self.Test_Order_Tests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tests" EntityType="Self.Tests" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Appointme__Billi__403A8C7D" Association="Self.FK__Appointme__Billi__403A8C7D">
+      <End Role="Billing" EntitySet="Billing" />
+      <End Role="Appointments" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Appointme__Tests__3F466844" Association="Self.FK__Appointme__Tests__3F466844">
+      <End Role="Tests" EntitySet="Tests" />
+      <End Role="Appointments" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Test_Orde__Order__48CFD27E" Association="Self.FK__Test_Orde__Order__48CFD27E">
+      <End Role="Test_Order" EntitySet="Test_Order" />
+      <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Test_Orde__Patie__44FF419A" Association="Self.FK__Test_Orde__Patie__44FF419A">
+      <End Role="Patients" EntitySet="Patients" />
+      <End Role="Test_Order" EntitySet="Test_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Test_Orde__Tech___45F365D3" Association="Self.FK__Test_Orde__Tech___45F365D3">
+      <End Role="Lab_Tech" EntitySet="Lab_Tech" />
+      <End Role="Test_Order" EntitySet="Test_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Test_Orde__Test___49C3F6B7" Association="Self.FK__Test_Orde__Test___49C3F6B7">
+      <End Role="Tests" EntitySet="Tests" />
+      <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

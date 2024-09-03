@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterPiece.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,20 +9,38 @@ namespace MasterPiece.Controllers
 {
     public class UserController : Controller
     {
+        private MasterPieceEntities db = new MasterPieceEntities();
+
         // GET: User
         public ActionResult Login()
         {
             return View();
         }
 
-        public ActionResult Profile()
+
+        [HttpPost]
+        public ActionResult Login(Patient p)
         {
-            return View();
+            var user = db.Patients.Where(l => l.Patient_ID == p.Patient_ID && l.Phone_Number == p.Phone_Number).FirstOrDefault();
+            if (user == null) {
+                return View();
+            }
+            Session["userSession"] = user;
+            return RedirectToAction("Profile");
         }
 
-        public ActionResult ProfileEdit()
+        public ActionResult Profile()
         {
-            return View();
+            var s = Session["userSession"] as Patient;
+            var user = db.Test_Order.Where(l => l.Patient_ID == s.Patient_ID).ToList();
+            return View(user);
+        }
+
+        public ActionResult ProfileEdit(int id)
+        {
+            var patient = db.Patients.FirstOrDefault(l => l.Patient_ID == id);
+
+            return View(patient);
         }
     }
 }
