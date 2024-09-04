@@ -81,3 +81,13 @@ C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\obj\D
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\obj\Debug\MasterPi.041A5867.Up2Date
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\obj\Debug\MasterPiece.dll
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\obj\Debug\MasterPiece.pdb
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Syncfusion.Compression.Base.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Syncfusion.Licensing.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Syncfusion.Pdf.Base.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Syncfusion.Compression.Base.xml
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Syncfusion.Licensing.xml
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Syncfusion.Pdf.Base.xml
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\BouncyCastle.Cryptography.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\itextsharp.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\BouncyCastle.Cryptography.xml
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\itextsharp.xml

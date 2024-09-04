@@ -1,6 +1,7 @@
 ﻿using MasterPiece.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -41,6 +42,16 @@ namespace MasterPiece.Controllers
             var patient = db.Patients.FirstOrDefault(l => l.Patient_ID == id);
 
             return View(patient);
+        }
+
+
+        [HttpPost]
+        public ActionResult ProfileEdit(Patient patient)
+        {
+            db.Entry(patient).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Profile");
+
         }
     }
 }

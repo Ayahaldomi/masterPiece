@@ -6,6 +6,8 @@
 }
 
 <h2>Index</h2>
+<a href="@Url.Action("DownloadPdf", "Patients")" class="btn btn-primary">Download PDF</a>
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -39,38 +41,48 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Full_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date_Of_Birth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gender)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Marital_Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nationality)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone_Number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Home_Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Note)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Patient_ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Patient_ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Patient_ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Full_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Of_Birth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marital_Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nationality)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone_Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Home_Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Patient_ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Patient_ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Patient_ID })
+            </td>
+        </tr>
+    }
+
+    @{Html.BeginForm("CreatePDFDocument", "Patients", FormMethod.Get);
+        {
+            <div>
+                <input type="submit" value="Generate PDF Document" style="width:150px;height:27px" />
+            </div>
+        }
+        Html.EndForm();
+    }
 
 </table>
