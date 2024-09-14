@@ -142,6 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AppointmentViewModel.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -155,7 +156,7 @@
     <Compile Include="Models\Appointment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Billing.cs">
+    <Compile Include="Models\Appointments_Tests.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Lab_Tech.cs">
@@ -215,8 +216,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
       <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -231,6 +232,8 @@
     <Content Include="myContent\assets\images\backgrounds\rocket.png" />
     <Content Include="myContent\assets\images\logos\dark-logo.svg" />
     <Content Include="myContent\assets\images\logos\favicon.png" />
+    <Content Include="myContent\assets\images\logos\PDFfooter.png" />
+    <Content Include="myContent\assets\images\logos\PDFheader.png" />
     <Content Include="myContent\assets\images\logos\Prime Lab.png" />
     <Content Include="myContent\assets\images\products\s1.jpg" />
     <Content Include="myContent\assets\images\products\s11.jpg" />
@@ -1017,6 +1020,7 @@
     <Content Include="myContent\assets\scss\utilities\_icon-size.scss" />
     <Content Include="myContent\assets\scss\variables\_theme-variables.scss" />
     <Content Include="myContent\assets\scss\variables\_variables.scss" />
+    <Content Include="myContent\assets\pdf\templete.pdf" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -1072,6 +1076,8 @@
     <Content Include="Views\Patients\Edit.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
     <Content Include="Views\Home\ServiceDetails.cshtml" />
+    <Content Include="Views\Admin\TestDocumentationADD.cshtml" />
+    <Content Include="Views\Admin\Appointment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

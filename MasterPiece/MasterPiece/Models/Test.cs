@@ -17,14 +17,16 @@ namespace MasterPiece.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Test()
         {
-            this.Appointments = new HashSet<Appointment>();
+            this.Appointments_Tests = new HashSet<Appointments_Tests>();
             this.Test_Order_Tests = new HashSet<Test_Order_Tests>();
         }
     
         public int Test_ID { get; set; }
         public string Test_Name { get; set; }
         public string Alternative_Name { get; set; }
+        public string Components { get; set; }
         public string Normal_Range { get; set; }
+        public string Unit { get; set; }
         public string Description { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Inventory { get; set; }
@@ -32,7 +34,7 @@ namespace MasterPiece.Models
         public Nullable<System.DateTime> Expiration_Date { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Appointments_Tests> Appointments_Tests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Test_Order_Tests> Test_Order_Tests { get; set; }
     }

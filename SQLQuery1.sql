@@ -1,3 +1,6 @@
+DROP DATABASE MasterPiece
+
+USE master;
 -- Create the database
 CREATE DATABASE MasterPiece;
 GO
@@ -11,10 +14,7 @@ CREATE TABLE Packages (
     Id int PRIMARY KEY identity(1,1)
 );
 
--- Create the Billing table
-CREATE TABLE Billing (
-    Id int PRIMARY KEY identity(1,1)
-);
+
 
 -- Create the Patients table
 CREATE TABLE Patients (
@@ -34,11 +34,13 @@ CREATE TABLE Tests (
     Test_ID INT PRIMARY KEY identity(1,1),
     Test_Name NVARCHAR(MAX),
     Alternative_Name NVARCHAR(MAX) null,
+	Components NVARCHAR(MAX),  -- Store components as a comma-separated string
     Normal_Range NVARCHAR(MAX),
+	Unit nvarchar (max),
     Description NVARCHAR(MAX),
-    Price DECIMAL,
-    Inventory DECIMAL,
-    Sample_Type nvarchar,
+    Price DECIMAL(10, 2),
+    Inventory DECIMAL(10, 2),
+    Sample_Type nvarchar(max),
     Expiration_Date date
 );
 
@@ -52,11 +54,18 @@ CREATE TABLE Appointments (
     Phone_Number NVARCHAR(MAX),
     Home_Address NVARCHAR(MAX),
     Date_Of_Appo DATE,
-    Tests_IDs int,
-    Billing_ID int,
+	Total_price decimal(10, 2),
+	Amount_paid DECIMAL(10, 2),
+    Billing_ID INT,
     Status NVARCHAR(MAX),
-    FOREIGN KEY (Tests_IDs) REFERENCES Tests(Test_ID),
-    FOREIGN KEY (Billing_ID) REFERENCES Billing(Id)
+);
+
+CREATE TABLE Appointments_Tests (
+	ID INT PRIMARY KEY IDENTITY(1,1),
+    Appointment_ID BIGINT,
+    Test_ID INT,
+    FOREIGN KEY (Appointment_ID) REFERENCES Appointments(ID),
+    FOREIGN KEY (Test_ID) REFERENCES Tests(Test_ID),
 );
 
 -- Create the Lab_Tech table
@@ -64,7 +73,7 @@ CREATE TABLE Lab_Tech (
     Tech_ID INT PRIMARY KEY identity(1,1),
     Name NVARCHAR(MAX),
     Email NVARCHAR(MAX),
-    Password nvarchar,
+    Password nvarchar(MAX),
     Status NVARCHAR(MAX)
 );
 
@@ -76,6 +85,9 @@ CREATE TABLE Test_Order (
     Patient_ID INT,
     Date DATE,
     Tech_ID INT,
+	Total_Price DECIMAL(10, 2),
+	Discount_Persent int DEFAULT 0,
+	Amount_Paid DECIMAL(10, 2),
     Status NVARCHAR(MAX),
     FOREIGN KEY (Patient_ID) REFERENCES Patients(Patient_ID),
     FOREIGN KEY (Tech_ID) REFERENCES Lab_Tech(Tech_ID)
@@ -93,3 +105,46 @@ CREATE TABLE Test_Order_Tests (
     FOREIGN KEY (Order_ID) REFERENCES Test_Order(Order_ID),
     FOREIGN KEY (Test_ID) REFERENCES Tests(Test_ID)
 );
+
+
+INSERT INTO Patients (Full_Name, Date_Of_Birth, Gender, Marital_Status, Nationality, Phone_Number, Home_Address, Note)
+VALUES ('John Doe', '1985-06-15', 'Male', 'Married', 'American', 1234567890, '123 Main St, New York', 'No allergies');
+
+INSERT INTO Patients (Full_Name, Date_Of_Birth, Gender, Marital_Status, Nationality, Phone_Number, Home_Address, Note)
+VALUES ('Jane Smith', '1990-11-30', 'Female', 'Single', 'British', 98765430, '456 Elm St, London', 'Allergic to penicillin');
+
+INSERT INTO Tests (Test_Name, Alternative_Name, Components, Normal_Range, Unit, Description, Price, Inventory, Sample_Type, Expiration_Date)
+VALUES ('Complete Blood Count', 'CBC', 'WBC,RBC,Platelets,Hemoglobin,Hematocrit,MCV,MCH,MCHC', '4.5-11.0,4.7-6.1,150-400,13.8-17.2,40.7-50.3,80-100,27-31,32-36', 'x10^9/L,x10^12/L,x10^9/L,g/dL,%,fL,pg,g/dL', 'A test used to evaluate overall health.', 50.00, 100, 'Blood', '2025-12-31');
+
+INSERT INTO Tests (Test_Name, Alternative_Name, Components, Normal_Range, Unit, Description, Price, Inventory, Sample_Type, Expiration_Date)
+VALUES ('Liver Function Test', 'LFT', 'ALT,AST,ALP,Bilirubin', '10-40,8-38,45-115,0.1-1.2', 'U/L,U/L,U/L,mg/dL', 'Tests to assess liver function.', 80.00, 80, 'Blood', '2026-06-30');
+
+INSERT INTO Appointments (ID, Full_Name, Gender, Date_Of_Birth, Email_Address, Phone_Number, Home_Address, Date_Of_Appo, Total_price, Amount_paid, Billing_ID, Status)
+VALUES (1, 'John Doe', 'Male', '1985-06-15', 'john.doe@example.com', 1234567890, '123 Main St, New York', '2024-01-15', 130.00, 130.00, 1001, 'Completed');
+
+INSERT INTO Appointments (ID, Full_Name, Gender, Date_Of_Birth, Email_Address, Phone_Number, Home_Address, Date_Of_Appo, Total_price, Amount_paid, Billing_ID, Status)
+VALUES (2, 'Jane Smith', 'Female', '1990-11-30', 'jane.smith@example.com', 9876543210, '456 Elm St, London', '2024-01-20', 200.00, 100.00, 1002, 'Pending');
+
+INSERT INTO Appointments_Tests (Appointment_ID, Test_ID)
+VALUES (1, 1);  -- John Doe's appointment with CBC test
+
+INSERT INTO Appointments_Tests (Appointment_ID, Test_ID)
+VALUES (2, 2);  -- Jane Smith's appointment with Liver Function Test (LFT)
+
+INSERT INTO Lab_Tech (Name, Email, Password, Status)
+VALUES ('Dr. Alice Brown', 'alice.brown@lab.com', 'password123', 'Active');
+
+INSERT INTO Lab_Tech (Name, Email, Password, Status)
+VALUES ('Dr. Bob Green', 'bob.green@lab.com', 'securepass456', 'Active');
+
+INSERT INTO Test_Order (Patient_ID, Date, Tech_ID, Total_Price, Discount_Persent, Amount_Paid, Status)
+VALUES (1, '2024-01-15', 1, 130.00, 10, 117.00, 'Completed');  -- 10% discount applied
+
+INSERT INTO Test_Order (Patient_ID, Date, Tech_ID, Total_Price, Discount_Persent, Amount_Paid, Status)
+VALUES (2, '2024-01-20', 2, 200.00, 0, 100.00, 'Pending');
+
+INSERT INTO Test_Order_Tests (Order_ID, Test_ID, Result, Date_Of_Result, Comment, Status)
+VALUES (1, 1, 'Normal', '2024-01-16', 'All values within normal range.', 'Completed');
+
+INSERT INTO Test_Order_Tests (Order_ID, Test_ID, Result, Date_Of_Result, Comment, Status)
+VALUES (2, 2, 'Elevated AST and ALT', '2024-01-21', 'Requires further investigation.', 'Pending');

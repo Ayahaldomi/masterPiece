@@ -4,21 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="928fc4bd281e47ec8b1f7cf82b762e8d" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="MasterPieceModel.Appointment" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MasterPieceModel.Billing" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MasterPieceModel.Lab_Tech" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+      <Diagram DiagramId="be669d94c2144da593015d2a25450f41" Name="Diagram1">
+        <EntityTypeShape EntityType="MasterPieceModel.Appointment" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterPieceModel.Appointments_Tests" Width="1.5" PointX="5.25" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterPieceModel.Lab_Tech" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MasterPieceModel.Package" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MasterPieceModel.Patient" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterPieceModel.Patient" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MasterPieceModel.Test_Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="MasterPieceModel.Test_Order_Tests" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="MasterPieceModel.Test" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="MasterPieceModel.FK__Appointme__Billi__403A8C7D" ManuallyRouted="false" />
-        <AssociationConnector Association="MasterPieceModel.FK__Appointme__Tests__3F466844" ManuallyRouted="false" />
-        <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Tech___45F365D3" ManuallyRouted="false" />
-        <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Patie__44FF419A" ManuallyRouted="false" />
-        <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Order__48CFD27E" ManuallyRouted="false" />
-        <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Test___49C3F6B7" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MasterPieceModel.Test_Order_Tests" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterPieceModel.Test" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="MasterPieceModel.FK__Appointme__Appoi__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterPieceModel.FK__Appointme__Test___403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Tech___46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Patie__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Order__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Test___4AB81AF0" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

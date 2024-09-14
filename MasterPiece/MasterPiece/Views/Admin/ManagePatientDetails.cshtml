@@ -13,6 +13,24 @@
     .form-container {
         margin-top: 20px;
     }
+
+
+    .card {
+        padding: 1em;
+    }
+
+    button.btn.btn-success {
+        margin: 0.5em;
+    }
+
+    body {
+        background-color: #69acc759;
+    }
+
+    .container-fluid {
+        padding-top: 120px !important;
+    }
+
 </style>
 
 
@@ -80,9 +98,12 @@
                 </div>
             </div>
             <div class="form-buttons text-center">
-                <button type="button" class="btn btn-outline-primary m-1" id="edit-button">Edit</button>
-                <button type="submit" class="btn btn-warning m-1" id="cancel-button" style="display: none;">Cancel</button>
-                <button type="submit" class="btn btn-success m-1" id="save-button" style="display: none;">Save</button>
+                <button type="button" class="btn btn-outline-warning m-1" id="edit-button">Edit</button>
+                <button type="submit" class="btn btn-outline-warning m-1" id="cancel-button" style="display: none;">Cancel</button>
+                <button type="submit" class="btn btn-outline-success m-1" id="save-button" style="display: none;">Save</button>
+                <a href="@Url.Action("AddPatientTests", "Admin")">
+                    <button type="button" class="btn btn-outline-primary m-1" id="edit-button">New Test Order</button>
+                </a>
             </div>
         </form>
         <!-- </div>

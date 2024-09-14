@@ -12,16 +12,19 @@
           <ScalarProperty Name="Phone_Number" ColumnName="Phone_Number" />
           <ScalarProperty Name="Home_Address" ColumnName="Home_Address" />
           <ScalarProperty Name="Date_Of_Appo" ColumnName="Date_Of_Appo" />
-          <ScalarProperty Name="Tests_IDs" ColumnName="Tests_IDs" />
+          <ScalarProperty Name="Total_price" ColumnName="Total_price" />
+          <ScalarProperty Name="Amount_paid" ColumnName="Amount_paid" />
           <ScalarProperty Name="Billing_ID" ColumnName="Billing_ID" />
           <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Billings">
-      <EntityTypeMapping TypeName="MasterPieceModel.Billing">
-        <MappingFragment StoreEntitySet="Billing">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+    <EntitySetMapping Name="Appointments_Tests">
+      <EntityTypeMapping TypeName="MasterPieceModel.Appointments_Tests">
+        <MappingFragment StoreEntitySet="Appointments_Tests">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Appointment_ID" ColumnName="Appointment_ID" />
+          <ScalarProperty Name="Test_ID" ColumnName="Test_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -65,6 +68,9 @@
           <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Tech_ID" ColumnName="Tech_ID" />
+          <ScalarProperty Name="Total_Price" ColumnName="Total_Price" />
+          <ScalarProperty Name="Discount_Persent" ColumnName="Discount_Persent" />
+          <ScalarProperty Name="Amount_Paid" ColumnName="Amount_Paid" />
           <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -88,7 +94,9 @@
           <ScalarProperty Name="Test_ID" ColumnName="Test_ID" />
           <ScalarProperty Name="Test_Name" ColumnName="Test_Name" />
           <ScalarProperty Name="Alternative_Name" ColumnName="Alternative_Name" />
+          <ScalarProperty Name="Components" ColumnName="Components" />
           <ScalarProperty Name="Normal_Range" ColumnName="Normal_Range" />
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Inventory" ColumnName="Inventory" />

@@ -24,6 +24,9 @@ namespace MasterPiece.Models
         public Nullable<int> Patient_ID { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<int> Tech_ID { get; set; }
+        public Nullable<decimal> Total_Price { get; set; }
+        public Nullable<int> Discount_Persent { get; set; }
+        public Nullable<decimal> Amount_Paid { get; set; }
         public string Status { get; set; }
     
         public virtual Lab_Tech Lab_Tech { get; set; }

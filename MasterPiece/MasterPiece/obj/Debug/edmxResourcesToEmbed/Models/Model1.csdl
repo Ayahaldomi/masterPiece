@@ -12,18 +12,21 @@
     <Property Name="Phone_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Home_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Date_Of_Appo" Type="DateTime" Precision="0" />
-    <Property Name="Tests_IDs" Type="Int32" />
+    <Property Name="Total_price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Amount_paid" Type="Decimal" Precision="10" Scale="2" />
     <Property Name="Billing_ID" Type="Int32" />
     <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Billing" Relationship="Self.FK__Appointme__Billi__403A8C7D" FromRole="Appointments" ToRole="Billing" />
-    <NavigationProperty Name="Test" Relationship="Self.FK__Appointme__Tests__3F466844" FromRole="Appointments" ToRole="Tests" />
+    <NavigationProperty Name="Appointments_Tests" Relationship="Self.FK__Appointme__Appoi__3F466844" FromRole="Appointments" ToRole="Appointments_Tests" />
   </EntityType>
-  <EntityType Name="Billing">
+  <EntityType Name="Appointments_Tests">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__Billi__403A8C7D" FromRole="Billing" ToRole="Appointments" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Appointment_ID" Type="Int64" />
+    <Property Name="Test_ID" Type="Int32" />
+    <NavigationProperty Name="Appointment" Relationship="Self.FK__Appointme__Appoi__3F466844" FromRole="Appointments_Tests" ToRole="Appointments" />
+    <NavigationProperty Name="Test" Relationship="Self.FK__Appointme__Test___403A8C7D" FromRole="Appointments_Tests" ToRole="Tests" />
   </EntityType>
   <EntityType Name="Lab_Tech">
     <Key>
@@ -32,9 +35,9 @@
     <Property Name="Tech_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Password" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Tech___45F365D3" FromRole="Lab_Tech" ToRole="Test_Order" />
+    <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Tech___46E78A0C" FromRole="Lab_Tech" ToRole="Test_Order" />
   </EntityType>
   <EntityType Name="Package">
     <Key>
@@ -55,7 +58,7 @@
     <Property Name="Phone_Number" Type="Int32" />
     <Property Name="Home_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Patie__44FF419A" FromRole="Patients" ToRole="Test_Order" />
+    <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Patie__45F365D3" FromRole="Patients" ToRole="Test_Order" />
   </EntityType>
   <EntityType Name="Test_Order">
     <Key>
@@ -65,10 +68,13 @@
     <Property Name="Patient_ID" Type="Int32" />
     <Property Name="Date" Type="DateTime" Precision="0" />
     <Property Name="Tech_ID" Type="Int32" />
+    <Property Name="Total_Price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Discount_Persent" Type="Int32" />
+    <Property Name="Amount_Paid" Type="Decimal" Precision="10" Scale="2" />
     <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Lab_Tech" Relationship="Self.FK__Test_Orde__Tech___45F365D3" FromRole="Test_Order" ToRole="Lab_Tech" />
-    <NavigationProperty Name="Patient" Relationship="Self.FK__Test_Orde__Patie__44FF419A" FromRole="Test_Order" ToRole="Patients" />
-    <NavigationProperty Name="Test_Order_Tests" Relationship="Self.FK__Test_Orde__Order__48CFD27E" FromRole="Test_Order" ToRole="Test_Order_Tests" />
+    <NavigationProperty Name="Lab_Tech" Relationship="Self.FK__Test_Orde__Tech___46E78A0C" FromRole="Test_Order" ToRole="Lab_Tech" />
+    <NavigationProperty Name="Patient" Relationship="Self.FK__Test_Orde__Patie__45F365D3" FromRole="Test_Order" ToRole="Patients" />
+    <NavigationProperty Name="Test_Order_Tests" Relationship="Self.FK__Test_Orde__Order__49C3F6B7" FromRole="Test_Order" ToRole="Test_Order_Tests" />
   </EntityType>
   <EntityType Name="Test_Order_Tests">
     <Key>
@@ -81,8 +87,8 @@
     <Property Name="Date_Of_Result" Type="DateTime" Precision="0" />
     <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Order__48CFD27E" FromRole="Test_Order_Tests" ToRole="Test_Order" />
-    <NavigationProperty Name="Test" Relationship="Self.FK__Test_Orde__Test___49C3F6B7" FromRole="Test_Order_Tests" ToRole="Tests" />
+    <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Order__49C3F6B7" FromRole="Test_Order_Tests" ToRole="Test_Order" />
+    <NavigationProperty Name="Test" Relationship="Self.FK__Test_Orde__Test___4AB81AF0" FromRole="Test_Order_Tests" ToRole="Tests" />
   </EntityType>
   <EntityType Name="Test">
     <Key>
@@ -91,40 +97,42 @@
     <Property Name="Test_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Test_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Alternative_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Components" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Normal_Range" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Unit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="Inventory" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="Sample_Type" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Inventory" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Sample_Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Expiration_Date" Type="DateTime" Precision="0" />
-    <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__Tests__3F466844" FromRole="Tests" ToRole="Appointments" />
-    <NavigationProperty Name="Test_Order_Tests" Relationship="Self.FK__Test_Orde__Test___49C3F6B7" FromRole="Tests" ToRole="Test_Order_Tests" />
+    <NavigationProperty Name="Appointments_Tests" Relationship="Self.FK__Appointme__Test___403A8C7D" FromRole="Tests" ToRole="Appointments_Tests" />
+    <NavigationProperty Name="Test_Order_Tests" Relationship="Self.FK__Test_Orde__Test___4AB81AF0" FromRole="Tests" ToRole="Test_Order_Tests" />
   </EntityType>
-  <Association Name="FK__Appointme__Billi__403A8C7D">
-    <End Role="Billing" Type="Self.Billing" Multiplicity="0..1" />
-    <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+  <Association Name="FK__Appointme__Appoi__3F466844">
+    <End Role="Appointments" Type="Self.Appointment" Multiplicity="0..1" />
+    <End Role="Appointments_Tests" Type="Self.Appointments_Tests" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Billing">
-        <PropertyRef Name="Id" />
+      <Principal Role="Appointments">
+        <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="Appointments">
-        <PropertyRef Name="Billing_ID" />
+      <Dependent Role="Appointments_Tests">
+        <PropertyRef Name="Appointment_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Appointme__Tests__3F466844">
+  <Association Name="FK__Appointme__Test___403A8C7D">
     <End Role="Tests" Type="Self.Test" Multiplicity="0..1" />
-    <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+    <End Role="Appointments_Tests" Type="Self.Appointments_Tests" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Tests">
         <PropertyRef Name="Test_ID" />
       </Principal>
-      <Dependent Role="Appointments">
-        <PropertyRef Name="Tests_IDs" />
+      <Dependent Role="Appointments_Tests">
+        <PropertyRef Name="Test_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Test_Orde__Tech___45F365D3">
+  <Association Name="FK__Test_Orde__Tech___46E78A0C">
     <End Role="Lab_Tech" Type="Self.Lab_Tech" Multiplicity="0..1" />
     <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="*" />
     <ReferentialConstraint>
@@ -136,7 +144,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Test_Orde__Patie__44FF419A">
+  <Association Name="FK__Test_Orde__Patie__45F365D3">
     <End Role="Patients" Type="Self.Patient" Multiplicity="0..1" />
     <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="*" />
     <ReferentialConstraint>
@@ -148,7 +156,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Test_Orde__Order__48CFD27E">
+  <Association Name="FK__Test_Orde__Order__49C3F6B7">
     <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="0..1" />
     <End Role="Test_Order_Tests" Type="Self.Test_Order_Tests" Multiplicity="*" />
     <ReferentialConstraint>
@@ -160,7 +168,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Test_Orde__Test___49C3F6B7">
+  <Association Name="FK__Test_Orde__Test___4AB81AF0">
     <End Role="Tests" Type="Self.Test" Multiplicity="0..1" />
     <End Role="Test_Order_Tests" Type="Self.Test_Order_Tests" Multiplicity="*" />
     <ReferentialConstraint>
@@ -174,34 +182,34 @@
   </Association>
   <EntityContainer Name="MasterPieceEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Appointments" EntityType="Self.Appointment" />
-    <EntitySet Name="Billings" EntityType="Self.Billing" />
+    <EntitySet Name="Appointments_Tests" EntityType="Self.Appointments_Tests" />
     <EntitySet Name="Lab_Tech" EntityType="Self.Lab_Tech" />
     <EntitySet Name="Packages" EntityType="Self.Package" />
     <EntitySet Name="Patients" EntityType="Self.Patient" />
     <EntitySet Name="Test_Order" EntityType="Self.Test_Order" />
     <EntitySet Name="Test_Order_Tests" EntityType="Self.Test_Order_Tests" />
     <EntitySet Name="Tests" EntityType="Self.Test" />
-    <AssociationSet Name="FK__Appointme__Billi__403A8C7D" Association="Self.FK__Appointme__Billi__403A8C7D">
-      <End Role="Billing" EntitySet="Billings" />
+    <AssociationSet Name="FK__Appointme__Appoi__3F466844" Association="Self.FK__Appointme__Appoi__3F466844">
       <End Role="Appointments" EntitySet="Appointments" />
+      <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Appointme__Tests__3F466844" Association="Self.FK__Appointme__Tests__3F466844">
+    <AssociationSet Name="FK__Appointme__Test___403A8C7D" Association="Self.FK__Appointme__Test___403A8C7D">
       <End Role="Tests" EntitySet="Tests" />
-      <End Role="Appointments" EntitySet="Appointments" />
+      <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Test_Orde__Tech___45F365D3" Association="Self.FK__Test_Orde__Tech___45F365D3">
+    <AssociationSet Name="FK__Test_Orde__Tech___46E78A0C" Association="Self.FK__Test_Orde__Tech___46E78A0C">
       <End Role="Lab_Tech" EntitySet="Lab_Tech" />
       <End Role="Test_Order" EntitySet="Test_Order" />
     </AssociationSet>
-    <AssociationSet Name="FK__Test_Orde__Patie__44FF419A" Association="Self.FK__Test_Orde__Patie__44FF419A">
+    <AssociationSet Name="FK__Test_Orde__Patie__45F365D3" Association="Self.FK__Test_Orde__Patie__45F365D3">
       <End Role="Patients" EntitySet="Patients" />
       <End Role="Test_Order" EntitySet="Test_Order" />
     </AssociationSet>
-    <AssociationSet Name="FK__Test_Orde__Order__48CFD27E" Association="Self.FK__Test_Orde__Order__48CFD27E">
+    <AssociationSet Name="FK__Test_Orde__Order__49C3F6B7" Association="Self.FK__Test_Orde__Order__49C3F6B7">
       <End Role="Test_Order" EntitySet="Test_Order" />
       <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Test_Orde__Test___49C3F6B7" Association="Self.FK__Test_Orde__Test___49C3F6B7">
+    <AssociationSet Name="FK__Test_Orde__Test___4AB81AF0" Association="Self.FK__Test_Orde__Test___4AB81AF0">
       <End Role="Tests" EntitySet="Tests" />
       <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
     </AssociationSet>

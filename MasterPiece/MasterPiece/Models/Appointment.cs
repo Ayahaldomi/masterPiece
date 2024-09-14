@@ -14,6 +14,12 @@ namespace MasterPiece.Models
     
     public partial class Appointment
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Appointment()
+        {
+            this.Appointments_Tests = new HashSet<Appointments_Tests>();
+        }
+    
         public long ID { get; set; }
         public string Full_Name { get; set; }
         public string Gender { get; set; }
@@ -22,11 +28,12 @@ namespace MasterPiece.Models
         public string Phone_Number { get; set; }
         public string Home_Address { get; set; }
         public Nullable<System.DateTime> Date_Of_Appo { get; set; }
-        public Nullable<int> Tests_IDs { get; set; }
+        public Nullable<decimal> Total_price { get; set; }
+        public Nullable<decimal> Amount_paid { get; set; }
         public Nullable<int> Billing_ID { get; set; }
         public string Status { get; set; }
     
-        public virtual Billing Billing { get; set; }
-        public virtual Test Test { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Appointments_Tests> Appointments_Tests { get; set; }
     }
 }

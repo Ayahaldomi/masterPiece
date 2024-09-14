@@ -1,0 +1,109 @@
+﻿@model IEnumerable<MasterPiece.Models.AppointmentViewModel>
+
+@{
+    ViewBag.Title = "Appointment";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Appointment</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Full_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_Of_Birth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email_Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone_Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Home_Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_Of_Appo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount_paid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Billing_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TestNames)  <!-- New column for test names -->
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Full_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Of_Birth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email_Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone_Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Home_Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Of_Appo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total_price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount_paid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Billing_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <!-- Display test names as a comma-separated list -->
+                @if (item.TestNames != null && item.TestNames.Any())
+                {
+                    <span>@string.Join(", ", item.TestNames)</span>
+                }
+                else
+                {
+                    <span>No tests</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
