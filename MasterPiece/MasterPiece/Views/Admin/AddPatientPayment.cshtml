@@ -23,6 +23,62 @@
     .container-fluid {
         padding-top: 120px !important;
     }
+    /* Style for the discount radio buttons */
+    .form-check {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+    }
+
+    .form-check-input {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+        transform: scale(1.2); /* Make radio buttons slightly larger */
+        cursor: pointer;
+    }
+
+    .form-check-label {
+        font-size: 16px;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+
+    .discount-group {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        justify-content: flex-start; /* Ensures the radio buttons are aligned */
+    }
+
+    .discount-label {
+        margin-right: 15px;
+        font-weight: bold;
+    }
+
+    .total-label {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .col-sm-10 {
+        display: flex;
+        align-items: center;
+    }
+
+    #amountPaidStatus {
+        margin-left: 10px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+        #amountPaidStatus.red {
+            color: red;
+        }
+
+        #amountPaidStatus.green {
+            color: green;
+        }
 </style>
 
 <div class="card">
@@ -58,26 +114,106 @@
             </thead>
             <tbody id="testsTableBody">
                 <!-- Dynamically added test rows will appear here -->
-            <td>54</td>
-            <td>CBC</td>
-            <td>Complete Blood Count</td>
-            <td>8 JOD</td>
-            <td><button class="btn btn-danger" onclick="removeTest(this)">Remove</button></td>
+                <tr>
+                    <td>54</td>
+                    <td>CBC</td>
+                    <td>Complete Blood Count</td>
+                    <td>8 JOD</td>
+                    <td><button class="btn btn-danger" onclick="removeTest(this)">Remove</button></td>
+                </tr>
             </tbody>
         </table>
         <div class="form-group row">
-            <label for="patientId" class="col-sm-2 col-form-label">Total</label>
-            <span class="col-sm-2 col-form-label">8 JOD</span>
+            <label class="col-sm-2 col-form-label discount-label">Discount</label>
+            <div class="col-sm-10 discount-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="discountOptions" id="discount10" value="10" onclick="applyDiscount(10)">
+                    <label class="form-check-label" for="discount10">10%</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="discountOptions" id="discount20" value="20" onclick="applyDiscount(20)">
+                    <label class="form-check-label" for="discount20">20%</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="discountOptions" id="discount30" value="30" onclick="applyDiscount(30)">
+                    <label class="form-check-label" for="discount30">30%</label>
+                </div>
+                <div class="form-check">
+                    <button class="btn btn-outline-warning m-1" id="removeDiscountBtn" onclick="removeDiscount()">Remove Discount</button>
 
-            <label for="testName" class="col-sm-2 col-form-label">Amount Payed</label>
-            <div class="col-sm-3">
-                <input type="number" class="form-control" id="testName" placeholder="">
-                <!-- <button type="button" class="btn btn-primary mt-2" onclick="searchTest()">Search</button> -->
+                </div>
             </div>
-
         </div>
 
-        <a href=""><button class="btn btn-success">Save Payment</button></a>
+
+
+        <div class="form-group row">
+            <label for="patientId" class="col-sm-2 col-form-label">Total</label>
+            <span class="col-sm-2 col-form-label" id="totalPrice">8 JOD</span>
+
+            <label for="amountPaid" class="col-sm-2 col-form-label">Amount Paid</label>
+            <div class="col-sm-3">
+                <input type="number" class="form-control" id="amountPaid" placeholder="Enter amount">
+                <span id="amountPaidStatus" class="col-form-label"></span> <!-- Status span -->
+            </div>
+        </div>
+
+        <!-- The Save Payment button, now with the onclick event -->
+        <button class="btn btn-outline-success m-1" onclick="validatePayment()">Save Payment</button>
+
+
+
     </div>
 
 </div>
+<script>
+    // Store the original price to reset when discount is removed
+    let originalPrice = 8; // Replace with your actual original price
+    let totalPriceElement = document.querySelector('#totalPrice');
+
+    // Function to apply a discount
+    function applyDiscount(discountPercentage) {
+        const discountedPrice = originalPrice - (originalPrice * (discountPercentage / 100));
+        totalPriceElement.innerText = `${discountedPrice.toFixed(2)} JOD`; // Update the displayed total
+    }
+
+    // Function to remove the discount and reset the total price
+    function removeDiscount() {
+        // Reset the total price to the original value
+        totalPriceElement.innerText = `${originalPrice.toFixed(2)} JOD`;
+
+        // Uncheck the selected radio button (if any)
+        const selectedRadio = document.querySelector('input[name="discountOptions"]:checked');
+        if (selectedRadio) {
+            selectedRadio.checked = false; // Uncheck the radio button
+        }
+    }
+
+    // Function to validate the payment when Save Payment is clicked
+    function validatePayment() {
+        const amountPaidInput = document.getElementById('amountPaid');
+        const amountPaid = parseFloat(amountPaidInput.value);
+        const total = parseFloat(totalPriceElement.innerText.replace(' JOD', ''));
+        const amountPaidStatus = document.getElementById('amountPaidStatus');
+
+        if (isNaN(amountPaid)) {
+            amountPaidStatus.innerText = `Please enter a valid amount.`;
+            amountPaidStatus.classList.add('red');
+            amountPaidStatus.classList.remove('green');
+            return;
+        }
+
+        if (amountPaid < total) {
+            amountPaidStatus.innerText = `Paid: ${amountPaid.toFixed(2)} JOD (Insufficient)`;
+            amountPaidStatus.classList.add('red');
+            amountPaidStatus.classList.remove('green');
+        } else if (amountPaid >= total) {
+            amountPaidStatus.innerText = `Paid: ${amountPaid.toFixed(2)} JOD (Sufficient)`;
+            amountPaidStatus.classList.add('green');
+            amountPaidStatus.classList.remove('red');
+        }
+    }
+</script>
+
+
+

@@ -33,6 +33,12 @@ namespace MasterPiece.Controllers
 
             return View();
         }
+        public ActionResult ServiceDetails()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
 
         public ActionResult Appointment()
         {

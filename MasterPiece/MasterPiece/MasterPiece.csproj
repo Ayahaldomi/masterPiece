@@ -607,6 +607,7 @@
     <Content Include="myContent\css\styles1.css" />
     <Content Include="myContent\img\1 Biocheckups %281%29.png" />
     <Content Include="myContent\img\1 Biocheckups.png" />
+    <Content Include="myContent\img\61581134c58c3658a5695dd5dba78593.jpg" />
     <Content Include="myContent\img\about-1.jpg" />
     <Content Include="myContent\img\about-2.jpg" />
     <Content Include="myContent\img\blank-profile-picture-973460_960_720.jpg" />
@@ -615,7 +616,7 @@
     <Content Include="myContent\img\carousel-3.jpg" />
     <Content Include="myContent\img\Checkups_BioCardiac Risk.png" />
     <Content Include="myContent\img\Checkups_BioMom to be.png" />
-    <Content Include="myContent\img\Checkups_Diet &amp; fitness.png" />
+    <Content Include="myContent\img\Checkups_Diet&amp;fitness.png" />
     <Content Include="myContent\img\EST07018.jpg" />
     <Content Include="myContent\img\feature.jpg" />
     <Content Include="myContent\img\Hair and nail.png" />
@@ -1070,6 +1071,7 @@
     <Content Include="Views\Patients\Details.cshtml" />
     <Content Include="Views\Patients\Edit.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
+    <Content Include="Views\Home\ServiceDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
