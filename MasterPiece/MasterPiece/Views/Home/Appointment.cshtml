@@ -9,7 +9,7 @@
         --white: #fff;
         --text-clr: #5b6475;
         --header-clr: #25273d;
-        --next-btn-hover: #8577d2;
+        --next-btn-hover: #5196b1;
         --back-btn-hover: #8b8c8c;
     }
 
@@ -108,7 +108,7 @@
             }
 
             .wrapper .form_wrap .input_wrap {
-                width: 350px;
+                width: 490px;
                 max-width: 100%;
                 margin: 0 auto 20px;
             }
@@ -260,7 +260,7 @@
 
     /* Dropdown container */
     .dropdown {
-        width: 350px;
+        width: 490px;
         max-width: 100%;
         margin: 0 auto 20px;
     }
@@ -309,8 +309,8 @@
 
     /* Table styles */
     .test-table {
-        margin-top: 20px;
-        width: 100%;
+        width: 75%;
+        margin: 20px auto;
         border-collapse: collapse;
         border: 1px solid #ddd;
     }
@@ -423,17 +423,17 @@
             <div class="form_container">
                 <div class="input_wrap">
                     <label for="user_name">Preferred Date and Time</label>
-                    <input type="datetime-local" name="User Name" class="input" id="user_name">
+                    <input type="date" name="User Name" class="input" id="preferred_date" min="">
                 </div>
                 <div class="dropdown">
                     <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
                     <div id="dropdownItems" class="dropdown-content">
-                        <a href="#" data-price="50" onclick="addTestToTable('Blood Test', 50)">Blood Test</a>
-                        <a href="#" data-price="100" onclick="addTestToTable('X-Ray', 100)">X-Ray</a>
-                        <a href="#" data-price="20" onclick="addTestToTable('Urine Test', 20)">Urine Test</a>
-                        <a href="#" data-price="150" onclick="addTestToTable('CT Scan', 150)">CT Scan</a>
-                        <a href="#" data-price="200" onclick="addTestToTable('MRI Scan', 200)">MRI Scan</a>
-                        <a href="#" data-price="80" onclick="addTestToTable('Ultrasound', 80)">Ultrasound</a>
+                        <a href="#" data-price="50" onclick="addTestToTable('CBC', 8)">CBC</a>
+                        <a href="#" data-price="100" onclick="addTestToTable('TSH', 10)">TSH</a>
+                        <a href="#" data-price="20" onclick="addTestToTable('Urine Analysis', 4)">Urine Analysis</a>
+                        <a href="#" data-price="150" onclick="addTestToTable('Iron', 5)">Iron</a>
+                        <a href="#" data-price="200" onclick="addTestToTable('Fasting Blood Suger', 4)">Fasting Blood Suger</a>
+                        <a href="#" data-price="80" onclick="addTestToTable('H1AC', 10)">H1AC</a>
                     </div>
                 </div>
 
@@ -464,28 +464,30 @@
 
         </div>
         <div class="form_4 data_info" style="display: none;">
-            <h2>Payment Method</h2>
+            <h2 class="text-center mb-4">Payment Method</h2>
 
             <div class="form_container">
-                <div class="input_wrap">
-                    <label for="payment-method">Select Payment Method</label>
-                    <div class="input">
-                        <input type="radio" name="paymentMethod" id="cash" value="Cash" onclick="togglePaymentDetails(false)" checked>
-                        <label for="cash">Cash</label>
+                <div class="form-group">
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="cash" value="Cash" onclick="togglePaymentDetails(false)" checked>
+                        <label class="form-check-label" for="cash">Cash</label>
                     </div>
-                    <div class="input">
-                        <input type="radio" name="paymentMethod" id="paypal" value="PayPal" onclick="togglePaymentDetails(true)">
-                        <label for="paypal">PayPal</label>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="PayPal" onclick="togglePaymentDetails(true)">
+                        <label class="form-check-label" for="paypal">PayPal</label>
                     </div>
                 </div>
 
                 <!-- PayPal-specific details (hidden initially) -->
-                <div class="input_wrap" id="paypalDetails" style="display: none;">
-                    <label for="paypalEmail">PayPal Email</label>
-                    <input type="email" name="paypalEmail" class="input" id="paypalEmail" placeholder="Enter your PayPal email">
+                <div class="form-group" id="paypalDetails" style="display: none;">
+                    <label for="paypalEmail" class="form-label">PayPal Email</label>
+                    <input type="email" name="paypalEmail" class="form-control" id="paypalEmail" placeholder="Enter your PayPal email">
                 </div>
             </div>
         </div>
+
 
     </div>
     <div class="btns_wrap">
@@ -715,6 +717,12 @@
     }
 </script>
 
+<script>
+    // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split('T')[0];
+    // Set the min attribute to today
+    document.getElementById('preferred_date').setAttribute('min', today);
+</script>
 
 
 

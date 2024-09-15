@@ -619,7 +619,7 @@
     <Content Include="myContent\img\carousel-3.jpg" />
     <Content Include="myContent\img\Checkups_BioCardiac Risk.png" />
     <Content Include="myContent\img\Checkups_BioMom to be.png" />
-    <Content Include="myContent\img\Checkups_Diet&amp;fitness.png" />
+    <Content Include="myContent\img\Checkups_Diet &amp; fitness.png" />
     <Content Include="myContent\img\EST07018.jpg" />
     <Content Include="myContent\img\feature.jpg" />
     <Content Include="myContent\img\Hair and nail.png" />
@@ -628,6 +628,7 @@
     <Content Include="myContent\img\junior wellness 700 x 1280 px.jpg" />
     <Content Include="myContent\img\older-man-getting-blood-drawn.jpg" />
     <Content Include="myContent\img\Prime Lab.png" />
+    <Content Include="myContent\img\StockCake-Healthy Eating Planning_1726423707.jpg" />
     <Content Include="myContent\img\StockCake-Laboratory Scientific Research_1721805321.jpg" />
     <Content Include="myContent\img\team-1.jpg" />
     <Content Include="myContent\img\team-2.jpg" />
