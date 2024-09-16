@@ -33,6 +33,8 @@ namespace MasterPiece.Controllers
         public ActionResult Profile()
         {
             var s = Session["userSession"] as Patient;
+            var r = db.Patients.Find(s.Patient_ID);
+            Session["userSession"] = r;
             var user = db.Test_Order.Where(l => l.Patient_ID == s.Patient_ID).ToList();
             return View(user);
         }

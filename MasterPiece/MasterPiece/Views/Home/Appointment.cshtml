@@ -137,7 +137,7 @@
                     }
 
         .wrapper .btns_wrap {
-            width: 350px;
+            width: 490px;
             max-width: 100%;
             margin: 0 auto;
         }
@@ -249,15 +249,6 @@
             }
 
 
-
-
-
-
-
-
-
-
-
     /* Dropdown container */
     .dropdown {
         width: 490px;
@@ -343,6 +334,49 @@
         .remove-btn:hover {
             background-color: #ff3333;
         }
+
+
+    div#time_buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px auto;
+        width: 490px;
+    }
+
+    .time-btn {
+        display: inline-block;
+        margin: 5px;
+        padding: 10px 20px; /* Increase padding for better button size */
+        background-color: #f0f0f0;
+        border: 2px solid #ddd; /* Add border for a cleaner look */
+        border-radius: 5px; /* Add border-radius for rounded buttons */
+        cursor: pointer;
+        font-size: 16px; /* Adjust font size */
+        transition: background-color 0.3s ease;
+    }
+
+        .time-btn.selected {
+            background-color: #5196b1;
+            color: white;
+            border-color: #5196b1; /* Match border color when selected */
+        }
+
+        .time-btn:hover {
+            background-color: #5196b1; /* Add hover effect for better interactivity */
+            color: white;
+            border-color: #5196b1; /* Match border color on hover */
+        }
+
+    p#chosen_time {
+        width: 490px;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+
 </style>
 
 
@@ -422,9 +456,21 @@
 
             <div class="form_container">
                 <div class="input_wrap">
-                    <label for="user_name">Preferred Date and Time</label>
-                    <input type="date" name="User Name" class="input" id="preferred_date" min="">
+                    <label for="preferred_date">Preferred Date and Time</label>
+                    <input type="date" name="preferred_date" class="input" id="preferred_date" min="">
                 </div>
+
+                <!-- Time buttons will be hidden initially -->
+                <div id="time_buttons" style="display:none;">
+                    <button class="time-btn" data-time="8:00am">8:00 AM</button>
+                    <button class="time-btn" data-time="10:00am">10:00 AM</button>
+                    <button class="time-btn" data-time="12:00pm">12:00 PM</button>
+                    <button class="time-btn" data-time="2:00pm">2:00 PM</button>
+                    <button class="time-btn" data-time="4:00pm">4:00 PM</button>
+                </div>
+                <!-- Display the chosen time -->
+                <p id="chosen_time" style="display:none;">Selected Time: <span id="time_value"></span></p>
+
                 <div class="dropdown">
                     <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
                     <div id="dropdownItems" class="dropdown-content">
@@ -722,6 +768,28 @@
     const today = new Date().toISOString().split('T')[0];
     // Set the min attribute to today
     document.getElementById('preferred_date').setAttribute('min', today);
+</script>
+
+<script>
+    document.getElementById('preferred_date').addEventListener('change', function () {
+        // Show the time buttons once a date is selected
+        document.getElementById('time_buttons').style.display = 'flex';
+    });
+
+    const timeButtons = document.querySelectorAll('.time-btn');
+    timeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove 'selected' class from all buttons
+            timeButtons.forEach(btn => btn.classList.remove('selected'));
+            // Add 'selected' class to the clicked button
+            this.classList.add('selected');
+
+            // Show the chosen time below the buttons
+            document.getElementById('chosen_time').style.display = 'block';
+            document.getElementById('time_value').innerText = this.getAttribute('data-time');
+        });
+    });
+
 </script>
 
 

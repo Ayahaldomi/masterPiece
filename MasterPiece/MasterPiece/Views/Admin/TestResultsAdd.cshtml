@@ -33,6 +33,9 @@
     .container-fluid {
         padding-top: 120px !important;
     }
+    .card.p-4.shadow-md {
+        background-color: #00000012;
+    }
 
 </style>
 
@@ -40,14 +43,33 @@
     <div class="container">
         <h1 class="text-center">Add Test Result</h1>
         <div class="form-group row">
-            <label for="patientId" class="col-sm-2 col-form-label">Patient ID</label>
-            <span class="col-sm-2 col-form-label">8855</span>
+            <div class="container mt-4">
+                <div class="card p-4 shadow-md">
+                    <div class="row mt-4">
+                        <div class="col-md-6 d-flex justify-content-flex-start">
+                            <label for="patientId" class="fw-bolder">Patient ID:</label>
+                            <p class="ms-2">8855</p>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-flex-start">
+                            <label for="fullName" class="fw-bolder">Full Name:</label>
+                            <p class="ms-2">Ayah Hasan</p>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-flex-start">
+                            <label for="age" class="fw-bolder">Age:</label>
+                            <p class="ms-2">28</p>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-flex-start">
+                            <label for="gender" class="fw-bolder">Gender:</label>
+                            <p class="ms-2">Female</p>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-flex-start">
+                            <label for="testOrder" class="fw-bolder">Test Order:</label>
+                            <p class="ms-2">5518</p>
+                        </div>
+                    </div>
+                </div>
 
-            <label for="fullName" class="col-sm-2 col-form-label">Full Name</label>
-            <span class="col-sm-2 col-form-label">Ayah hasan</span>
-
-            <label for="fullName" class="col-sm-2 col-form-label">Test_Order</label>
-            <span class="col-sm-2 col-form-label">5518</span>
+            </div>
 
             <div class="table-container">
                 <table class="table table-striped">

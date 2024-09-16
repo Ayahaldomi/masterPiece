@@ -12,12 +12,16 @@ namespace MasterPiece.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Lab_Tech
+    public partial class Contact
     {
-        public int Tech_ID { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Status { get; set; }
+        public int contact_id { get; set; }
+        public string name { get; set; }
+        public string email { get; set; }
+        public string sub { get; set; }
+        public string message { get; set; }
+        public Nullable<System.DateTime> sent_date { get; set; }
+        public string admin_response { get; set; }
+        public Nullable<System.DateTime> response_date { get; set; }
+        public Nullable<int> status { get; set; }
     }
 }

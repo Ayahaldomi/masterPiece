@@ -30,6 +30,29 @@
           <Property Name="Appointment_ID" Type="bigint" />
           <Property Name="Test_ID" Type="int" />
         </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="contact_id" />
+          </Key>
+          <Property Name="contact_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="email" Type="nvarchar(max)" />
+          <Property Name="sub" Type="nvarchar(max)" />
+          <Property Name="message" Type="nvarchar(max)" />
+          <Property Name="sent_date" Type="date" />
+          <Property Name="admin_response" Type="nvarchar(max)" />
+          <Property Name="response_date" Type="date" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="Feedback_ID" />
+          </Key>
+          <Property Name="Feedback_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Patient_ID" Type="int" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Lab_Tech">
           <Key>
             <PropertyRef Name="Tech_ID" />
@@ -40,11 +63,23 @@
           <Property Name="Password" Type="nvarchar(max)" />
           <Property Name="Status" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Package_Tests">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Package_ID" Type="int" />
+          <Property Name="Test_ID" Type="int" />
+        </EntityType>
         <EntityType Name="Packages">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="Package_ID" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Package_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Package_Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Picture" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Patients">
           <Key>
@@ -101,8 +136,10 @@
           <Property Name="Sample_Type" Type="nvarchar(max)" />
           <Property Name="Expiration_Date" Type="date" />
         </EntityType>
-        <Association Name="FK__Appointme__Appoi__3F466844">
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1" />
+        <Association Name="FK__Appointme__Appoi__3D5E1FD2">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Appointments_Tests" Type="Self.Appointments_Tests" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Appointments">
@@ -113,8 +150,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Appointme__Test___403A8C7D">
-          <End Role="Tests" Type="Self.Tests" Multiplicity="0..1" />
+        <Association Name="FK__Appointme__Test___3E52440B">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Appointments_Tests" Type="Self.Appointments_Tests" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tests">
@@ -125,8 +164,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Test_Orde__Order__49C3F6B7">
-          <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="0..1" />
+        <Association Name="FK__Feedback__Patien__534D60F1">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="Patient_ID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="Patient_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Package_T__Packa__4316F928">
+          <End Role="Packages" Type="Self.Packages" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Package_Tests" Type="Self.Package_Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packages">
+              <PropertyRef Name="Package_ID" />
+            </Principal>
+            <Dependent Role="Package_Tests">
+              <PropertyRef Name="Package_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Package_T__Test___440B1D61">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Package_Tests" Type="Self.Package_Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="Test_ID" />
+            </Principal>
+            <Dependent Role="Package_Tests">
+              <PropertyRef Name="Test_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Test_Orde__Order__4CA06362">
+          <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Test_Order_Tests" Type="Self.Test_Order_Tests" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Test_Order">
@@ -137,8 +218,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Test_Orde__Patie__45F365D3">
-          <End Role="Patients" Type="Self.Patients" Multiplicity="0..1" />
+        <Association Name="FK__Test_Orde__Patie__49C3F6B7">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Patients">
@@ -149,20 +232,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Test_Orde__Tech___46E78A0C">
-          <End Role="Lab_Tech" Type="Self.Lab_Tech" Multiplicity="0..1" />
-          <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Lab_Tech">
-              <PropertyRef Name="Tech_ID" />
-            </Principal>
-            <Dependent Role="Test_Order">
-              <PropertyRef Name="Tech_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Test_Orde__Test___4AB81AF0">
-          <End Role="Tests" Type="Self.Tests" Multiplicity="0..1" />
+        <Association Name="FK__Test_Orde__Test___4D94879B">
+          <End Role="Tests" Type="Self.Tests" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Test_Order_Tests" Type="Self.Test_Order_Tests" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tests">
@@ -176,33 +249,44 @@
         <EntityContainer Name="MasterPieceModelStoreContainer">
           <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Appointments_Tests" EntityType="Self.Appointments_Tests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lab_Tech" EntityType="Self.Lab_Tech" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Package_Tests" EntityType="Self.Package_Tests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Test_Order" EntityType="Self.Test_Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Test_Order_Tests" EntityType="Self.Test_Order_Tests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tests" EntityType="Self.Tests" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Appointme__Appoi__3F466844" Association="Self.FK__Appointme__Appoi__3F466844">
+          <AssociationSet Name="FK__Appointme__Appoi__3D5E1FD2" Association="Self.FK__Appointme__Appoi__3D5E1FD2">
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
           </AssociationSet>
-          <AssociationSet Name="FK__Appointme__Test___403A8C7D" Association="Self.FK__Appointme__Test___403A8C7D">
+          <AssociationSet Name="FK__Appointme__Test___3E52440B" Association="Self.FK__Appointme__Test___3E52440B">
             <End Role="Tests" EntitySet="Tests" />
             <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
           </AssociationSet>
-          <AssociationSet Name="FK__Test_Orde__Order__49C3F6B7" Association="Self.FK__Test_Orde__Order__49C3F6B7">
+          <AssociationSet Name="FK__Feedback__Patien__534D60F1" Association="Self.FK__Feedback__Patien__534D60F1">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Package_T__Packa__4316F928" Association="Self.FK__Package_T__Packa__4316F928">
+            <End Role="Packages" EntitySet="Packages" />
+            <End Role="Package_Tests" EntitySet="Package_Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Package_T__Test___440B1D61" Association="Self.FK__Package_T__Test___440B1D61">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="Package_Tests" EntitySet="Package_Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Test_Orde__Order__4CA06362" Association="Self.FK__Test_Orde__Order__4CA06362">
             <End Role="Test_Order" EntitySet="Test_Order" />
             <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
           </AssociationSet>
-          <AssociationSet Name="FK__Test_Orde__Patie__45F365D3" Association="Self.FK__Test_Orde__Patie__45F365D3">
+          <AssociationSet Name="FK__Test_Orde__Patie__49C3F6B7" Association="Self.FK__Test_Orde__Patie__49C3F6B7">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="Test_Order" EntitySet="Test_Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__Test_Orde__Tech___46E78A0C" Association="Self.FK__Test_Orde__Tech___46E78A0C">
-            <End Role="Lab_Tech" EntitySet="Lab_Tech" />
-            <End Role="Test_Order" EntitySet="Test_Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Test_Orde__Test___4AB81AF0" Association="Self.FK__Test_Orde__Test___4AB81AF0">
+          <AssociationSet Name="FK__Test_Orde__Test___4D94879B" Association="Self.FK__Test_Orde__Test___4D94879B">
             <End Role="Tests" EntitySet="Tests" />
             <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
           </AssociationSet>
@@ -228,7 +312,7 @@
           <Property Name="Amount_paid" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Billing_ID" Type="Int32" />
           <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Appointments_Tests" Relationship="Self.FK__Appointme__Appoi__3F466844" FromRole="Appointments" ToRole="Appointments_Tests" />
+          <NavigationProperty Name="Appointments_Tests" Relationship="Self.FK__Appointme__Appoi__3D5E1FD2" FromRole="Appointments" ToRole="Appointments_Tests" />
         </EntityType>
         <EntityType Name="Appointments_Tests">
           <Key>
@@ -237,8 +321,32 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Appointment_ID" Type="Int64" />
           <Property Name="Test_ID" Type="Int32" />
-          <NavigationProperty Name="Appointment" Relationship="Self.FK__Appointme__Appoi__3F466844" FromRole="Appointments_Tests" ToRole="Appointments" />
-          <NavigationProperty Name="Test" Relationship="Self.FK__Appointme__Test___403A8C7D" FromRole="Appointments_Tests" ToRole="Tests" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK__Appointme__Appoi__3D5E1FD2" FromRole="Appointments_Tests" ToRole="Appointments" />
+          <NavigationProperty Name="Test" Relationship="Self.FK__Appointme__Test___3E52440B" FromRole="Appointments_Tests" ToRole="Tests" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="contact_id" />
+          </Key>
+          <Property Name="contact_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sub" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sent_date" Type="DateTime" Precision="0" />
+          <Property Name="admin_response" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="response_date" Type="DateTime" Precision="0" />
+          <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="Feedback_ID" />
+          </Key>
+          <Property Name="Feedback_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Patient_ID" Type="Int32" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK__Feedback__Patien__534D60F1" FromRole="Feedback" ToRole="Patients" />
         </EntityType>
         <EntityType Name="Lab_Tech">
           <Key>
@@ -249,13 +357,27 @@
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Tech___46E78A0C" FromRole="Lab_Tech" ToRole="Test_Order" />
+        </EntityType>
+        <EntityType Name="Package_Tests">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Package_ID" Type="Int32" />
+          <Property Name="Test_ID" Type="Int32" />
+          <NavigationProperty Name="Package" Relationship="Self.FK__Package_T__Packa__4316F928" FromRole="Package_Tests" ToRole="Packages" />
+          <NavigationProperty Name="Test" Relationship="Self.FK__Package_T__Test___440B1D61" FromRole="Package_Tests" ToRole="Tests" />
         </EntityType>
         <EntityType Name="Package">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="Package_ID" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Package_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Package_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Package_Tests" Relationship="Self.FK__Package_T__Packa__4316F928" FromRole="Packages" ToRole="Package_Tests" />
         </EntityType>
         <EntityType Name="Patient">
           <Key>
@@ -270,7 +392,8 @@
           <Property Name="Phone_Number" Type="Int32" />
           <Property Name="Home_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Patie__45F365D3" FromRole="Patients" ToRole="Test_Order" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK__Feedback__Patien__534D60F1" FromRole="Patients" ToRole="Feedback" />
+          <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Patie__49C3F6B7" FromRole="Patients" ToRole="Test_Order" />
         </EntityType>
         <EntityType Name="Test_Order">
           <Key>
@@ -284,9 +407,8 @@
           <Property Name="Discount_Persent" Type="Int32" />
           <Property Name="Amount_Paid" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Lab_Tech" Relationship="Self.FK__Test_Orde__Tech___46E78A0C" FromRole="Test_Order" ToRole="Lab_Tech" />
-          <NavigationProperty Name="Patient" Relationship="Self.FK__Test_Orde__Patie__45F365D3" FromRole="Test_Order" ToRole="Patients" />
-          <NavigationProperty Name="Test_Order_Tests" Relationship="Self.FK__Test_Orde__Order__49C3F6B7" FromRole="Test_Order" ToRole="Test_Order_Tests" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK__Test_Orde__Patie__49C3F6B7" FromRole="Test_Order" ToRole="Patients" />
+          <NavigationProperty Name="Test_Order_Tests" Relationship="Self.FK__Test_Orde__Order__4CA06362" FromRole="Test_Order" ToRole="Test_Order_Tests" />
         </EntityType>
         <EntityType Name="Test_Order_Tests">
           <Key>
@@ -299,8 +421,8 @@
           <Property Name="Date_Of_Result" Type="DateTime" Precision="0" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Order__49C3F6B7" FromRole="Test_Order_Tests" ToRole="Test_Order" />
-          <NavigationProperty Name="Test" Relationship="Self.FK__Test_Orde__Test___4AB81AF0" FromRole="Test_Order_Tests" ToRole="Tests" />
+          <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Order__4CA06362" FromRole="Test_Order_Tests" ToRole="Test_Order" />
+          <NavigationProperty Name="Test" Relationship="Self.FK__Test_Orde__Test___4D94879B" FromRole="Test_Order_Tests" ToRole="Tests" />
         </EntityType>
         <EntityType Name="Test">
           <Key>
@@ -317,11 +439,14 @@
           <Property Name="Inventory" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Sample_Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Expiration_Date" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Appointments_Tests" Relationship="Self.FK__Appointme__Test___403A8C7D" FromRole="Tests" ToRole="Appointments_Tests" />
-          <NavigationProperty Name="Test_Order_Tests" Relationship="Self.FK__Test_Orde__Test___4AB81AF0" FromRole="Tests" ToRole="Test_Order_Tests" />
+          <NavigationProperty Name="Appointments_Tests" Relationship="Self.FK__Appointme__Test___3E52440B" FromRole="Tests" ToRole="Appointments_Tests" />
+          <NavigationProperty Name="Package_Tests" Relationship="Self.FK__Package_T__Test___440B1D61" FromRole="Tests" ToRole="Package_Tests" />
+          <NavigationProperty Name="Test_Order_Tests" Relationship="Self.FK__Test_Orde__Test___4D94879B" FromRole="Tests" ToRole="Test_Order_Tests" />
         </EntityType>
-        <Association Name="FK__Appointme__Appoi__3F466844">
-          <End Role="Appointments" Type="Self.Appointment" Multiplicity="0..1" />
+        <Association Name="FK__Appointme__Appoi__3D5E1FD2">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Appointments_Tests" Type="Self.Appointments_Tests" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Appointments">
@@ -332,8 +457,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Appointme__Test___403A8C7D">
-          <End Role="Tests" Type="Self.Test" Multiplicity="0..1" />
+        <Association Name="FK__Appointme__Test___3E52440B">
+          <End Role="Tests" Type="Self.Test" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Appointments_Tests" Type="Self.Appointments_Tests" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tests">
@@ -344,20 +471,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Test_Orde__Tech___46E78A0C">
-          <End Role="Lab_Tech" Type="Self.Lab_Tech" Multiplicity="0..1" />
-          <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="*" />
+        <Association Name="FK__Feedback__Patien__534D60F1">
+          <End Role="Patients" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Lab_Tech">
-              <PropertyRef Name="Tech_ID" />
+            <Principal Role="Patients">
+              <PropertyRef Name="Patient_ID" />
             </Principal>
-            <Dependent Role="Test_Order">
-              <PropertyRef Name="Tech_ID" />
+            <Dependent Role="Feedback">
+              <PropertyRef Name="Patient_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Test_Orde__Patie__45F365D3">
-          <End Role="Patients" Type="Self.Patient" Multiplicity="0..1" />
+        <Association Name="FK__Package_T__Packa__4316F928">
+          <End Role="Packages" Type="Self.Package" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Package_Tests" Type="Self.Package_Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packages">
+              <PropertyRef Name="Package_ID" />
+            </Principal>
+            <Dependent Role="Package_Tests">
+              <PropertyRef Name="Package_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Package_T__Test___440B1D61">
+          <End Role="Tests" Type="Self.Test" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Package_Tests" Type="Self.Package_Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tests">
+              <PropertyRef Name="Test_ID" />
+            </Principal>
+            <Dependent Role="Package_Tests">
+              <PropertyRef Name="Test_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Test_Orde__Patie__49C3F6B7">
+          <End Role="Patients" Type="Self.Patient" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Patients">
@@ -368,8 +525,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Test_Orde__Order__49C3F6B7">
-          <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="0..1" />
+        <Association Name="FK__Test_Orde__Order__4CA06362">
+          <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Test_Order_Tests" Type="Self.Test_Order_Tests" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Test_Order">
@@ -380,8 +539,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Test_Orde__Test___4AB81AF0">
-          <End Role="Tests" Type="Self.Test" Multiplicity="0..1" />
+        <Association Name="FK__Test_Orde__Test___4D94879B">
+          <End Role="Tests" Type="Self.Test" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Test_Order_Tests" Type="Self.Test_Order_Tests" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tests">
@@ -395,33 +556,44 @@
         <EntityContainer Name="MasterPieceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Appointments" EntityType="Self.Appointment" />
           <EntitySet Name="Appointments_Tests" EntityType="Self.Appointments_Tests" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
           <EntitySet Name="Lab_Tech" EntityType="Self.Lab_Tech" />
+          <EntitySet Name="Package_Tests" EntityType="Self.Package_Tests" />
           <EntitySet Name="Packages" EntityType="Self.Package" />
           <EntitySet Name="Patients" EntityType="Self.Patient" />
           <EntitySet Name="Test_Order" EntityType="Self.Test_Order" />
           <EntitySet Name="Test_Order_Tests" EntityType="Self.Test_Order_Tests" />
           <EntitySet Name="Tests" EntityType="Self.Test" />
-          <AssociationSet Name="FK__Appointme__Appoi__3F466844" Association="Self.FK__Appointme__Appoi__3F466844">
+          <AssociationSet Name="FK__Appointme__Appoi__3D5E1FD2" Association="Self.FK__Appointme__Appoi__3D5E1FD2">
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
           </AssociationSet>
-          <AssociationSet Name="FK__Appointme__Test___403A8C7D" Association="Self.FK__Appointme__Test___403A8C7D">
+          <AssociationSet Name="FK__Appointme__Test___3E52440B" Association="Self.FK__Appointme__Test___3E52440B">
             <End Role="Tests" EntitySet="Tests" />
             <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
           </AssociationSet>
-          <AssociationSet Name="FK__Test_Orde__Tech___46E78A0C" Association="Self.FK__Test_Orde__Tech___46E78A0C">
-            <End Role="Lab_Tech" EntitySet="Lab_Tech" />
-            <End Role="Test_Order" EntitySet="Test_Order" />
+          <AssociationSet Name="FK__Feedback__Patien__534D60F1" Association="Self.FK__Feedback__Patien__534D60F1">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
           </AssociationSet>
-          <AssociationSet Name="FK__Test_Orde__Patie__45F365D3" Association="Self.FK__Test_Orde__Patie__45F365D3">
+          <AssociationSet Name="FK__Package_T__Packa__4316F928" Association="Self.FK__Package_T__Packa__4316F928">
+            <End Role="Packages" EntitySet="Packages" />
+            <End Role="Package_Tests" EntitySet="Package_Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Package_T__Test___440B1D61" Association="Self.FK__Package_T__Test___440B1D61">
+            <End Role="Tests" EntitySet="Tests" />
+            <End Role="Package_Tests" EntitySet="Package_Tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Test_Orde__Patie__49C3F6B7" Association="Self.FK__Test_Orde__Patie__49C3F6B7">
             <End Role="Patients" EntitySet="Patients" />
             <End Role="Test_Order" EntitySet="Test_Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__Test_Orde__Order__49C3F6B7" Association="Self.FK__Test_Orde__Order__49C3F6B7">
+          <AssociationSet Name="FK__Test_Orde__Order__4CA06362" Association="Self.FK__Test_Orde__Order__4CA06362">
             <End Role="Test_Order" EntitySet="Test_Order" />
             <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
           </AssociationSet>
-          <AssociationSet Name="FK__Test_Orde__Test___4AB81AF0" Association="Self.FK__Test_Orde__Test___4AB81AF0">
+          <AssociationSet Name="FK__Test_Orde__Test___4D94879B" Association="Self.FK__Test_Orde__Test___4D94879B">
             <End Role="Tests" EntitySet="Tests" />
             <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
           </AssociationSet>
@@ -459,6 +631,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="MasterPieceModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="contact_id" ColumnName="contact_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="sub" ColumnName="sub" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="sent_date" ColumnName="sent_date" />
+                <ScalarProperty Name="admin_response" ColumnName="admin_response" />
+                <ScalarProperty Name="response_date" ColumnName="response_date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="MasterPieceModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="Feedback_ID" ColumnName="Feedback_ID" />
+                <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Lab_Tech">
             <EntityTypeMapping TypeName="MasterPieceModel.Lab_Tech">
               <MappingFragment StoreEntitySet="Lab_Tech">
@@ -470,10 +667,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Package_Tests">
+            <EntityTypeMapping TypeName="MasterPieceModel.Package_Tests">
+              <MappingFragment StoreEntitySet="Package_Tests">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Package_ID" ColumnName="Package_ID" />
+                <ScalarProperty Name="Test_ID" ColumnName="Test_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Packages">
             <EntityTypeMapping TypeName="MasterPieceModel.Package">
               <MappingFragment StoreEntitySet="Packages">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Package_ID" ColumnName="Package_ID" />
+                <ScalarProperty Name="Package_Name" ColumnName="Package_Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

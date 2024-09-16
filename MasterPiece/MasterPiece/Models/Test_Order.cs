@@ -29,7 +29,6 @@ namespace MasterPiece.Models
         public Nullable<decimal> Amount_Paid { get; set; }
         public string Status { get; set; }
     
-        public virtual Lab_Tech Lab_Tech { get; set; }
         public virtual Patient Patient { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Test_Order_Tests> Test_Order_Tests { get; set; }

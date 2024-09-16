@@ -1,6 +1,7 @@
 ﻿using MasterPiece.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -87,6 +88,12 @@ namespace MasterPiece.Controllers
 
         public ActionResult TestsDocumentation()
         {
+            var tests = db.Tests.ToList();
+            return View(tests);
+        }
+
+        public ActionResult TestsDocumentationssssssssssss()
+        {
             return View();
         }
 
@@ -97,6 +104,179 @@ namespace MasterPiece.Controllers
 
 
 
+        ////////////////////////////////////////////Emloyee Page ///////////////////////////////////
+      
+        public ActionResult Employees()
+        {
+            var employees = db.Lab_Tech.ToList();
+            return View(employees);
+        }
+        [HttpPost]
+        public ActionResult CreateEmployee(Lab_Tech employee)
+        {
+            if (ModelState.IsValid) 
+            {
+                db.Lab_Tech.Add(employee);
+                db.SaveChanges();
+
+                // Redirect to the list of employees (or wherever you want)
+                return RedirectToAction("Employees");
+            }
+
+            return View(employee);
+        }
+
+        [HttpPost]
+        public ActionResult EditEmployee(Lab_Tech employee)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(employee).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Employees");
+            }
+            return View(employee);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteEmployee(int Tech_ID)
+        {
+            var employee = db.Lab_Tech.Find(Tech_ID);
+            if (employee != null)
+            {
+                db.Lab_Tech.Remove(employee);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Employees");
+        }
+
+
+        //////////////////////////////////////////////Profile Page/////////////////////////////////////////
+
+
+        public ActionResult Profile(int id)
+        {
+            var employee = db.Lab_Tech.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateProfile(Lab_Tech updatedEmployee)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(updatedEmployee).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Profile", new { id = updatedEmployee.Tech_ID });
+            }
+            return View("EmployeeProfile", updatedEmployee);
+        }
+
+
+        ////////////////////////////////////////////////////Packages ////////////////////////////////////////////////
+
+        public ActionResult Packages()
+        {
+            var packages = db.Packages.Include(p => p.Package_Tests.Select(pt => pt.Test)).ToList();
+            ViewBag.TestsList= db.Tests.ToList();
+            return View(packages);
+        }
+
+        // This action gets the selected tests for a specific package via Ajax
+        public JsonResult GetPackageDetails(int id)
+        {
+            var package = db.Packages.Include(p => p.Package_Tests.Select(pt => pt.Test))
+                                      .FirstOrDefault(p => p.Package_ID == id);
+            var selectedTests = package.Package_Tests.Select(pt => new {
+                pt.Test.Test_Name,
+                pt.Test.Price
+            }).ToList();
+
+            return Json(new { selectedTests = selectedTests }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditPackage(int id)
+        {
+            // Fetch the package details
+            var package = db.Packages.Include(p => p.Package_Tests.Select(t => t.Test)).FirstOrDefault(p => p.Package_ID == id);
+
+            // Fetch the list of all tests
+            var tests = db.Tests.Select(t => new { t.Test_ID, t.Test_Name, t.Price }).ToList();
+
+            // Prepare the selected tests to pass to the view
+            var selectedTests = package.Package_Tests.Select(pt => new {
+                pt.Test.Test_Name,
+                pt.Test.Price
+            }).ToList();
+
+            ViewBag.TestsList = tests;
+            ViewBag.SelectedTests = selectedTests;
+
+            return View(package);
+        }
+
+
+        ///////////////////////////////////////////////////////          FeedBack          ///////////////////////////////////////////////////////////
+
+        public ActionResult FeedBacks()
+        {
+            var feed = db.Feedbacks.ToList();
+            return View(feed);
+        }
+        public ActionResult ApproveFeedback(int id)
+        {
+            var feedback = db.Feedbacks.Find(id);
+            if (feedback == null)
+            {
+                return HttpNotFound();
+            }
+
+            feedback.Status = "Approved";
+            db.SaveChanges();
+
+            return RedirectToAction("FeedBacks");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFeedback(Feedback feedback)
+        {
+            if (ModelState.IsValid)
+            {
+                feedback.Status = "Pending"; // Default status when feedback is created
+                db.Feedbacks.Add(feedback);
+                db.SaveChanges();
+                return RedirectToAction("Profile", "User");
+            }
+
+            // If there's an issue with the model state, return the same view with validation errors
+            return View(feedback);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFeedback(int Feedback_ID)
+        {
+            // Find the feedback by ID
+            var feedback = db.Feedbacks.Find(Feedback_ID);
+
+            // Check if feedback exists
+            if (feedback == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Remove the feedback from the database
+            db.Feedbacks.Remove(feedback);
+            db.SaveChanges();
+
+            // Redirect to the feedback list page
+            return RedirectToAction("FeedBacks");
+        }
 
 
 

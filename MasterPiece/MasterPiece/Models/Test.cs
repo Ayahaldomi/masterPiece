@@ -18,6 +18,7 @@ namespace MasterPiece.Models
         public Test()
         {
             this.Appointments_Tests = new HashSet<Appointments_Tests>();
+            this.Package_Tests = new HashSet<Package_Tests>();
             this.Test_Order_Tests = new HashSet<Test_Order_Tests>();
         }
     
@@ -35,6 +36,8 @@ namespace MasterPiece.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointments_Tests> Appointments_Tests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Package_Tests> Package_Tests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Test_Order_Tests> Test_Order_Tests { get; set; }
     }

@@ -14,6 +14,19 @@ namespace MasterPiece.Models
     
     public partial class Package
     {
-        public int Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Package()
+        {
+            this.Package_Tests = new HashSet<Package_Tests>();
+        }
+    
+        public int Package_ID { get; set; }
+        public string Package_Name { get; set; }
+        public string Description { get; set; }
+        public Nullable<decimal> Price { get; set; }
+        public string Picture { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Package_Tests> Package_Tests { get; set; }
     }
 }

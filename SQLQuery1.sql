@@ -9,10 +9,6 @@ GO
 USE MasterPiece;
 GO
 
--- Create the Packages table
-CREATE TABLE Packages (
-    Id int PRIMARY KEY identity(1,1)
-);
 
 
 
@@ -64,8 +60,27 @@ CREATE TABLE Appointments_Tests (
 	ID INT PRIMARY KEY IDENTITY(1,1),
     Appointment_ID BIGINT,
     Test_ID INT,
-    FOREIGN KEY (Appointment_ID) REFERENCES Appointments(ID),
-    FOREIGN KEY (Test_ID) REFERENCES Tests(Test_ID),
+    FOREIGN KEY (Appointment_ID) REFERENCES Appointments(ID)ON DELETE CASCADE,
+    FOREIGN KEY (Test_ID) REFERENCES Tests(Test_ID)ON DELETE CASCADE,
+);
+
+
+-- Create the Packages table
+CREATE TABLE Packages (
+    Package_ID INT PRIMARY KEY IDENTITY(1,1),
+    Package_Name NVARCHAR(MAX) NOT NULL,
+    Description NVARCHAR(MAX),
+    Price DECIMAL(10, 2),
+    Picture NVARCHAR(MAX) -- Path or URL to the package image
+);
+
+-- Create the Package_Tests table
+CREATE TABLE Package_Tests (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    Package_ID INT,
+    Test_ID INT,
+    FOREIGN KEY (Package_ID) REFERENCES Packages(Package_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Test_ID) REFERENCES Tests(Test_ID) ON DELETE CASCADE
 );
 
 -- Create the Lab_Tech table
@@ -89,8 +104,7 @@ CREATE TABLE Test_Order (
 	Discount_Persent int DEFAULT 0,
 	Amount_Paid DECIMAL(10, 2),
     Status NVARCHAR(MAX),
-    FOREIGN KEY (Patient_ID) REFERENCES Patients(Patient_ID),
-    FOREIGN KEY (Tech_ID) REFERENCES Lab_Tech(Tech_ID)
+    FOREIGN KEY (Patient_ID) REFERENCES Patients(Patient_ID)ON DELETE CASCADE,
 );
 
 -- Create the Test_Order_Tests table
@@ -102,9 +116,31 @@ CREATE TABLE Test_Order_Tests (
     Date_Of_Result DATE,
     Comment NVARCHAR(MAX),
     Status NVARCHAR(MAX),
-    FOREIGN KEY (Order_ID) REFERENCES Test_Order(Order_ID),
-    FOREIGN KEY (Test_ID) REFERENCES Tests(Test_ID)
+    FOREIGN KEY (Order_ID) REFERENCES Test_Order(Order_ID)ON DELETE CASCADE,
+    FOREIGN KEY (Test_ID) REFERENCES Tests(Test_ID)ON DELETE CASCADE
 );
+
+CREATE TABLE Contact (
+    contact_id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(max),
+    email NVARCHAR(max),
+    sub NVARCHAR(max),
+    message NVARCHAR(max),
+    sent_date DATE,
+    admin_response NVARCHAR(max),
+    response_date DATE,
+    status INT
+);
+
+-- Create the Feedback table
+CREATE TABLE Feedback (
+    Feedback_ID INT PRIMARY KEY IDENTITY(1,1), -- Unique identifier for feedback
+    Patient_ID INT, -- Foreign key referencing Patients table
+    Message NVARCHAR(MAX), -- Feedback message from the patient
+    Status NVARCHAR(50) DEFAULT 'Pending', -- Status of the feedback (e.g., Pending, Approved, Rejected)
+    FOREIGN KEY (Patient_ID) REFERENCES Patients(Patient_ID) -- Establishing the foreign key relationship
+);
+
 
 
 INSERT INTO Patients (Full_Name, Date_Of_Birth, Gender, Marital_Status, Nationality, Phone_Number, Home_Address, Note)
@@ -148,3 +184,28 @@ VALUES (1, 1, 'Normal', '2024-01-16', 'All values within normal range.', 'Comple
 
 INSERT INTO Test_Order_Tests (Order_ID, Test_ID, Result, Date_Of_Result, Comment, Status)
 VALUES (2, 2, 'Elevated AST and ALT', '2024-01-21', 'Requires further investigation.', 'Pending');
+
+-- Insert first package
+INSERT INTO Packages (Package_Name, Description, Price, Picture)
+VALUES ('Basic Health Checkup', 'This package includes basic health screening tests.', 99.99, '/images/basic_health_checkup.png');
+
+-- Insert second package
+INSERT INTO Packages (Package_Name, Description, Price, Picture)
+VALUES ('Comprehensive Health Screening', 'This package offers a complete set of tests for in-depth health evaluation.', 199.99, '/images/comprehensive_health_screening.png');
+
+
+-- Insert 1st record into Contact table
+INSERT INTO Contact (name, email, sub, message, sent_date, admin_response, response_date, status)
+VALUES ('John Doe', 'john.doe@example.com', 'Product Inquiry', 'I would like to know more about your product.', '2024-09-01', NULL, NULL, 0);
+
+-- Insert 2nd record into Contact table
+INSERT INTO Contact (name, email, sub, message, sent_date, admin_response, response_date, status)
+VALUES ('Jane Smith', 'jane.smith@example.com', 'Support Request', 'I am facing an issue with my account.', '2024-09-05', 'We are looking into it.', '2024-09-06', 1);
+
+-- Insert 1st record into Feedback table
+INSERT INTO Feedback (Patient_ID, Message, Status)
+VALUES (1, 'Great service! Really satisfied with the care provided.', 'Approved');
+
+-- Insert 2nd record into Feedback table
+INSERT INTO Feedback (Patient_ID, Message, Status)
+VALUES (2, 'The appointment scheduling process needs improvement.', 'Pending');

@@ -12,12 +12,13 @@ namespace MasterPiece.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Lab_Tech
+    public partial class Package_Tests
     {
-        public int Tech_ID { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Status { get; set; }
+        public int ID { get; set; }
+        public Nullable<int> Package_ID { get; set; }
+        public Nullable<int> Test_ID { get; set; }
+    
+        public virtual Package Package { get; set; }
+        public virtual Test Test { get; set; }
     }
 }
