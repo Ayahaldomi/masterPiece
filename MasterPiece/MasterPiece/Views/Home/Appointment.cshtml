@@ -375,8 +375,6 @@
         text-align: center;
         margin-bottom: 10px;
     }
-
-
 </style>
 
 
@@ -460,16 +458,24 @@
                     <input type="date" name="preferred_date" class="input" id="preferred_date" min="">
                 </div>
 
-                <!-- Time buttons will be hidden initially -->
+                <!-- Custom time button will be added here -->
                 <div id="time_buttons" style="display:none;">
                     <button class="time-btn" data-time="8:00am">8:00 AM</button>
                     <button class="time-btn" data-time="10:00am">10:00 AM</button>
                     <button class="time-btn" data-time="12:00pm">12:00 PM</button>
                     <button class="time-btn" data-time="2:00pm">2:00 PM</button>
                     <button class="time-btn" data-time="4:00pm">4:00 PM</button>
+                    <!-- Custom Time Button -->
+                    <button id="custom_time_btn" class="time-btn" data-time="custom">Custom Time (Additional Charge)</button>
+                    <!-- Hidden input for custom time selection -->
+                    <input type="time" id="custom_time_input" style="display:none;" />
                 </div>
-                <!-- Display the chosen time -->
+
+                <!-- Display chosen time -->
                 <p id="chosen_time" style="display:none;">Selected Time: <span id="time_value"></span></p>
+
+                <!-- Display additional charge when custom time is selected -->
+                <p id="additional_charge" style="display:none;">Additional Charge: $20</p>
 
                 <div class="dropdown">
                     <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
@@ -677,17 +683,78 @@
         }
     }
 
-    // Function to add the selected test and price to the table
-    function addTestToTable(testName, price) {
-        let tableBody = document.getElementById("testTableBody");
+
+    // Custom time charge amount
+        const customTimeCharge = 20;
+        let customTimeSelected = false;
+
+    // Handle time button clicks
+    document.querySelectorAll('.time-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const selectedTime = this.getAttribute('data-time');
+                if (selectedTime === 'custom') {
+                    // Show the custom time picker when custom time button is clicked
+                    document.getElementById('custom_time_input').style.display = 'inline';
+                    document.getElementById('chosen_time').style.display = 'none'; // Hide until custom time is chosen
+                } else {
+                    // Hide custom time input and additional charge, show the selected time
+                    document.getElementById('custom_time_input').style.display = 'none';
+                    document.getElementById('additional_charge').style.display = 'none';
+                    document.getElementById('chosen_time').style.display = 'block';
+                    document.getElementById('time_value').textContent = selectedTime;
+                    customTimeSelected = false; // Reset custom time flag
+                    updateTotalPrice();
+                }
+            });
+    });
+
+        // Listen for changes in the custom time picker
+        document.getElementById('custom_time_input').addEventListener('change', function () {
+        const customTime = this.value;
+        if (customTime) {
+            // Display the custom time and additional charge
+            document.getElementById('chosen_time').style.display = 'block';
+        document.getElementById('time_value').textContent = customTime;
+        document.getElementById('additional_charge').style.display = 'block';
+        customTimeSelected = true;
+        updateTotalPrice(); // Update total with additional charge
+        }
+    });
+
+        // Function to update the total price
+        function updateTotalPrice() {
+            let tableBody = document.getElementById("testTableBody");
+        let totalPriceElement = document.getElementById("totalPrice");
+        let total = 0;
+
+        // Loop through the table rows and sum the prices
+        let rows = tableBody.getElementsByTagName("tr");
+        for (let i = 0; i < rows.length; i++) {
+            let priceText = rows[i].getElementsByTagName("td")[1].textContent;
+        let price = parseFloat(priceText.replace("$", ""));
+        total += price;
+        }
+
+        // Add additional charge for custom time if selected
+        if (customTimeSelected) {
+            total += customTimeCharge;
+        }
+
+        // Update the total price in the table footer
+        totalPriceElement.textContent = "$" + total;
+    }
+
+        // Function to add the selected test and price to the table
+        function addTestToTable(testName, price) {
+            let tableBody = document.getElementById("testTableBody");
 
         // Check if the test is already in the table (avoid duplicates)
         let existingRows = tableBody.getElementsByTagName("tr");
         for (let i = 0; i < existingRows.length; i++) {
             let existingTest = existingRows[i].getElementsByTagName("td")[0].textContent;
-            if (existingTest === testName) {
-                alert('This test is already added!');
-                return; // Exit if test is already added
+        if (existingTest === testName) {
+            alert('This test is already added!');
+        return; // Exit if test is already added
             }
         }
 
@@ -724,43 +791,26 @@
         updateTotalPrice();
     }
 
-    // Function to update the total price
-    function updateTotalPrice() {
-        let tableBody = document.getElementById("testTableBody");
-        let totalPriceElement = document.getElementById("totalPrice");
-        let total = 0;
-
-        // Loop through the table rows and sum the prices
-        let rows = tableBody.getElementsByTagName("tr");
-        for (let i = 0; i < rows.length; i++) {
-            let priceText = rows[i].getElementsByTagName("td")[1].textContent;
-            let price = parseFloat(priceText.replace("$", ""));
-            total += price;
-        }
-
-        // Update the total price in the table footer
-        totalPriceElement.textContent = "$" + total;
-    }
-
-    // Function to remove a test from the table
-    function removeTestFromTable(row) {
-        let tableBody = document.getElementById("testTableBody");
+        // Function to remove a test from the table
+        function removeTestFromTable(row) {
+            let tableBody = document.getElementById("testTableBody");
         tableBody.removeChild(row); // Remove the row from the table
 
         // Update the total price after removal
         updateTotalPrice();
     }
 </script>
+
 <script>
     function togglePaymentDetails(isPayPal) {
-        const paypalDetails = document.getElementById("paypalDetails");
+    const paypalDetails = document.getElementById("paypalDetails");
 
-        if (isPayPal) {
-            paypalDetails.style.display = "block"; // Show PayPal details if PayPal is selected
-        } else {
-            paypalDetails.style.display = "none";  // Hide PayPal details if Cash is selected
-        }
+    if (isPayPal) {
+        paypalDetails.style.display = "block"; // Show PayPal details if PayPal is selected
+    } else {
+        paypalDetails.style.display = "none";  // Hide PayPal details if Cash is selected
     }
+}
 </script>
 
 <script>
@@ -774,10 +824,10 @@
     document.getElementById('preferred_date').addEventListener('change', function () {
         // Show the time buttons once a date is selected
         document.getElementById('time_buttons').style.display = 'flex';
-    });
+});
 
     const timeButtons = document.querySelectorAll('.time-btn');
-    timeButtons.forEach(button => {
+timeButtons.forEach(button => {
         button.addEventListener('click', function () {
             // Remove 'selected' class from all buttons
             timeButtons.forEach(btn => btn.classList.remove('selected'));
@@ -788,7 +838,7 @@
             document.getElementById('chosen_time').style.display = 'block';
             document.getElementById('time_value').innerText = this.getAttribute('data-time');
         });
-    });
+});
 
 </script>
 
