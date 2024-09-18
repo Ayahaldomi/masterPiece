@@ -25,6 +25,26 @@
     <Property Name="Appointment_ID" Type="bigint" />
     <Property Name="Test_ID" Type="int" />
   </EntityType>
+  <EntityType Name="ChatMessages">
+    <Key>
+      <PropertyRef Name="ChatMessage_ID" />
+    </Key>
+    <Property Name="ChatMessage_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChatRoom_ID" Type="int" />
+    <Property Name="SenderId" Type="int" />
+    <Property Name="MessageText" Type="nvarchar(max)" />
+    <Property Name="SentAt" Type="datetime" />
+    <Property Name="SenderType" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ChatRooms">
+    <Key>
+      <PropertyRef Name="ChatRoom_ID" />
+    </Key>
+    <Property Name="ChatRoom_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LabTech_ID" Type="int" />
+    <Property Name="Patient_ID" Type="int" />
+    <Property Name="CreatedAt" Type="datetime" />
+  </EntityType>
   <EntityType Name="Contact">
     <Key>
       <PropertyRef Name="contact_id" />
@@ -89,6 +109,7 @@
     <Property Name="Phone_Number" Type="int" />
     <Property Name="Home_Address" Type="nvarchar(max)" />
     <Property Name="Note" Type="nvarchar(max)" />
+    <Property Name="PaymentStatus" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Test_Order">
     <Key>
@@ -131,7 +152,7 @@
     <Property Name="Sample_Type" Type="nvarchar(max)" />
     <Property Name="Expiration_Date" Type="date" />
   </EntityType>
-  <Association Name="FK__Appointme__Appoi__3D5E1FD2">
+  <Association Name="FK__Appointme__Appoi__3E52440B">
     <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -145,7 +166,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Appointme__Test___3E52440B">
+  <Association Name="FK__Appointme__Test___3F466844">
     <End Role="Tests" Type="Self.Tests" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -159,7 +180,43 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Feedback__Patien__534D60F1">
+  <Association Name="FK__ChatMessa__ChatR__5BE2A6F2">
+    <End Role="ChatRooms" Type="Self.ChatRooms" Multiplicity="0..1" />
+    <End Role="ChatMessages" Type="Self.ChatMessages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChatRooms">
+        <PropertyRef Name="ChatRoom_ID" />
+      </Principal>
+      <Dependent Role="ChatMessages">
+        <PropertyRef Name="ChatRoom_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ChatRooms__LabTe__571DF1D5">
+    <End Role="Lab_Tech" Type="Self.Lab_Tech" Multiplicity="0..1" />
+    <End Role="ChatRooms" Type="Self.ChatRooms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lab_Tech">
+        <PropertyRef Name="Tech_ID" />
+      </Principal>
+      <Dependent Role="ChatRooms">
+        <PropertyRef Name="LabTech_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ChatRooms__Patie__5812160E">
+    <End Role="Patients" Type="Self.Patients" Multiplicity="0..1" />
+    <End Role="ChatRooms" Type="Self.ChatRooms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patients">
+        <PropertyRef Name="Patient_ID" />
+      </Principal>
+      <Dependent Role="ChatRooms">
+        <PropertyRef Name="Patient_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Feedback__Patien__5441852A">
     <End Role="Patients" Type="Self.Patients" Multiplicity="0..1" />
     <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
     <ReferentialConstraint>
@@ -171,7 +228,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Package_T__Packa__4316F928">
+  <Association Name="FK__Package_T__Packa__440B1D61">
     <End Role="Packages" Type="Self.Packages" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -185,7 +242,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Package_T__Test___440B1D61">
+  <Association Name="FK__Package_T__Test___44FF419A">
     <End Role="Tests" Type="Self.Tests" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -199,7 +256,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Test_Orde__Order__4CA06362">
+  <Association Name="FK__Test_Orde__Order__4D94879B">
     <End Role="Test_Order" Type="Self.Test_Order" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -213,7 +270,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Test_Orde__Patie__49C3F6B7">
+  <Association Name="FK__Test_Orde__Patie__4AB81AF0">
     <End Role="Patients" Type="Self.Patients" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -227,7 +284,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Test_Orde__Test___4D94879B">
+  <Association Name="FK__Test_Orde__Test___4E88ABD4">
     <End Role="Tests" Type="Self.Tests" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -244,6 +301,8 @@
   <EntityContainer Name="MasterPieceModelStoreContainer">
     <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Appointments_Tests" EntityType="Self.Appointments_Tests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChatMessages" EntityType="Self.ChatMessages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChatRooms" EntityType="Self.ChatRooms" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Lab_Tech" EntityType="Self.Lab_Tech" Schema="dbo" store:Type="Tables" />
@@ -253,35 +312,47 @@
     <EntitySet Name="Test_Order" EntityType="Self.Test_Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Test_Order_Tests" EntityType="Self.Test_Order_Tests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tests" EntityType="Self.Tests" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Appointme__Appoi__3D5E1FD2" Association="Self.FK__Appointme__Appoi__3D5E1FD2">
+    <AssociationSet Name="FK__Appointme__Appoi__3E52440B" Association="Self.FK__Appointme__Appoi__3E52440B">
       <End Role="Appointments" EntitySet="Appointments" />
       <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Appointme__Test___3E52440B" Association="Self.FK__Appointme__Test___3E52440B">
+    <AssociationSet Name="FK__Appointme__Test___3F466844" Association="Self.FK__Appointme__Test___3F466844">
       <End Role="Tests" EntitySet="Tests" />
       <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Feedback__Patien__534D60F1" Association="Self.FK__Feedback__Patien__534D60F1">
+    <AssociationSet Name="FK__ChatMessa__ChatR__5BE2A6F2" Association="Self.FK__ChatMessa__ChatR__5BE2A6F2">
+      <End Role="ChatRooms" EntitySet="ChatRooms" />
+      <End Role="ChatMessages" EntitySet="ChatMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ChatRooms__LabTe__571DF1D5" Association="Self.FK__ChatRooms__LabTe__571DF1D5">
+      <End Role="Lab_Tech" EntitySet="Lab_Tech" />
+      <End Role="ChatRooms" EntitySet="ChatRooms" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ChatRooms__Patie__5812160E" Association="Self.FK__ChatRooms__Patie__5812160E">
+      <End Role="Patients" EntitySet="Patients" />
+      <End Role="ChatRooms" EntitySet="ChatRooms" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Feedback__Patien__5441852A" Association="Self.FK__Feedback__Patien__5441852A">
       <End Role="Patients" EntitySet="Patients" />
       <End Role="Feedback" EntitySet="Feedback" />
     </AssociationSet>
-    <AssociationSet Name="FK__Package_T__Packa__4316F928" Association="Self.FK__Package_T__Packa__4316F928">
+    <AssociationSet Name="FK__Package_T__Packa__440B1D61" Association="Self.FK__Package_T__Packa__440B1D61">
       <End Role="Packages" EntitySet="Packages" />
       <End Role="Package_Tests" EntitySet="Package_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Package_T__Test___440B1D61" Association="Self.FK__Package_T__Test___440B1D61">
+    <AssociationSet Name="FK__Package_T__Test___44FF419A" Association="Self.FK__Package_T__Test___44FF419A">
       <End Role="Tests" EntitySet="Tests" />
       <End Role="Package_Tests" EntitySet="Package_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Test_Orde__Order__4CA06362" Association="Self.FK__Test_Orde__Order__4CA06362">
+    <AssociationSet Name="FK__Test_Orde__Order__4D94879B" Association="Self.FK__Test_Orde__Order__4D94879B">
       <End Role="Test_Order" EntitySet="Test_Order" />
       <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Test_Orde__Patie__49C3F6B7" Association="Self.FK__Test_Orde__Patie__49C3F6B7">
+    <AssociationSet Name="FK__Test_Orde__Patie__4AB81AF0" Association="Self.FK__Test_Orde__Patie__4AB81AF0">
       <End Role="Patients" EntitySet="Patients" />
       <End Role="Test_Order" EntitySet="Test_Order" />
     </AssociationSet>
-    <AssociationSet Name="FK__Test_Orde__Test___4D94879B" Association="Self.FK__Test_Orde__Test___4D94879B">
+    <AssociationSet Name="FK__Test_Orde__Test___4E88ABD4" Association="Self.FK__Test_Orde__Test___4E88ABD4">
       <End Role="Tests" EntitySet="Tests" />
       <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
     </AssociationSet>

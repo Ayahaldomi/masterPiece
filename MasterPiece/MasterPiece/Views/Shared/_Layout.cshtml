@@ -63,7 +63,7 @@
 
 
     @RenderBody()
-    
+
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
@@ -139,8 +139,14 @@
     <script src="~/myContent/js/main.js"></script>
 
 
+
+
+
+    @RenderSection("Scripts", required: false)
+
+
     @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)*@
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)*@
 </body>
 </html>

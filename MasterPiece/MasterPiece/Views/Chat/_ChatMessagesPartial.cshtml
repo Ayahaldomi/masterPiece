@@ -1,0 +1,11 @@
+﻿@model IEnumerable<MasterPiece.Models.ChatMessage>
+
+@foreach (var message in Model)
+{
+    <div>
+        <strong>@(message.SenderType == "Patient" ? "Patient" : "Lab Tech"):</strong>
+        <p>@message.MessageText</p>
+        <small>Sent at: @*@message.SentAt.ToString("MMMM dd, yyyy hh:mm tt")*@</small>
+    </div>
+    <hr />
+}

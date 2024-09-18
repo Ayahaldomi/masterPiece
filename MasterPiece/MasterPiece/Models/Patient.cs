@@ -17,6 +17,7 @@ namespace MasterPiece.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Patient()
         {
+            this.ChatRooms = new HashSet<ChatRoom>();
             this.Feedbacks = new HashSet<Feedback>();
             this.Test_Order = new HashSet<Test_Order>();
         }
@@ -30,7 +31,10 @@ namespace MasterPiece.Models
         public Nullable<int> Phone_Number { get; set; }
         public string Home_Address { get; set; }
         public string Note { get; set; }
+        public string PaymentStatus { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChatRoom> ChatRooms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

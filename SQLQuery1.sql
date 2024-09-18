@@ -22,7 +22,8 @@ CREATE TABLE Patients (
     Nationality NVARCHAR(MAX),
     Phone_Number INT,
     Home_Address NVARCHAR(MAX),
-    Note NVARCHAR(MAX)
+    Note NVARCHAR(MAX),
+	PaymentStatus NVARCHAR(50) DEFAULT 'Unpaid'
 );
 
 -- Create the Tests table
@@ -139,6 +140,22 @@ CREATE TABLE Feedback (
     Message NVARCHAR(MAX), -- Feedback message from the patient
     Status NVARCHAR(50) DEFAULT 'Pending', -- Status of the feedback (e.g., Pending, Approved, Rejected)
     FOREIGN KEY (Patient_ID) REFERENCES Patients(Patient_ID) -- Establishing the foreign key relationship
+);
+
+CREATE TABLE ChatRooms (
+    ChatRoom_ID INT PRIMARY KEY IDENTITY(1,1),
+    LabTech_ID INT FOREIGN KEY REFERENCES Lab_Tech(Tech_ID),
+    Patient_ID INT FOREIGN KEY REFERENCES Patients(Patient_ID),
+    CreatedAt DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE ChatMessages (
+    ChatMessage_ID INT PRIMARY KEY IDENTITY(1,1),
+    ChatRoom_ID INT FOREIGN KEY REFERENCES ChatRooms(ChatRoom_ID), -- New column linking to ChatRoom
+    SenderId INT, -- Can be Patient_ID or Tech_ID
+    MessageText NVARCHAR(MAX),
+    SentAt DATETIME DEFAULT GETDATE(),
+    SenderType NVARCHAR(MAX) -- 'Patient' or 'LabTech'
 );
 
 

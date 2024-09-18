@@ -28,6 +28,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ChatMessages">
+      <EntityTypeMapping TypeName="MasterPieceModel.ChatMessage">
+        <MappingFragment StoreEntitySet="ChatMessages">
+          <ScalarProperty Name="ChatMessage_ID" ColumnName="ChatMessage_ID" />
+          <ScalarProperty Name="ChatRoom_ID" ColumnName="ChatRoom_ID" />
+          <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+          <ScalarProperty Name="MessageText" ColumnName="MessageText" />
+          <ScalarProperty Name="SentAt" ColumnName="SentAt" />
+          <ScalarProperty Name="SenderType" ColumnName="SenderType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChatRooms">
+      <EntityTypeMapping TypeName="MasterPieceModel.ChatRoom">
+        <MappingFragment StoreEntitySet="ChatRooms">
+          <ScalarProperty Name="ChatRoom_ID" ColumnName="ChatRoom_ID" />
+          <ScalarProperty Name="LabTech_ID" ColumnName="LabTech_ID" />
+          <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Contacts">
       <EntityTypeMapping TypeName="MasterPieceModel.Contact">
         <MappingFragment StoreEntitySet="Contact">
@@ -96,6 +118,7 @@
           <ScalarProperty Name="Phone_Number" ColumnName="Phone_Number" />
           <ScalarProperty Name="Home_Address" ColumnName="Home_Address" />
           <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

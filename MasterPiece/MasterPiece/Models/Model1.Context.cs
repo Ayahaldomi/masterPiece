@@ -27,6 +27,8 @@ namespace MasterPiece.Models
     
         public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<Appointments_Tests> Appointments_Tests { get; set; }
+        public virtual DbSet<ChatMessage> ChatMessages { get; set; }
+        public virtual DbSet<ChatRoom> ChatRooms { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Lab_Tech> Lab_Tech { get; set; }

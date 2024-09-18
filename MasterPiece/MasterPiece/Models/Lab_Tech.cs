@@ -14,10 +14,19 @@ namespace MasterPiece.Models
     
     public partial class Lab_Tech
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Lab_Tech()
+        {
+            this.ChatRooms = new HashSet<ChatRoom>();
+        }
+    
         public int Tech_ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Status { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChatRoom> ChatRooms { get; set; }
     }
 }

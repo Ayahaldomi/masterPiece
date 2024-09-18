@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MasterPiece.Models.ChatMessage>
+
+@{
+    ViewBag.Title = "Chat Room";
+    ViewBag.SenderType = "Patient";
+}
+
+<h2>Chat Room</h2>
+
+<!-- Chat messages display area -->
+<div id="chatMessages" style="height: 300px; border: 1px solid #ccc; overflow-y: scroll;">
+    <!-- This area will be dynamically refreshed by AJAX -->
+    @Html.Partial("_ChatMessagesPartial", Model)
+</div>
+
+<!-- Message Input Form -->
+@if (ViewBag.SenderType == "Patient")
+{
+    if (Model.Count(m => m.SenderId == ViewBag.PatientId && m.SenderType == "Patient") < 2 || ViewBag.PaymentStatus == "Paid")
+    {
+        <div class="form-group mt-3">
+            @using (Html.BeginForm("SendMessage", "Chat", FormMethod.Post))
+            {
+                @Html.Hidden("chatRoomId", (int)ViewBag.ChatRoomId)
+                @Html.Hidden("senderId", (int)ViewBag.PatientId)
+                @Html.Hidden("senderType", "Patient")
+
+                <textarea id="messageInput" name="messageText" class="form-control" rows="3" placeholder="Type your message here..."></textarea>
+                <button type="submit" class="btn btn-primary mt-2">Send</button>
+            }
+        </div>
+    }
+    else
+    {
+        <p>You have sent two messages. Please <a href="@Url.Action("PaymentRequired", "Chat", new { chatRoomId = (int)ViewBag.ChatRoomId })">pay to continue chatting</a>.</p>
+    }
+}
+else if (ViewBag.SenderType == "LabTech")
+{
+    <div class="form-group mt-3">
+        @using (Html.BeginForm("SendMessage", "Chat", FormMethod.Post))
+        {
+            @Html.Hidden("chatRoomId", (int)ViewBag.ChatRoomId)
+            @Html.Hidden("senderId", (int)ViewBag.LabTechId)
+            @Html.Hidden("senderType", "LabTech")
+
+            <textarea id="messageInput" name="messageText" class="form-control" rows="3" placeholder="Type your message here..."></textarea>
+            <button type="submit" class="btn btn-primary mt-2">Send</button>
+        }
+    </div>
+}
+
+@section Scripts {
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Poll for new messages every 5 seconds
+            setInterval(function() {
+                // AJAX call to refresh chat messages
+                $.get('@Url.Action("GetChatMessages", "Chat")', { chatRoomId: '@ViewBag.ChatRoomId' }, function (data) {
+                    $('#chatMessages').html(data); // Replace the content of the chatMessages div
+                    $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight); // Scroll to the bottom of the chat
+                });
+            }, 5000); // 5000 milliseconds = 5 seconds
+
+            // Scroll to the bottom of the chat messages div on page load
+            $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
+        });
+    </script>
+}

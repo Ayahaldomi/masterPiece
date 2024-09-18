@@ -278,7 +278,17 @@ namespace MasterPiece.Controllers
             return RedirectToAction("FeedBacks");
         }
 
+        //////////////////////////////////////////// doctor side ////////////////////////////////////////////
 
+        public ActionResult DoctorReport()
+        {
+            return View();
+        }
+
+        public ActionResult DoctorReportAdd()
+        {
+            return View();
+        }
 
 
 
