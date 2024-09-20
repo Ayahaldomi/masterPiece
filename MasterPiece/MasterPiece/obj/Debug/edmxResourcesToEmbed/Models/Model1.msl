@@ -43,6 +43,7 @@
     <EntitySetMapping Name="ChatRooms">
       <EntityTypeMapping TypeName="MasterPieceModel.ChatRoom">
         <MappingFragment StoreEntitySet="ChatRooms">
+          <ScalarProperty Name="hasUnreadMessages" ColumnName="hasUnreadMessages" />
           <ScalarProperty Name="ChatRoom_ID" ColumnName="ChatRoom_ID" />
           <ScalarProperty Name="LabTech_ID" ColumnName="LabTech_ID" />
           <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />

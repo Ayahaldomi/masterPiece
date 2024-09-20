@@ -39,7 +39,8 @@ namespace MasterPiece.Controllers
 
                 // Define a base font
                 BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-                var name = "Ayah hasan";
+                var name = "Ayah Hasan";
+
                 // Add dynamic content on top of the background
                 content.BeginText();
                 content.SetFontAndSize(bf, 12);
@@ -63,8 +64,6 @@ namespace MasterPiece.Controllers
                 content.SetTextMatrix(230, 530); // Position for title
                 content.ShowText("Laboratory Report");
                 content.EndText();
-
-                // Now, we'll use a PdfPTable for the test data to overlay on the existing PDF
 
                 // Create the chemistry table
                 PdfPTable chemistryTable = new PdfPTable(4);
@@ -123,9 +122,10 @@ namespace MasterPiece.Controllers
                 stamper.Close();
                 reader.Close();
 
-                // Return the PDF as a downloadable file
+                // Return the PDF in a new tab
                 byte[] bytes = memoryStream.ToArray();
-                return File(bytes, "application/pdf", "LaboratoryReport.pdf");
+                Response.AppendHeader("Content-Disposition", "inline; filename=LaboratoryReport.pdf");
+                return File(bytes, "application/pdf");
             }
         }
 
@@ -138,6 +138,7 @@ namespace MasterPiece.Controllers
             cell.PaddingBottom = 6f; // Optional: Add some padding to make the table more readable
             return cell;
         }
+
 
 
 

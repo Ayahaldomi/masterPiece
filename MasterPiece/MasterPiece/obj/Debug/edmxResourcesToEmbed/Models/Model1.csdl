@@ -51,6 +51,7 @@
     <NavigationProperty Name="ChatMessages" Relationship="Self.FK__ChatMessa__ChatR__5BE2A6F2" FromRole="ChatRooms" ToRole="ChatMessages" />
     <NavigationProperty Name="Lab_Tech" Relationship="Self.FK__ChatRooms__LabTe__571DF1D5" FromRole="ChatRooms" ToRole="Lab_Tech" />
     <NavigationProperty Name="Patient" Relationship="Self.FK__ChatRooms__Patie__5812160E" FromRole="ChatRooms" ToRole="Patients" />
+    <Property Name="hasUnreadMessages" Type="Boolean" />
   </EntityType>
   <EntityType Name="Contact">
     <Key>

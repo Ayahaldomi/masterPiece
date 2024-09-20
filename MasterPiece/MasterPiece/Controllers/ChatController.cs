@@ -1,4 +1,6 @@
 ﻿using MasterPiece.Models;
+using MasterPiece.PayPal;
+using MasterPiece.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,7 +14,6 @@ namespace MasterPiece.Controllers
     {
         private MasterPieceEntities _context = new MasterPieceEntities();
         // GET: Chat
-        // View chat room between a patient and lab tech
         public ActionResult Chat(int chatRoomId)
         {
             var chatRoom = _context.ChatRooms.Find(chatRoomId);
@@ -21,6 +22,10 @@ namespace MasterPiece.Controllers
                 return HttpNotFound("Chat room not found.");
             }
 
+            // Get the list of all chat rooms
+            var chatRooms = _context.ChatRooms.ToList();
+
+            // Get the messages for the specific chat room
             var messages = _context.ChatMessages
                 .Where(m => m.ChatRoom_ID == chatRoomId)
                 .OrderBy(m => m.SentAt)
@@ -35,9 +40,15 @@ namespace MasterPiece.Controllers
             var patient = _context.Patients.Find(chatRoom.Patient_ID);
             ViewBag.PaymentStatus = patient?.PaymentStatus;
 
-            return View(messages);
-        }
+            // Create the view model with chat rooms and messages
+            var viewModel = new ChatMessagesAndRooms
+            {
+                Rooms = chatRooms,
+                Messages = messages
+            };
 
+            return View(viewModel);
+        }
         public ActionResult Chat2(int chatRoomId)
         {
             var chatRoom = _context.ChatRooms.Find(chatRoomId);
@@ -60,7 +71,13 @@ namespace MasterPiece.Controllers
             var patient = _context.Patients.Find(chatRoom.Patient_ID);
             ViewBag.PaymentStatus = patient?.PaymentStatus;
 
-            return View(messages);
+            var viewModel = new PatientAndChat
+            {
+                Patient = _context.Patients.Find(chatRoom.Patient_ID),
+                Messages = messages
+            };
+
+            return View(viewModel);
         }
 
         // Send a message
@@ -118,8 +135,7 @@ namespace MasterPiece.Controllers
             }
 
             // Check if the sender is a patient and if they are allowed to send more messages
-            if (senderType == "Patient")
-            {
+            
                 int patientMessageCount = _context.ChatMessages
                     .Where(m => m.ChatRoom_ID == chatRoomId && m.SenderId == senderId && m.SenderType == "Patient")
                     .Count();
@@ -131,7 +147,7 @@ namespace MasterPiece.Controllers
                     // Redirect to payment required view if the patient has exceeded the free message limit
                     return RedirectToAction("PaymentRequired", new { chatRoomId });
                 }
-            }
+            
 
             // Add the new message to the ChatMessages table
             var message = new ChatMessage
@@ -146,45 +162,122 @@ namespace MasterPiece.Controllers
             _context.ChatMessages.Add(message);
             _context.SaveChanges();
 
-            return RedirectToAction("Chat2", new { chatRoomId });
+            return RedirectToAction("Chat2", new { chatRoomId = chatRoom.ChatRoom_ID });
         }
 
         // View to display when payment is required
-        public ActionResult PaymentRequired(int chatRoomId)
-        {
-            ViewBag.ChatRoomId = chatRoomId;
-            var chatRoom = _context.ChatRooms.Find(chatRoomId);
-            if (chatRoom == null)
-            {
-                return HttpNotFound("Chat room not found.");
-            }
+        ////public ActionResult PaymentRequired(int chatRoomId)
+        ////{
+        ////    ViewBag.ChatRoomId = chatRoomId;
+        ////    var chatRoom = _context.ChatRooms.Find(chatRoomId);
+        ////    if (chatRoom == null)
+        ////    {
+        ////        return HttpNotFound("Chat room not found.");
+        ////    }
 
-            ViewBag.PatientId = chatRoom.Patient_ID;
+        ////    ViewBag.PatientId = chatRoom.Patient_ID;
 
-            return View();
-        }
+        ////    return View();
+        ////}
 
-        // Process the payment (this could be integrated with PayPal, Stripe, etc.)
+        ////// Process the payment (this could be integrated with PayPal, Stripe, etc.)
+        ////[HttpPost]
+        ////public ActionResult ProcessPayment(int patientId)
+        ////{
+        ////    var patient = _context.Patients.Find(patientId);
+        ////    if (patient != null)
+        ////    {
+        ////        // Update the payment status to "Paid"
+        ////        patient.PaymentStatus = "Paid";
+        ////        _context.SaveChanges();
+        ////    }
+
+        ////    // After payment, redirect back to the chat room
+        ////    var chatRoomId = _context.ChatRooms.FirstOrDefault(cr => cr.Patient_ID == patientId)?.ChatRoom_ID;
+        ////    if (chatRoomId.HasValue)
+        ////    {
+        ////        return RedirectToAction("Chat", new { chatRoomId = chatRoomId.Value });
+        ////    }
+
+        ////    return RedirectToAction("Index", "Home"); // If no chat room, redirect to home
+        ////}
+
+
         [HttpPost]
         public ActionResult ProcessPayment(int patientId)
         {
             var patient = _context.Patients.Find(patientId);
-            if (patient != null)
+            if (patient == null)
             {
-                // Update the payment status to "Paid"
-                patient.PaymentStatus = "Paid";
-                _context.SaveChanges();
+                return HttpNotFound();
             }
 
-            // After payment, redirect back to the chat room
+            // Define redirect URLs
+            string redirectUrl = Url.Action("PaymentSuccess", "Chat", new { patientId }, protocol: Request.Url.Scheme);
+            string cancelUrl = Url.Action("PaymentCancel", "Chat", new { patientId }, protocol: Request.Url.Scheme);
+
+            // Create PayPal payment
+            var payment = PayPalHelper.CreatePayment(redirectUrl, cancelUrl, 50.00m); // Amount can be dynamic
+
+            // Get the PayPal redirect URL and redirect the user
+            var redirect = payment.links.FirstOrDefault(link => link.rel.ToLower().Trim().Equals("approval_url"));
+            if (redirect == null)
+            {
+                return View("Error");
+            }
+
+            return Redirect(redirect.href);
+        }
+
+        // PayPal redirects here after the payment is approved by the user
+        public ActionResult PaymentSuccess(string paymentId, string token, string PayerID, int patientId)
+        {
+            var executedPayment = PayPalHelper.ExecutePayment(paymentId, PayerID);
+
+            if (executedPayment.state.ToLower() != "approved")
+            {
+                return View("Error");
+            }
+
+            // Update the patient's payment status to "Paid"
+            var patient = _context.Patients.Find(patientId);
+            patient.PaymentStatus = "Paid";
+            _context.SaveChanges();
+
+            // After successful payment, redirect to the chat room
             var chatRoomId = _context.ChatRooms.FirstOrDefault(cr => cr.Patient_ID == patientId)?.ChatRoom_ID;
             if (chatRoomId.HasValue)
             {
-                return RedirectToAction("Chat", new { chatRoomId = chatRoomId.Value });
+                return RedirectToAction("Chat2", "Chat", new { chatRoomId = chatRoomId.Value });
             }
 
-            return RedirectToAction("Index", "Home"); // If no chat room, redirect to home
+            return RedirectToAction("Index", "Home");
         }
+
+        // Payment was canceled
+        public ActionResult PaymentCancel(int patientId)
+        {
+            // Handle canceled payment logic here
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Create a chat room between a patient and lab tech (if it doesn't exist already)
         [HttpPost]
@@ -205,12 +298,12 @@ namespace MasterPiece.Controllers
                 _context.ChatRooms.Add(chatRoom);
                 _context.SaveChanges();
 
-                return RedirectToAction("Chat", new { chatRoomId = chatRoom.ChatRoom_ID });
+                return RedirectToAction("Chat2", new { chatRoomId = chatRoom.ChatRoom_ID });
             }
             else
             {
                 // If a room already exists, redirect to that room
-                return RedirectToAction("Chat", new { chatRoomId = existingRoom.ChatRoom_ID });
+                return RedirectToAction("Chat2", new { chatRoomId = existingRoom.ChatRoom_ID});
             }
         }
 
@@ -228,7 +321,6 @@ namespace MasterPiece.Controllers
         // List all chat rooms for a particular lab tech (for lab tech view)
         public ActionResult LabTechChatRooms(int labTechId)
         {
-            labTechId = 1;
 
             var chatRooms = _context.ChatRooms
                 .Where(cr => cr.LabTech_ID == labTechId)
@@ -249,6 +341,12 @@ namespace MasterPiece.Controllers
                 .ToList();
 
             return PartialView("_ChatMessagesPartial", messages); // Return the partial view with updated messages
+        }
+
+        public ActionResult GetChatRooms()
+        {
+            var chatRooms = _context.ChatRooms.ToList();
+            return PartialView("_ChatRoomDoctor", chatRooms);
         }
     }
 }

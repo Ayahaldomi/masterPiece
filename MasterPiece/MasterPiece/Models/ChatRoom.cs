@@ -24,6 +24,7 @@ namespace MasterPiece.Models
         public Nullable<int> LabTech_ID { get; set; }
         public Nullable<int> Patient_ID { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
+        public Nullable<bool> hasUnreadMessages { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }

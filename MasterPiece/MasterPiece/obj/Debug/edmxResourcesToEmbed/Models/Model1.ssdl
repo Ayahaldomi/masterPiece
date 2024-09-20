@@ -44,6 +44,7 @@
     <Property Name="LabTech_ID" Type="int" />
     <Property Name="Patient_ID" Type="int" />
     <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="hasUnreadMessages" Type="bit" />
   </EntityType>
   <EntityType Name="Contact">
     <Key>

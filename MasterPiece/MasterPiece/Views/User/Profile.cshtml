@@ -60,9 +60,17 @@
                         <div class="d-flex justify-content-center mb-2">
                             <a href="@Url.Action("ProfileEdit", "User", new {id = user.Patient_ID})"> <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary">View Profile</button> </a>
                         </div>
+                        <div class="d-flex justify-content-center mb-2">
+                            @using (Html.BeginForm("CreateChatRoom", "Chat", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.Hidden("labTechId", 1)
+                                @Html.Hidden("patientId", user.Patient_ID)
+                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary">Chat With A Doctor</button>
+                            }
+                        </div>
                         <p class="text-center">
                             <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#createFeedbackModal">
-                                 Give Us Your Feedback
+                                Give Us Your Feedback
                             </button>
                         </p>
                     </div>
@@ -96,7 +104,7 @@
                                             }
                                         </td>
                                         <td>@s.Date</td>
-                                        <td><a href="@Url.Action("DownloadPdf", "Patients")"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-secondary">Download Results As PDF</button></a></td>
+                                        <td><a href="@Url.Action("DownloadPdf", "Patients")" target="_blank"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-secondary">Download Results As PDF</button></a></td>
                                     </tr>
                                 }
                             </tbody>

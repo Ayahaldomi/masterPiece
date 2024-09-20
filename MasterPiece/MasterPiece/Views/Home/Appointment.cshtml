@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<MasterPiece.Models.Test>
 
 <style>
     @@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
@@ -379,292 +379,302 @@
 
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-
-<div class="wrapper">
-    <div class="header">
-        <ul>
-            <li class="active form_1_progessbar">
-                <div>
-                    <p>1</p>
-                </div>
-            </li>
-            <li class="form_2_progessbar">
-                <div>
-                    <p>2</p>
-                </div>
-            </li>
-            <li class="form_3_progessbar">
-                <div>
-                    <p>3</p>
-                </div>
-            </li>
-            <li class="form_4_progessbar">
-                <div>
-                    <p>4</p>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="form_wrap">
-        <div class="form_1 data_info">
-            <h2>Personal Information</h2>
-
-            <div class="form_container">
-                <div class="input_wrap">
-                    <label for="email">Full Name</label>
-                    <input type="text" name="Email Address" class="input" id="email">
-                </div>
-                <div class="input_wrap">
-                    <label for="password">Date of Birth</label>
-                    <input type="date" name="password" class="input" id="password">
-                </div>
-                <div class="input_wrap">
-                    <label for="confirm_password">Gender</label>
-                    @*<input type="password" name="confirm password" class="input" id="confirm_password">*@
-                    <select class="input" id="gender" name="gender" required>
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
-            </div>
-
+<form id="appointmentForm" action="/Home/CreateAppointment" method="post">
+    <div class="wrapper">
+        <div class="header">
+            <ul>
+                <li class="active form_1_progessbar">
+                    <div>
+                        <p>1</p>
+                    </div>
+                </li>
+                <li class="form_2_progessbar">
+                    <div>
+                        <p>2</p>
+                    </div>
+                </li>
+                <li class="form_3_progessbar">
+                    <div>
+                        <p>3</p>
+                    </div>
+                </li>
+                <li class="form_4_progessbar">
+                    <div>
+                        <p>4</p>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div class="form_2 data_info" style="display: none;">
-            <h2>Contact Information</h2>
+        <div class="form_wrap">
+            <div class="form_1 data_info">
+                <h2>Personal Information</h2>
 
-            <div class="form_container">
-                <div class="input_wrap">
-                    <label for="user_name">Email Address</label>
-                    <input type="email" name="User Name" class="input" id="user_name">
-                </div>
-                <div class="input_wrap">
-                    <label for="first_name">Phone Number</label>
-                    <input type="number" name="First Name" class="input" id="first_name">
-                </div>
-                <div class="input_wrap">
-                    <label for="last_name">Home Address</label>
-                    <input type="text" name="Last Name" class="input" id="last_name">
-                </div>
-            </div>
-
-        </div>
-        <div class="form_3 data_info" style="display: none;">
-            <h2>Appointment Date And Tests</h2>
-
-            <div class="form_container">
-                <div class="input_wrap">
-                    <label for="preferred_date">Preferred Date and Time</label>
-                    <input type="date" name="preferred_date" class="input" id="preferred_date" min="">
-                </div>
-
-                <!-- Custom time button will be added here -->
-                <div id="time_buttons" style="display:none;">
-                    <button class="time-btn" data-time="8:00am">8:00 AM</button>
-                    <button class="time-btn" data-time="10:00am">10:00 AM</button>
-                    <button class="time-btn" data-time="12:00pm">12:00 PM</button>
-                    <button class="time-btn" data-time="2:00pm">2:00 PM</button>
-                    <button class="time-btn" data-time="4:00pm">4:00 PM</button>
-                    <!-- Custom Time Button -->
-                    <button id="custom_time_btn" class="time-btn" data-time="custom">Custom Time (Additional Charge)</button>
-                    <!-- Hidden input for custom time selection -->
-                    <input type="time" id="custom_time_input" style="display:none;" />
-                </div>
-
-                <!-- Display chosen time -->
-                <p id="chosen_time" style="display:none;">Selected Time: <span id="time_value"></span></p>
-
-                <!-- Display additional charge when custom time is selected -->
-                <p id="additional_charge" style="display:none;">Additional Charge: $20</p>
-
-                <div class="dropdown">
-                    <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
-                    <div id="dropdownItems" class="dropdown-content">
-                        <a href="#" data-price="50" onclick="addTestToTable('CBC', 8)">CBC</a>
-                        <a href="#" data-price="100" onclick="addTestToTable('TSH', 10)">TSH</a>
-                        <a href="#" data-price="20" onclick="addTestToTable('Urine Analysis', 4)">Urine Analysis</a>
-                        <a href="#" data-price="150" onclick="addTestToTable('Iron', 5)">Iron</a>
-                        <a href="#" data-price="200" onclick="addTestToTable('Fasting Blood Suger', 4)">Fasting Blood Suger</a>
-                        <a href="#" data-price="80" onclick="addTestToTable('H1AC', 10)">H1AC</a>
+                <div class="form_container">
+                    <div class="input_wrap">
+                        <label for="email">Full Name</label>
+                        <input type="text" name="Full_Name" class="input" id="email">
+                    </div>
+                    <div class="input_wrap">
+                        <label for="password">Date of Birth</label>
+                        <input type="date" name="Date_Of_Birth" class="input" id="password">
+                    </div>
+                    <div class="input_wrap">
+                        <label for="confirm_password">Gender</label>
+                        @*<input type="password" name="confirm password" class="input" id="confirm_password">*@
+                        <select class="input" id="gender" name="Gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
                     </div>
                 </div>
 
-                <!-- Table to display selected tests -->
-                <table id="selectedTestsTable" class="test-table">
-                    <thead>
-                        <tr>
-                            <th>Test Name</th>
-                            <th>Price ($)</th>
-                            <th>Action</th> <!-- New "Action" column for remove button -->
-                        </tr>
-                    </thead>
-                    <tbody id="testTableBody">
-                        <!-- Selected tests will appear here -->
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Total</th>
-                            <th id="totalPrice">$0</th>
-                            <th></th> <!-- Empty cell for alignment -->
-                        </tr>
-                    </tfoot>
-                </table>
-
-
-
             </div>
+            <div class="form_2 data_info" style="display: none;">
+                <h2>Contact Information</h2>
 
-        </div>
-        <div class="form_4 data_info" style="display: none;">
-            <h2 class="text-center mb-4">Payment Method</h2>
-
-            <div class="form_container">
-                <div class="form-group">
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentMethod" id="cash" value="Cash" onclick="togglePaymentDetails(false)" checked>
-                        <label class="form-check-label" for="cash">Cash</label>
+                <div class="form_container">
+                    <div class="input_wrap">
+                        <label for="user_name">Email Address</label>
+                        <input type="email" name="Email_Address" class="input" id="user_name">
                     </div>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="PayPal" onclick="togglePaymentDetails(true)">
-                        <label class="form-check-label" for="paypal">PayPal</label>
+                    <div class="input_wrap">
+                        <label for="first_name">Phone Number</label>
+                        <input type="number" name="Phone_Number" class="input" id="first_name">
+                    </div>
+                    <div class="input_wrap">
+                        <label for="last_name">Home Address</label>
+                        <input type="text" name="Home_Address" class="input" id="last_name">
                     </div>
                 </div>
 
-                <!-- PayPal-specific details (hidden initially) -->
-                <div class="form-group" id="paypalDetails" style="display: none;">
-                    <label for="paypalEmail" class="form-label">PayPal Email</label>
-                    <input type="email" name="paypalEmail" class="form-control" id="paypalEmail" placeholder="Enter your PayPal email">
+            </div>
+            <div class="form_3 data_info" style="display: none;">
+                <h2>Appointment Date And Tests</h2>
+
+                <div class="form_container">
+                    <div class="input_wrap">
+                        <label for="preferred_date">Preferred Date and Time</label>
+                        <input type="date" name="preferred_date" class="input" id="preferred_date" min="">
+                    </div>
+
+                    <!-- Custom time button will be added here -->
+                    <div id="time_buttons" style="display:none;">
+                        <button type="button" class="time-btn" data-time="08:00">8:00 AM</button>
+                        <button type="button" class="time-btn" data-time="10:00">10:00 AM</button>
+                        <button type="button" class="time-btn" data-time="12:00">12:00 PM</button>
+                        <button type="button" class="time-btn" data-time="14:00">2:00 PM</button>
+                        <button type="button" class="time-btn" data-time="16:00">4:00 PM</button>
+                        <!-- Custom Time Button -->
+                        <button type="button" id="custom_time_btn" class="time-btn" data-time="custom">Custom Time (Additional Charge)</button>
+                        <!-- Hidden input for custom time selection -->
+                        <input type="time" id="custom_time_input" style="display:none;" />
+                    </div>
+
+                    <!-- Hidden input to store the final combined date and time -->
+                    <input type="hidden" id="dateOfAppointment" name="Date_Of_Appo" />
+
+                    <!-- Display chosen time -->
+                    <p id="chosen_time" style="display:none;">Selected Time: <span id="time_value"></span></p>
+
+                    <!-- Display additional charge when custom time is selected -->
+                    <p id="additional_charge" style="display:none;">Additional Charge: $20</p>
+
+                    <div class="dropdown">
+                        <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
+                        <div id="dropdownItems" class="dropdown-content">
+                            @foreach (var test in Model)
+                            {
+                                <a href="#" data-price="@test.Price" onclick="addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID)" title="@test.Description">@test.Test_Name</a>
+                            }
+
+                        </div>
+                    </div>
+
+                    <!-- Table to display selected tests -->
+                    <table id="selectedTestsTable" class="test-table">
+                        <thead>
+                            <tr>
+                                <th>Test Name</th>
+                                <th>Price ($)</th>
+                                <th>Action</th> <!-- New "Action" column for remove button -->
+                            </tr>
+                        </thead>
+                        <tbody id="testTableBody">
+                            <!-- Selected tests will appear here -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th id="totalPrice">$0
+                                @*<input type="hidden" name="Total_price" id="Total_price" />*@
+                                </th>
+                                <th></th> <!-- Empty cell for alignment -->
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <input name="Total_price" type="hidden" value="0" id="Total_price"/>
+
+                    <!-- Hidden inputs for selected tests -->
+                    <div id="selectedTestsInputs"></div>
+
+
+                </div>
+
+            </div>
+            <div class="form_4 data_info" style="display: none;">
+                <h2 class="text-center mb-4">Payment Method</h2>
+
+                <div class="form_container">
+                    <div class="form-group">
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Amount_paid" id="cash" value="0" onclick="togglePaymentDetails(false)" checked>
+                            <label class="form-check-label" for="cash">Cash</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Amount_paid" id="paypal" value="0" onclick="togglePaymentDetails(true)">
+                            <label class="form-check-label" for="paypal">PayPal</label>
+                        </div>
+                    </div>
+
+                    <!-- PayPal-specific details (hidden initially) -->
+                    <div class="form-group" id="paypalDetails" style="display: none;">
+                        <label for="paypalEmail" class="form-label">PayPal Email</label>
+                        <input type="email" name="paypalEmail" class="form-control" id="paypalEmail" placeholder="Enter your PayPal email">
+                    </div>
                 </div>
             </div>
+
+
         </div>
-
-
+        <div class="btns_wrap">
+            <div class="common_btns form_1_btns">
+                <button type="button" class="btn_next">Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
+            </div>
+            <div class="common_btns form_2_btns" style="display: none;">
+                <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
+                <button type="button" class="btn_next">Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
+            </div>
+            <div class="common_btns form_3_btns" style="display: none;">
+                <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
+                <button type="button" class="btn_next">Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
+            </div>
+            <div class="common_btns form_4_btns" style="display: none;">
+                <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
+                <button type="submit" class="btn_done">Done</button>
+            </div>
+        </div>
     </div>
-    <div class="btns_wrap">
-        <div class="common_btns form_1_btns">
-            <button type="button" class="btn_next">Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
-        </div>
-        <div class="common_btns form_2_btns" style="display: none;">
-            <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
-            <button type="button" class="btn_next">Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
-        </div>
-        <div class="common_btns form_3_btns" style="display: none;">
-            <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
-            <button type="button" class="btn_next">Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
-        </div>
-        <div class="common_btns form_4_btns" style="display: none;">
-            <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
-            <button type="button" class="btn_done">Done</button>
+    </form>
+    
+
+    <div class="modal_wrapper">
+        <div class="shadow"></div>
+        <div class="success_wrap">
+            <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span>
+            <p>You have successfully completed the process.</p>
         </div>
     </div>
-</div>
 
-<div class="modal_wrapper">
-    <div class="shadow"></div>
-    <div class="success_wrap">
-        <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span>
-        <p>You have successfully completed the process.</p>
-    </div>
-</div>
-
-<script>
-    var form_1 = document.querySelector(".form_1");
-    var form_2 = document.querySelector(".form_2");
-    var form_3 = document.querySelector(".form_3");
-    var form_4 = document.querySelector(".form_4");
+    <script>
+        var form_1 = document.querySelector(".form_1");
+        var form_2 = document.querySelector(".form_2");
+        var form_3 = document.querySelector(".form_3");
+        var form_4 = document.querySelector(".form_4");
 
 
-    var form_1_btns = document.querySelector(".form_1_btns");
-    var form_2_btns = document.querySelector(".form_2_btns");
-    var form_3_btns = document.querySelector(".form_3_btns");
-    var form_4_btns = document.querySelector(".form_4_btns");
+        var form_1_btns = document.querySelector(".form_1_btns");
+        var form_2_btns = document.querySelector(".form_2_btns");
+        var form_3_btns = document.querySelector(".form_3_btns");
+        var form_4_btns = document.querySelector(".form_4_btns");
 
 
-    var form_1_next_btn = document.querySelector(".form_1_btns .btn_next");
-    var form_2_back_btn = document.querySelector(".form_2_btns .btn_back");
-    var form_2_next_btn = document.querySelector(".form_2_btns .btn_next");
-    var form_3_back_btn = document.querySelector(".form_3_btns .btn_back");
-    var form_3_next_btn = document.querySelector(".form_3_btns .btn_next");
-    var form_4_back_btn = document.querySelector(".form_4_btns .btn_back");
+        var form_1_next_btn = document.querySelector(".form_1_btns .btn_next");
+        var form_2_back_btn = document.querySelector(".form_2_btns .btn_back");
+        var form_2_next_btn = document.querySelector(".form_2_btns .btn_next");
+        var form_3_back_btn = document.querySelector(".form_3_btns .btn_back");
+        var form_3_next_btn = document.querySelector(".form_3_btns .btn_next");
+        var form_4_back_btn = document.querySelector(".form_4_btns .btn_back");
 
-    var form_2_progessbar = document.querySelector(".form_2_progessbar");
-    var form_3_progessbar = document.querySelector(".form_3_progessbar");
-    var form_4_progessbar = document.querySelector(".form_4_progessbar");
+        var form_2_progessbar = document.querySelector(".form_2_progessbar");
+        var form_3_progessbar = document.querySelector(".form_3_progessbar");
+        var form_4_progessbar = document.querySelector(".form_4_progessbar");
 
-    var btn_done = document.querySelector(".btn_done");
-    var modal_wrapper = document.querySelector(".modal_wrapper");
-    var shadow = document.querySelector(".shadow");
+        var btn_done = document.querySelector(".btn_done");
+        var modal_wrapper = document.querySelector(".modal_wrapper");
+        var shadow = document.querySelector(".shadow");
 
-    form_1_next_btn.addEventListener("click", function () {
-        form_1.style.display = "none";
-        form_2.style.display = "block";
+        form_1_next_btn.addEventListener("click", function () {
+            form_1.style.display = "none";
+            form_2.style.display = "block";
 
-        form_1_btns.style.display = "none";
-        form_2_btns.style.display = "flex";
+            form_1_btns.style.display = "none";
+            form_2_btns.style.display = "flex";
 
-        form_2_progessbar.classList.add("active");
-    });
+            form_2_progessbar.classList.add("active");
+        });
 
-    form_2_back_btn.addEventListener("click", function () {
-        form_1.style.display = "block";
-        form_2.style.display = "none";
+        form_2_back_btn.addEventListener("click", function () {
+            form_1.style.display = "block";
+            form_2.style.display = "none";
 
-        form_1_btns.style.display = "flex";
-        form_2_btns.style.display = "none";
+            form_1_btns.style.display = "flex";
+            form_2_btns.style.display = "none";
 
-        form_2_progessbar.classList.remove("active");
-    });
+            form_2_progessbar.classList.remove("active");
+        });
 
-    form_2_next_btn.addEventListener("click", function () {
-        form_2.style.display = "none";
-        form_3.style.display = "block";
+        form_2_next_btn.addEventListener("click", function () {
+            form_2.style.display = "none";
+            form_3.style.display = "block";
 
-        form_3_btns.style.display = "flex";
-        form_2_btns.style.display = "none";
+            form_3_btns.style.display = "flex";
+            form_2_btns.style.display = "none";
 
-        form_3_progessbar.classList.add("active");
-    });
-    form_3_back_btn.addEventListener("click", function () {
-        form_2.style.display = "block";
-        form_3.style.display = "none";
+            form_3_progessbar.classList.add("active");
+        });
+        form_3_back_btn.addEventListener("click", function () {
+            form_2.style.display = "block";
+            form_3.style.display = "none";
 
-        form_2_btns.style.display = "flex";
-        form_3_btns.style.display = "none";
+            form_2_btns.style.display = "flex";
+            form_3_btns.style.display = "none";
 
-        form_3_progessbar.classList.remove("active");
-    });
+            form_3_progessbar.classList.remove("active");
+        });
 
-    form_3_next_btn.addEventListener("click", function () {
-        form_3.style.display = "none";
-        form_4.style.display = "block";
+        form_3_next_btn.addEventListener("click", function () {
+            form_3.style.display = "none";
+            form_4.style.display = "block";
 
-        form_4_btns.style.display = "flex";
-        form_3_btns.style.display = "none";
+            form_4_btns.style.display = "flex";
+            form_3_btns.style.display = "none";
 
-        form_4_progessbar.classList.add("active");
-    });
+            form_4_progessbar.classList.add("active");
+        });
 
-    form_4_back_btn.addEventListener("click", function () {
-        form_3.style.display = "block";
-        form_4.style.display = "none";
+        form_4_back_btn.addEventListener("click", function () {
+            form_3.style.display = "block";
+            form_4.style.display = "none";
 
-        form_4_btns.style.display = "none";
-        form_3_btns.style.display = "flex";
+            form_4_btns.style.display = "none";
+            form_3_btns.style.display = "flex";
 
-        form_4_progessbar.classList.remove("active");
-    });
+            form_4_progessbar.classList.remove("active");
+        });
 
-    btn_done.addEventListener("click", function () {
-        modal_wrapper.classList.add("active");
-    })
+        btn_done.addEventListener("click", function () {
+            modal_wrapper.classList.add("active");
+        })
 
-    shadow.addEventListener("click", function () {
-        modal_wrapper.classList.remove("active");
-    })
-</script>
+        shadow.addEventListener("click", function () {
+            modal_wrapper.classList.remove("active");
+        })
+    </script>
 
+    
 <script>
     // Function to filter dropdown items
     function filterFunction() {
@@ -683,56 +693,60 @@
         }
     }
 
-
     // Custom time charge amount
-        const customTimeCharge = 20;
-        let customTimeSelected = false;
+    const customTimeCharge = 20;
+    let customTimeSelected = false;
 
     // Handle time button clicks
     document.querySelectorAll('.time-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const selectedTime = this.getAttribute('data-time');
-                if (selectedTime === 'custom') {
-                    // Show the custom time picker when custom time button is clicked
-                    document.getElementById('custom_time_input').style.display = 'inline';
-                    document.getElementById('chosen_time').style.display = 'none'; // Hide until custom time is chosen
-                } else {
-                    // Hide custom time input and additional charge, show the selected time
-                    document.getElementById('custom_time_input').style.display = 'none';
-                    document.getElementById('additional_charge').style.display = 'none';
-                    document.getElementById('chosen_time').style.display = 'block';
-                    document.getElementById('time_value').textContent = selectedTime;
-                    customTimeSelected = false; // Reset custom time flag
-                    updateTotalPrice();
-                }
-            });
+        button.addEventListener('click', function () {
+            const selectedTime = this.getAttribute('data-time');
+
+            if (selectedTime === 'custom') {
+                // Show the custom time picker when custom time button is clicked
+                document.getElementById('custom_time_input').style.display = 'inline';
+                document.getElementById('chosen_time').style.display = 'none'; // Hide until custom time is chosen
+            } else {
+                // Hide custom time input and additional charge, show the selected time
+                document.getElementById('custom_time_input').style.display = 'none';
+                document.getElementById('additional_charge').style.display = 'none';
+                document.getElementById('chosen_time').style.display = 'block';
+                document.getElementById('time_value').textContent = selectedTime;
+                customTimeSelected = false; // Reset custom time flag
+                updateTotalPrice();
+            }
+        });
     });
 
-        // Listen for changes in the custom time picker
-        document.getElementById('custom_time_input').addEventListener('change', function () {
+    // Listen for changes in the custom time picker
+    document.getElementById('custom_time_input').addEventListener('change', function () {
         const customTime = this.value;
         if (customTime) {
             // Display the custom time and additional charge
             document.getElementById('chosen_time').style.display = 'block';
-        document.getElementById('time_value').textContent = customTime;
-        document.getElementById('additional_charge').style.display = 'block';
-        customTimeSelected = true;
-        updateTotalPrice(); // Update total with additional charge
+            document.getElementById('time_value').textContent = customTime;
+            document.getElementById('additional_charge').style.display = 'block';
+            customTimeSelected = true;
+            updateTotalPrice(); // Update total with additional charge
         }
     });
 
-        // Function to update the total price
-        function updateTotalPrice() {
-            let tableBody = document.getElementById("testTableBody");
+    // Function to update the total price
+    function updateTotalPrice() {
+        // Always refresh the reference to the elements
+        let tableBody = document.getElementById("testTableBody");
         let totalPriceElement = document.getElementById("totalPrice");
+        let totalPriceInput = document.getElementById("Total_price"); // Ensure correct reference
+        let paypal = document.getElementById("paypal");
+
         let total = 0;
 
         // Loop through the table rows and sum the prices
         let rows = tableBody.getElementsByTagName("tr");
         for (let i = 0; i < rows.length; i++) {
             let priceText = rows[i].getElementsByTagName("td")[1].textContent;
-        let price = parseFloat(priceText.replace("$", ""));
-        total += price;
+            let price = parseFloat(priceText.replace("$", ""));
+            total += price;
         }
 
         // Add additional charge for custom time if selected
@@ -742,19 +756,34 @@
 
         // Update the total price in the table footer
         totalPriceElement.textContent = "$" + total;
+
+        // Update the hidden input for form submission
+        if (totalPriceInput) {
+            totalPriceInput.value = parseFloat(total);
+        }
+
+        // If PayPal, update the hidden PayPal input too
+        if (paypal) {
+            paypal.value = total;
+        }
+
+        console.log("Total Price Updated:", total); // Debugging log
     }
 
-        // Function to add the selected test and price to the table
-        function addTestToTable(testName, price) {
-            let tableBody = document.getElementById("testTableBody");
+
+    let selectedTestsCounter = 0; // To index the selected tests
+
+    // Function to add the selected test and price to the table
+    function addTestToTable(testName, price, testId) {
+        let tableBody = document.getElementById("testTableBody");
 
         // Check if the test is already in the table (avoid duplicates)
         let existingRows = tableBody.getElementsByTagName("tr");
         for (let i = 0; i < existingRows.length; i++) {
             let existingTest = existingRows[i].getElementsByTagName("td")[0].textContent;
-        if (existingTest === testName) {
-            alert('This test is already added!');
-        return; // Exit if test is already added
+            if (existingTest === testName) {
+                alert('This test is already added!');
+                return; // Exit if test is already added
             }
         }
 
@@ -775,7 +804,7 @@
         removeBtn.classList.add("remove-btn");
         removeBtn.textContent = "Remove";
         removeBtn.onclick = function () {
-            removeTestFromTable(newRow); // Call the remove function
+            removeTestFromTable(newRow, testId); // Call the remove function
         };
         actionCell.appendChild(removeBtn);
 
@@ -787,47 +816,64 @@
         // Append the new row to the table body
         tableBody.appendChild(newRow);
 
+        // Add a hidden input for the selected test
+        let selectedTestsDiv = document.getElementById("selectedTestsInputs");
+        let hiddenTestInput = document.createElement("input");
+        hiddenTestInput.type = "hidden";
+        hiddenTestInput.name = `SelectedTests[${selectedTestsCounter}].Test_ID`; // Bind to SelectedTests in the model
+        hiddenTestInput.value = testId;
+        selectedTestsDiv.appendChild(hiddenTestInput);
+
+        selectedTestsCounter++; // Increment the counter
+
         // Update the total price
         updateTotalPrice();
     }
 
-        // Function to remove a test from the table
-        function removeTestFromTable(row) {
-            let tableBody = document.getElementById("testTableBody");
+    // Function to remove a test from the table
+    function removeTestFromTable(row, testId) {
+        let tableBody = document.getElementById("testTableBody");
         tableBody.removeChild(row); // Remove the row from the table
+
+        // Remove the hidden input for the test
+        let selectedTestsDiv = document.getElementById("selectedTestsInputs");
+        let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            if (hiddenInputs[i].value == testId) {
+                selectedTestsDiv.removeChild(hiddenInputs[i]);
+                break;
+            }
+        }
 
         // Update the total price after removal
         updateTotalPrice();
     }
-</script>
 
-<script>
+    // Function to handle payment details toggle
     function togglePaymentDetails(isPayPal) {
-    const paypalDetails = document.getElementById("paypalDetails");
+        const paypalDetails = document.getElementById("paypalDetails");
 
-    if (isPayPal) {
-        paypalDetails.style.display = "block"; // Show PayPal details if PayPal is selected
-    } else {
-        paypalDetails.style.display = "none";  // Hide PayPal details if Cash is selected
+        if (isPayPal) {
+            paypalDetails.style.display = "block"; // Show PayPal details if PayPal is selected
+        } else {
+            paypalDetails.style.display = "none";  // Hide PayPal details if Cash is selected
+        }
     }
-}
-</script>
 
-<script>
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().split('T')[0];
-    // Set the min attribute to today
+    // Set the min attribute to today for the preferred date input
     document.getElementById('preferred_date').setAttribute('min', today);
-</script>
 
-<script>
+    // Show time buttons when date is selected
     document.getElementById('preferred_date').addEventListener('change', function () {
         // Show the time buttons once a date is selected
         document.getElementById('time_buttons').style.display = 'flex';
-});
+    });
 
+    // Handle time selection buttons
     const timeButtons = document.querySelectorAll('.time-btn');
-timeButtons.forEach(button => {
+    timeButtons.forEach(button => {
         button.addEventListener('click', function () {
             // Remove 'selected' class from all buttons
             timeButtons.forEach(btn => btn.classList.remove('selected'));
@@ -838,7 +884,27 @@ timeButtons.forEach(button => {
             document.getElementById('chosen_time').style.display = 'block';
             document.getElementById('time_value').innerText = this.getAttribute('data-time');
         });
-});
+    });
+
+    document.getElementById('appointmentForm').addEventListener('submit', function (event) {
+        // Get the selected date
+        const selectedDate = document.getElementById('preferred_date').value;
+
+        // Get the selected time
+        const selectedTime = document.getElementById('time_value').innerText; // Should be in "HH:MM" format
+
+        // Combine the date and time into a single DateTime string
+        const combinedDateTime = selectedDate + "T" + selectedTime;
+
+        // Set the combined DateTime value in the hidden input
+        document.getElementById('dateOfAppointment').value = combinedDateTime;
+
+        // Update the hidden total price input before form submission
+        document.getElementById('Total_price').value = document.getElementById('totalPrice').textContent.replace('$', '');
+
+        console.log("Submitting Total Price:", document.getElementById('Total_price').value); // Debugging log
+    });
+
 
 </script>
 

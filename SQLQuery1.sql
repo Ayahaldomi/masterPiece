@@ -157,6 +157,8 @@ CREATE TABLE ChatMessages (
     SentAt DATETIME DEFAULT GETDATE(),
     SenderType NVARCHAR(MAX) -- 'Patient' or 'LabTech'
 );
+ALTER TABLE ChatRooms
+ADD hasUnreadMessages BIT DEFAULT 0; -- 0 = No unread messages, 1 = Unread messages exist
 
 
 
@@ -226,3 +228,53 @@ VALUES (1, 'Great service! Really satisfied with the care provided.', 'Approved'
 -- Insert 2nd record into Feedback table
 INSERT INTO Feedback (Patient_ID, Message, Status)
 VALUES (2, 'The appointment scheduling process needs improvement.', 'Pending');
+
+
+-- Insert a chat room between the first lab tech and the first patient
+INSERT INTO ChatRooms (LabTech_ID, Patient_ID, CreatedAt)
+VALUES (1, 1, GETDATE()); -- Assuming the first lab tech (ID = 1) and first patient (ID = 1)
+
+-- Insert another chat room between the second lab tech and the second patient
+INSERT INTO ChatRooms (LabTech_ID, Patient_ID, CreatedAt)
+VALUES (2, 2, GETDATE()); -- Assuming the second lab tech (ID = 2) and second patient (ID = 2)
+
+-- Insert messages for the first chat room
+INSERT INTO ChatMessages (ChatRoom_ID, SenderId, MessageText, SentAt, SenderType)
+VALUES (1, 1, 'Hello Dr. Brown, I have a question about my lab results.', GETDATE(), 'Patient');
+
+INSERT INTO ChatMessages (ChatRoom_ID, SenderId, MessageText, SentAt, SenderType)
+VALUES (1, 1, 'Could you please explain the findings?', GETDATE(), 'Patient');
+
+-- Insert messages for the second chat room
+INSERT INTO ChatMessages (ChatRoom_ID, SenderId, MessageText, SentAt, SenderType)
+VALUES (2, 2, 'Hello Dr. White, I would like to schedule a follow-up appointment.', GETDATE(), 'Patient');
+
+INSERT INTO ChatMessages (ChatRoom_ID, SenderId, MessageText, SentAt, SenderType)
+VALUES (2, 2, 'Can you check my recent lab results?', GETDATE(), 'Patient');
+
+
+
+
+-- Erythrocyte Sedimentation Rate (ESR)
+INSERT INTO Tests (Test_Name, Alternative_Name, Components, Normal_Range, Unit, Description, Price, Inventory, Sample_Type, Expiration_Date)
+VALUES ('Erythrocyte Sedimentation Rate', 'ESR', 'Sedimentation Rate', '0-20 mm/h', 'mm/h', 'A test that measures how quickly erythrocytes (red blood cells) settle at the bottom of a test tube.', 10.00, 100, 'Whole Blood', '2024-12-31');
+
+-- Random Blood Glucose, Serum
+INSERT INTO Tests (Test_Name, Alternative_Name, Components, Normal_Range, Unit, Description, Price, Inventory, Sample_Type, Expiration_Date)
+VALUES ('Random Blood Glucose, Serum', NULL, 'Glucose', '70-140 mg/dL', 'mg/dL', 'A test that measures glucose levels in the blood at any time of the day.', 12.00, 100, 'Serum', '2024-12-31');
+
+-- Calcium, Serum
+INSERT INTO Tests (Test_Name, Alternative_Name, Components, Normal_Range, Unit, Description, Price, Inventory, Sample_Type, Expiration_Date)
+VALUES ('Calcium, Serum', NULL, 'Calcium', '8.5-10.5 mg/dL', 'mg/dL', 'A test used to measure the amount of calcium in the blood.', 8.00, 100, 'Serum', '2024-12-31');
+
+-- Ferritin, Serum
+INSERT INTO Tests (Test_Name, Alternative_Name, Components, Normal_Range, Unit, Description, Price, Inventory, Sample_Type, Expiration_Date)
+VALUES ('Ferritin, Serum', NULL, 'Ferritin', '20-500 ng/mL', 'ng/mL', 'A test that measures the amount of ferritin, which helps store iron in the body.', 20.00, 100, 'Serum', '2024-12-31');
+
+-- Vitamin B12 (Cyanocobalamin), Serum
+INSERT INTO Tests (Test_Name, Alternative_Name, Components, Normal_Range, Unit, Description, Price, Inventory, Sample_Type, Expiration_Date)
+VALUES ('Vitamin B12 (Cyanocobalamin), Serum', 'Vitamin B12', 'Vitamin B12', '200-900 pg/mL', 'pg/mL', 'A test that measures the amount of Vitamin B12 in the blood.', 25.00, 100, 'Serum', '2024-12-31');
+
+-- Urine Analysis
+INSERT INTO Tests (Test_Name, Alternative_Name, Components, Normal_Range, Unit, Description, Price, Inventory, Sample_Type, Expiration_Date)
+VALUES ('Urine Analysis', 'UA', 'pH, Glucose, Protein, Ketones, Bilirubin, Urobilinogen, Nitrites, Leukocytes', 'Varies by component', 'Varies', 'A test that checks the appearance, concentration, and content of urine for abnormalities.', 10.00, 100, 'Urine', '2024-12-31');

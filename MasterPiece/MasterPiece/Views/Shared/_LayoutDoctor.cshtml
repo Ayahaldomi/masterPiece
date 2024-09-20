@@ -85,69 +85,69 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("ManagePatient", "Admin")" aria-expanded="false">
+                            <a class="sidebar-link" href="@Url.Action("Chat", "Chat", new { chatRoomId = 1 })" aria-expanded="false">
                                 <span>
                                     <i class="fa-solid fa-list-check"></i>
                                 </span>
-                                <span class="hide-menu">Manage patient</span>
+                                <span class="hide-menu">Patient Chat</span>
                             </a>
                         </li>
                         @*<li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("TestResults", "Admin")" aria-expanded="false">
-                                <span>
-                                    <i class="fa-solid fa-microscope"></i>
-                                </span>
-                                <span class="hide-menu">Test Results</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("InventoryManagement", "Admin")" aria-expanded="false">
-                                <span>
-                                    <i class="fa-solid fa-warehouse"></i>
-                                </span>
-                                <span class="hide-menu">Inventory Management</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("TestsDocumentation", "Admin")" aria-expanded="false">
-                                <span>
-                                    <i class="fa-solid fa-vials"></i>
-                                </span>
-                                <span class="hide-menu">Tests Documentation</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("Appointment", "Admin")" aria-expanded="false">
-                                <span>
-                                    <i class="fa-regular fa-calendar-check"></i>
-                                </span>
-                                <span class="hide-menu">Appointment</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("Employees", "Admin")" aria-expanded="false">
-                                <span>
-                                    <i class="fas fa-user "></i>
-                                </span>
-                                <span class="hide-menu">Employees</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("Packages", "Admin")" aria-expanded="false">
-                                <span>
-                                    <i class="fas fa-box "></i>
-                                </span>
-                                <span class="hide-menu">Packages</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("FeedBacks", "Admin")" aria-expanded="false">
-                                <span>
-                                    <i class="fas fa-comment-dots "></i>
-                                </span>
-                                <span class="hide-menu">FeedBacks</span>
-                            </a>
-                        </li>*@
+                                <a class="sidebar-link" href="@Url.Action("TestResults", "Admin")" aria-expanded="false">
+                                    <span>
+                                        <i class="fa-solid fa-microscope"></i>
+                                    </span>
+                                    <span class="hide-menu">Test Results</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("InventoryManagement", "Admin")" aria-expanded="false">
+                                    <span>
+                                        <i class="fa-solid fa-warehouse"></i>
+                                    </span>
+                                    <span class="hide-menu">Inventory Management</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("TestsDocumentation", "Admin")" aria-expanded="false">
+                                    <span>
+                                        <i class="fa-solid fa-vials"></i>
+                                    </span>
+                                    <span class="hide-menu">Tests Documentation</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("Appointment", "Admin")" aria-expanded="false">
+                                    <span>
+                                        <i class="fa-regular fa-calendar-check"></i>
+                                    </span>
+                                    <span class="hide-menu">Appointment</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("Employees", "Admin")" aria-expanded="false">
+                                    <span>
+                                        <i class="fas fa-user "></i>
+                                    </span>
+                                    <span class="hide-menu">Employees</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("Packages", "Admin")" aria-expanded="false">
+                                    <span>
+                                        <i class="fas fa-box "></i>
+                                    </span>
+                                    <span class="hide-menu">Packages</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("FeedBacks", "Admin")" aria-expanded="false">
+                                    <span>
+                                        <i class="fas fa-comment-dots "></i>
+                                    </span>
+                                    <span class="hide-menu">FeedBacks</span>
+                                </a>
+                            </li>*@
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -211,6 +211,8 @@
             </div>
         </div>
     </div>
+
+    @RenderSection("Scripts", required: false)
     <script src="~/myContent/assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="~/myContent/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/myContent/assets/js/sidebarmenu.js"></script>

@@ -107,3 +107,5 @@ C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\M
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Microsoft.Owin.Cors.dll
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\System.Web.Cors.dll
 C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\Microsoft.Owin.Cors.xml
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\PayPal.dll
+C:\Users\Orange\Desktop\masterPieceGit\masterPiece\MasterPiece\MasterPiece\bin\PayPal.xml

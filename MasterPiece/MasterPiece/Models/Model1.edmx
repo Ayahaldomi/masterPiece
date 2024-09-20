@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MasterPieceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MasterPieceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Appointments">
           <Key>
             <PropertyRef Name="ID" />
@@ -49,6 +49,7 @@
           <Property Name="LabTech_ID" Type="int" />
           <Property Name="Patient_ID" Type="int" />
           <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="hasUnreadMessages" Type="bit" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -362,8 +363,7 @@
             <End Role="Test_Order_Tests" EntitySet="Test_Order_Tests" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MasterPieceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -418,6 +418,7 @@
           <NavigationProperty Name="ChatMessages" Relationship="Self.FK__ChatMessa__ChatR__5BE2A6F2" FromRole="ChatRooms" ToRole="ChatMessages" />
           <NavigationProperty Name="Lab_Tech" Relationship="Self.FK__ChatRooms__LabTe__571DF1D5" FromRole="ChatRooms" ToRole="Lab_Tech" />
           <NavigationProperty Name="Patient" Relationship="Self.FK__ChatRooms__Patie__5812160E" FromRole="ChatRooms" ToRole="Patients" />
+          <Property Name="hasUnreadMessages" Type="Boolean" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -794,6 +795,7 @@
           <EntitySetMapping Name="ChatRooms">
             <EntityTypeMapping TypeName="MasterPieceModel.ChatRoom">
               <MappingFragment StoreEntitySet="ChatRooms">
+                <ScalarProperty Name="hasUnreadMessages" ColumnName="hasUnreadMessages" />
                 <ScalarProperty Name="ChatRoom_ID" ColumnName="ChatRoom_ID" />
                 <ScalarProperty Name="LabTech_ID" ColumnName="LabTech_ID" />
                 <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
