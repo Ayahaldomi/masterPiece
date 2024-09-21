@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+using System.IO;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace MasterPiece.Controllers
 {
@@ -13,9 +16,18 @@ namespace MasterPiece.Controllers
     {
         private MasterPieceEntities db = new MasterPieceEntities();
 
+
+
+        //////////////////////////////////////////////   Home  //////////////////////////////////////////////////
+
         public ActionResult Index()
         {
-            return View();
+            var home = new HomeViewModel
+            {
+                Package = db.Packages.ToList(),
+                Feedback = db.Feedbacks.Where(f => f.Status == "Approved").ToList(),
+            };
+            return View(home);
         }
 
         public ActionResult About()
@@ -38,11 +50,16 @@ namespace MasterPiece.Controllers
 
             return View();
         }
-        public ActionResult ServiceDetails()
-        {
-            ViewBag.Message = "Your contact page.";
 
-            return View();
+        //////////////////////////////////////////////////  Package Details  /////////////////////////////////////////////
+
+        public ActionResult ServiceDetails(int id)
+        {
+            var packages = db.Packages.Include(p => p.Package_Tests.Select(pt => pt.Test)).FirstOrDefault(s => s.Package_ID == id);
+            ViewBag.TestsList = db.Tests.ToList();
+            return View(packages);
+
+           
         }
         /////////////////////////////////////////////   Appointment   ///////////////////////////////////////////
         

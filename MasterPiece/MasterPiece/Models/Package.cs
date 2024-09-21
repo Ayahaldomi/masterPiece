@@ -25,6 +25,7 @@ namespace MasterPiece.Models
         public string Description { get; set; }
         public Nullable<decimal> Price { get; set; }
         public string Picture { get; set; }
+        public Nullable<decimal> Old_price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Package_Tests> Package_Tests { get; set; }

@@ -1,4 +1,6 @@
-﻿<style>
+﻿@model MasterPiece.ViewModel.HomeViewModel
+
+<style>
 
 
     .container-fluid.header.bg-primary.p-0.mb-5 {
@@ -193,97 +195,27 @@
             <h1 class="display-5 mb-5">Wellness Packages That We Offer For You</h1>
         </div>
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/Hair and nail.png" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <!-- <img class="img-fluid" src="img/icon/icon-3.png" alt="Icon"> -->
-                            <i class="fa fa-vials text-primary fs-4"></i>
+            @foreach (var service in Model.Package.Select((value, index) => new { value, index }))
+            {
+                var delay = 0.1 + (service.index % 3) * 0.2;<!-- Adjust the delay dynamically -->
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="@delay.ToString("0.0")s">
+                    <div class="service-item rounded d-flex h-100">
+                        <div class="service-img rounded">
+                            <img class="img-fluid" src="~/Uploads/Packages/@service.value.Picture" alt="@service.value.Picture">
                         </div>
-                        <h4 class="mb-3">Hair and Nail Package</h4>
-                        <p class="mb-4">Poor hair or nail health can be reversed when you identify what is causing it. We have packaged all the tests you need in one affordable BioHair & Nail package.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
+                        <div class="service-text rounded p-5">
+                            <div class="btn-square rounded-circle mx-auto mb-3">
+                                <i class="fa fa-vials text-primary fs-4"></i>
+                            </div>
+                            <h4 class="mb-3">@service.value.Package_Name</h4>
+                            <p class="mb-4">@service.value.Description</p>
+                            <a class="btn btn-sm" href="@Url.Action("ServiceDetails", "Home", new {id = service.value.Package_ID})">
+                                <i class="fa fa-plus text-primary me-2"></i>Read More
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/1 Biocheckups.png" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab checkup</h4>
-                        <p class="mb-4">PrimeLab offers a comprehensive package of tests that covers the metabolic functions, screening for anemia, diabetes, osteoporosis, gout disease, in addition to cardiac and thyroid levels and tumor markers.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/junior wellness 700 x 1280 px.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab Juniors</h4>
-                        <p class="mb-4">A comprehensive health checkup designed for children to ensure their overall well-being and monitor the health of young individuals, offering peace of mind to parents.</p>
-                        <a class="btn btn-sm" href="@Url.Action("ServiceDetails", "Home")"><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/StockCake-Healthy Eating Planning_1726423707.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab Diet & Fitness</h4>
-                        <p class="mb-4">Are there hidden reasons why your diet isn’t working? Your weight gain may be due to an underlying health condition? The BioDiet & Fitness profile can help assess your wellness levels to detect health conditions for better health maintaining.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/Checkups_BioCardiac Risk.png" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab Cardiac Risk</h4>
-                        <p class="mb-4">Cardiovascular disease (CVD) is a broad term used to describe a range of diseases that affect your heart or blood vessels. In general, it refers to narrowed or blocked blood vessels that lead to a heart attack, chest pain (angina) or stroke, resulting in a “heart disease”.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/Checkups_BioMom to be.png" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab Mom to be</h4>
-                        <p class="mb-4">Healthy mothers, healthy babies. To promote optimal pregnancy outcomes and healthy lifestyle, Biolab offers BioMom to be panel, a routine checkup during pregnancy.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
@@ -406,31 +338,7 @@
                                 </select> -->
                             </div>
 
-                            <!-- <div class="col-12 col-sm-6">
-                                <div class="date" id="date" data-target-input="nearest">
-                                    <input type="text"
-                                        class="form-control border-0 datetimepicker-input"
-                                        placeholder="Choose Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;">
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="time" id="time" data-target-input="nearest">
-                                    <input type="text"
-                                        class="form-control border-0 datetimepicker-input"
-                                        placeholder="Choose Date" data-target="#time" data-toggle="datetimepicker" style="height: 55px;">
-                                </div>
-                            </div>
-                            <div class="col-12 ">
-                                <select class="form-select border-0" style="height: 55px;">
-                                    <option selected>Choose Doctor</option>
-                                    <option value="1">Doctor 1</option>
-                                    <option value="2">Doctor 2</option>
-                                    <option value="3">Doctor 3</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <textarea class="form-control border-0" rows="5" placeholder="Describe your problem"></textarea>
-                            </div> -->
+                            
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Book Appointment</button>
                             </div>
@@ -450,30 +358,17 @@
             <h1>What Say Our Patients!</h1>
         </div>
         <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+            @foreach (var feed in Model.Feedback)
+            {
             <div class="testimonial-item text-center">
                 <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="~/myContent/img/testimonial-1.jpg" style="width: 100px; height: 100px;">
                 <div class="testimonial-text rounded text-center p-4">
-                    <p>"I've been coming to this lab for years, and I couldn't be more satisfied with the service. The staff is incredibly professional and the results are always accurate and timely. Highly recommend!"</p>
-                    <h5 class="mb-1">John Doe</h5>
+                    <p>"@feed.Message"</p>
+                    <h5 class="mb-1">@feed.Patient.Full_Name</h5>
 
                 </div>
             </div>
-            <div class="testimonial-item text-center">
-                <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="~/myContent/img/testimonial-2.jpg" style="width: 100px; height: 100px;">
-                <div class="testimonial-text rounded text-center p-4">
-                    <p>"I've been coming to this lab for years, and I couldn't be more satisfied with the service. The staff is incredibly professional and the results are always accurate and timely. Highly recommend!"</p>
-                    <h5 class="mb-1">Jane Smith</h5>
-
-                </div>
-            </div>
-            <div class="testimonial-item text-center">
-                <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="~/myContent/img/testimonial-3.jpg" style="width: 100px; height: 100px;">
-                <div class="testimonial-text rounded text-center p-4">
-                    <p>"The facility is clean and well-organized, and the staff is amazing. I received my results quickly, and the team was very helpful in explaining them to me. I highly recommend this lab to anyone in need of medical testing."</p>
-                    <h5 class="mb-1">Emily Brown</h5>
-
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>

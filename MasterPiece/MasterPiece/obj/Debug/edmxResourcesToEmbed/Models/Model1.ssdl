@@ -96,6 +96,7 @@
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
     <Property Name="Picture" Type="nvarchar(max)" />
+    <Property Name="Old_price" Type="decimal" Precision="10" Scale="2" />
   </EntityType>
   <EntityType Name="Patients">
     <Key>

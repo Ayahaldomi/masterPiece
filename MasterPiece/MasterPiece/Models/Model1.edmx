@@ -101,6 +101,7 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
           <Property Name="Picture" Type="nvarchar(max)" />
+          <Property Name="Old_price" Type="decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="Patients">
           <Key>
@@ -475,6 +476,7 @@
           <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Package_Tests" Relationship="Self.FK__Package_T__Packa__440B1D61" FromRole="Packages" ToRole="Package_Tests" />
+          <Property Name="Old_price" Type="Decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="Patient">
           <Key>
@@ -851,6 +853,7 @@
           <EntitySetMapping Name="Packages">
             <EntityTypeMapping TypeName="MasterPieceModel.Package">
               <MappingFragment StoreEntitySet="Packages">
+                <ScalarProperty Name="Old_price" ColumnName="Old_price" />
                 <ScalarProperty Name="Package_ID" ColumnName="Package_ID" />
                 <ScalarProperty Name="Package_Name" ColumnName="Package_Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

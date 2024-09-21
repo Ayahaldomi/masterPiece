@@ -76,6 +76,9 @@ CREATE TABLE Packages (
     Price DECIMAL(10, 2),
     Picture NVARCHAR(MAX) -- Path or URL to the package image
 );
+ALTER TABLE Packages
+ADD Old_price DECIMAL(10, 2); 
+
 
 -- Create the Package_Tests table
 CREATE TABLE Package_Tests (

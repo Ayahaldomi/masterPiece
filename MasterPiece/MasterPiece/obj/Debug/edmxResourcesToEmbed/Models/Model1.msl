@@ -99,6 +99,7 @@
     <EntitySetMapping Name="Packages">
       <EntityTypeMapping TypeName="MasterPieceModel.Package">
         <MappingFragment StoreEntitySet="Packages">
+          <ScalarProperty Name="Old_price" ColumnName="Old_price" />
           <ScalarProperty Name="Package_ID" ColumnName="Package_ID" />
           <ScalarProperty Name="Package_Name" ColumnName="Package_Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />

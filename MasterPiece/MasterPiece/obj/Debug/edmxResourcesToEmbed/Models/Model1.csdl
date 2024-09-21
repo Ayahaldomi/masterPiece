@@ -108,6 +108,7 @@
     <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
     <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Package_Tests" Relationship="Self.FK__Package_T__Packa__440B1D61" FromRole="Packages" ToRole="Package_Tests" />
+    <Property Name="Old_price" Type="Decimal" Precision="10" Scale="2" />
   </EntityType>
   <EntityType Name="Patient">
     <Key>

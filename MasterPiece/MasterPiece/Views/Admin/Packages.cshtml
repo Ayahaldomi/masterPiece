@@ -118,6 +118,49 @@
         .remove-btn:hover {
             background-color: #ff3333;
         }
+    /* Style the table to have fixed-width columns */
+    table {
+        table-layout: fixed; /* Ensures that columns have fixed width */
+        width: 100%; /* Table takes full width of the container */
+    }
+
+    /* Limit the width of specific columns */
+    td, th {
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Adds '...' if text overflows */
+    }
+
+        /* Limit the width of specific columns */
+        td:first-child { /* Column for images */
+            width: 100px; /* Fixed width for image column */
+        }
+
+        td:nth-child(4) { /* Price column */
+            width: 100px; /* Adjust width as necessary */
+        }
+
+        td:nth-child(5) { /* Column for tests */
+            max-width: 200px; /* Set max width for test list */
+        }
+
+            /* Limit the height for the tests column and allow scrolling */
+            td:nth-child(5) ul {
+                max-height: 100px; /* Maximum height */
+                overflow-y: hidden; /* Add vertical scroll if the content overflows */
+                overflow-x: hidden; /* Add vertical scroll if the content overflows */
+                list-style-type: none; /* Remove bullet points */
+                padding-left: 0;
+                margin: 0;
+            }
+
+    /* Style for buttons */
+    .btn {
+        white-space: nowrap;
+    }
 </style>
 
 <div class="container mt-5">
@@ -150,7 +193,7 @@
                             <td>
                                 @if (!string.IsNullOrEmpty(package.Picture))
                                 {
-                                    <img src="~/myContent/img/@package.Picture" alt="@package.Package_Name" style="width: 100px; height: auto;" />
+                                    <img src="~/Uploads/Packages/@package.Picture" alt="@package.Package_Name" style="width: 100px; height: auto;" />
                                 }
                                 else
                                 {
@@ -210,14 +253,13 @@
             </div>
             <div class="modal-body">
                 <!-- Create Package Form -->
-                @using (Html.BeginForm("CreatePackage", "Admin", FormMethod.Post))
+                @using (Html.BeginForm("CreatePackage", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="mb-3">
                         <label for="Package_Name" class="form-label">Package Name</label>
                         <input type="text" class="form-control" id="Package_Name" name="Package_Name" required />
                     </div>
-
                     <div class="mb-3">
                         <label for="Description" class="form-label">Description</label>
                         <textarea class="form-control" id="Description" name="Description" required rows="5"></textarea>
@@ -226,6 +268,11 @@
                     <div class="mb-3">
                         <label for="Price" class="form-label">Price</label>
                         <input type="number" class="form-control" id="Price" name="Price" required step="0.01" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Price" class="form-label">Old Price</label>
+                        <input type="number" class="form-control" id="Old_price" name="Old_price" required step="0.01" />
                     </div>
 
                     <div class="mb-3">
@@ -239,34 +286,36 @@
                         <div id="dropdownItems" class="dropdown-content">
                             @foreach (var test in ViewBag.TestsList)
                             {
-                                <a href="#" data-price="@test.Price" onclick="addTestToTable('@test.Test_Name', @test.Price)">@test.Test_Name</a>
+                                <a href="#" data-price="@test.Price" onclick="addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID)">@test.Test_Name</a>
                             }
                         </div>
                     </div>
 
                     <!-- Table to display selected tests -->
-                    <div class="mb-3">
-                        <h5>Selected Tests:</h5>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Test Name</th>
-                                    <th>Price</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="testTableBody">
-                                <!-- Selected tests will be added here -->
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Total</th>
-                                    <th id="totalPrice">$0</th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+            <div class="mb-3">
+                <h5>Selected Tests:</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testTableBody">
+                        <!-- Selected tests will be added here -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <th id="totalPrice">$0</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <!-- Hidden inputs for selected tests -->
+                <div id="selectedTestsInputs"></div>
+            </div>
 
                     <button type="submit" class="btn btn-primary">Save</button>
                 }
@@ -284,7 +333,7 @@
             </div>
             <div class="modal-body">
                 <!-- Edit Package Form -->
-                @using (Html.BeginForm("EditPackage", "Admin", FormMethod.Post))
+                @using (Html.BeginForm("EditPackage", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.Hidden("Package_ID", "", new { id = "edit_Package_ID" }) <!-- Hidden field for package ID -->
@@ -321,28 +370,29 @@
                     </div>
 
                     <!-- Table to display already selected tests -->
-                    <div class="mb-3">
-                        <h5>Selected Tests:</h5>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Test Name</th>
-                                    <th>Price</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="editTestTableBody">
-                                <!-- Pre-populated selected tests will be dynamically added here -->
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Total</th>
-                                    <th id="editTotalPrice">$0</th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+            <div class="mb-3">
+                <h5>Selected Tests:</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="editTestTableBody">
+                        <!-- Pre-populated selected tests will be dynamically added here -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <th id="editTotalPrice">$0</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+               
+            </div>
 
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 }
@@ -449,8 +499,12 @@
         }
     }
 
+
+    let selectedTestsCounter = 0; // To index the selected tests
+
+
     // Function to add the selected test and price to the table
-    function addTestToTable(testName, price) {
+    function addTestToTable(testName, price, testId) {
         let tableBody = document.getElementById("testTableBody");
 
         // Check if the test is already in the table (avoid duplicates)
@@ -492,6 +546,16 @@
         // Append the new row to the table body
         tableBody.appendChild(newRow);
 
+        // Add a hidden input for the selected test
+        let selectedTestsDiv = document.getElementById("selectedTestsInputs");
+        let hiddenTestInput = document.createElement("input");
+        hiddenTestInput.type = "hidden";
+        hiddenTestInput.name = `SelectedTests[${selectedTestsCounter}].Test_ID`; // Bind to SelectedTests in the model
+        hiddenTestInput.value = testId;
+        selectedTestsDiv.appendChild(hiddenTestInput);
+
+        selectedTestsCounter++; // Increment the counter
+
         // Update the total price
         updateTotalPrice();
     }
@@ -518,6 +582,16 @@
     function removeTestFromTable(row) {
         let tableBody = document.getElementById("testTableBody");
         tableBody.removeChild(row); // Remove the row from the table
+
+        // Remove the hidden input for the test
+        let selectedTestsDiv = document.getElementById("selectedTestsInputs");
+        let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            if (hiddenInputs[i].value == testId) {
+                selectedTestsDiv.removeChild(hiddenInputs[i]);
+                break;
+            }
+        }
 
         // Update the total price after removal
         updateTotalPrice();

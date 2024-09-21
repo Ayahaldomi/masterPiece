@@ -1,4 +1,4 @@
-﻿
+﻿@model MasterPiece.Models.Package
 @{
     ViewBag.Title = "ServiceDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -184,14 +184,14 @@
 
     <!-- Main Service Section -->
     <div class="service-content">
-        <img src="~/myContent/img/junior wellness 700 x 1280 px.jpg" alt="Kids Stretching" class="main-img">
+        <img src="~/Uploads/Packages/@Model.Picture" alt="Kids Stretching" class="main-img">
         <div class="offer-badge">Save up to 50%</div>
-        <h1>BioJuniors</h1>
-        <p>A comprehensive health checkup designed for children to ensure their overall well-being and monitor the health of young individuals, offering peace of mind to parents.</p>
+        <h1>@Model.Package_Name</h1>
+        <p>@Model.Description</p>
         <div class="col-12 timer-checkup-div">
             <div>
                 <i class="fas fa-wallet history-checkup-timer1"></i>
-                <span style="font-size: 26px; font-weight: 500;"> 35 JOD</span>
+                <span style="font-size: 26px; font-weight: 500;"> @Model.Price JOD</span>
             </div>
             <div>
                 <i class="fas fa-history fa-flip-horizontal history-checkup-timer"></i>
@@ -205,15 +205,19 @@
 
         <div class="profile-includes">
             <h3>Profile includes</h3>
-            <ul>
-                <li>Complete Blood Count (CBC)</li>
-                <li>Erythrocyte Sedimentation Rate (ESR)</li>
-                <li>Random Blood Glucose, Serum</li>
-                <li>Calcium, Serum</li>
-                <li>Ferritin, Serum</li>
-                <li>Vitamin B12 (Cyanocobalamin), Serum</li>
-                <li>Urine Analysis</li>
-            </ul>
+            @if (Model.Package_Tests != null && Model.Package_Tests.Any())
+            {
+                <ul>
+                    @foreach (var test in Model.Package_Tests)
+                    {
+                        <li>@test.Test.Test_Name</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No tests</p>
+            }
         </div>
     </div>
 </div>

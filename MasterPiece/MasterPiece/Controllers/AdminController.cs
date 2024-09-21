@@ -1,10 +1,14 @@
 ﻿using MasterPiece.Models;
+using MasterPiece.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
+using Microsoft.AspNet.SignalR.Hubs;
+
 
 namespace MasterPiece.Controllers
 {
@@ -178,7 +182,7 @@ namespace MasterPiece.Controllers
         }
 
 
-        ////////////////////////////////////////////////////Packages ////////////////////////////////////////////////
+        ////////////////////////////////////////////////////  Packages   ////////////////////////////////////////////////
 
         public ActionResult Packages()
         {
@@ -199,6 +203,58 @@ namespace MasterPiece.Controllers
 
             return Json(new { selectedTests = selectedTests }, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePackage(PackageAndTests model, HttpPostedFileBase Picture)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if a picture was uploaded
+                if (Picture != null && Picture.ContentLength > 0)
+                {
+                    // Generate a unique filename and save the file
+                    var fileName = Path.GetFileName(Picture.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Uploads/Packages"), fileName);
+
+                    // Save the file to the server
+                    Picture.SaveAs(path);
+
+                    // Save the path to the database
+                    model.Picture = fileName; // Assign the file path to the model's Picture property
+                }
+                var package = new Package
+                {
+                    Package_Name = model.Package_Name,
+                    Description = model.Description,
+                    Price = model.Price,
+                    Picture = model.Picture,
+                    Old_price = model.Old_price,
+                };
+                db.Packages.Add(package);
+                db.SaveChanges();
+
+                foreach(var test in model.SelectedTests)
+                {
+                    var t = new Package_Tests
+                    {
+                        Package_ID = package.Package_ID,
+                        Test_ID = test.Test_ID,
+                    };
+                    db.Package_Tests.Add(t);
+                }
+                db.SaveChanges();
+
+                // Save the package data to the database, including the picture path
+
+                return RedirectToAction("Packages");
+            }
+
+            // If something went wrong, return the model to the view
+            return View(model);
+        }
+
 
         public ActionResult EditPackage(int id)
         {
