@@ -4,14 +4,14 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Full_Name" Type="nvarchar(max)" />
     <Property Name="Gender" Type="nvarchar(max)" />
     <Property Name="Date_Of_Birth" Type="date" />
     <Property Name="Email_Address" Type="nvarchar(max)" />
     <Property Name="Phone_Number" Type="nvarchar(max)" />
     <Property Name="Home_Address" Type="nvarchar(max)" />
-    <Property Name="Date_Of_Appo" Type="date" />
+    <Property Name="Date_Of_Appo" Type="datetime" />
     <Property Name="Total_price" Type="decimal" Precision="10" Scale="2" />
     <Property Name="Amount_paid" Type="decimal" Precision="10" Scale="2" />
     <Property Name="Billing_ID" Type="int" />
@@ -153,7 +153,7 @@
     <Property Name="Sample_Type" Type="nvarchar(max)" />
     <Property Name="Expiration_Date" Type="date" />
   </EntityType>
-  <Association Name="FK__Appointme__Appoi__3E52440B">
+  <Association Name="FK__Appointme__Appoi__72C60C4A">
     <End Role="Appointments" Type="Self.Appointments" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -167,7 +167,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Appointme__Test___3F466844">
+  <Association Name="FK__Appointme__Test___73BA3083">
     <End Role="Tests" Type="Self.Tests" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
@@ -313,11 +313,11 @@
     <EntitySet Name="Test_Order" EntityType="Self.Test_Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Test_Order_Tests" EntityType="Self.Test_Order_Tests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tests" EntityType="Self.Tests" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Appointme__Appoi__3E52440B" Association="Self.FK__Appointme__Appoi__3E52440B">
+    <AssociationSet Name="FK__Appointme__Appoi__72C60C4A" Association="Self.FK__Appointme__Appoi__72C60C4A">
       <End Role="Appointments" EntitySet="Appointments" />
       <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
     </AssociationSet>
-    <AssociationSet Name="FK__Appointme__Test___3F466844" Association="Self.FK__Appointme__Test___3F466844">
+    <AssociationSet Name="FK__Appointme__Test___73BA3083" Association="Self.FK__Appointme__Test___73BA3083">
       <End Role="Tests" EntitySet="Tests" />
       <End Role="Appointments_Tests" EntitySet="Appointments_Tests" />
     </AssociationSet>

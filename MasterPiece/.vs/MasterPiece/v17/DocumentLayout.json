@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\masterpiece\\views\\home\\appointment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\views\\home\\appointment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\views\\home\\appointment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\views\\home\\appointment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\paypal\\paypalhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\paypal\\paypalhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\viewmodel\\appointmentpost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\viewmodel\\appointmentpost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\models\\appointments_tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\models\\appointments_tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,64 +35,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Appointment.cs",
-              "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Models\\Appointment.cs",
-              "RelativeDocumentMoniker": "MasterPiece\\Models\\Appointment.cs",
-              "ToolTip": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Models\\Appointment.cs",
-              "RelativeToolTip": "MasterPiece\\Models\\Appointment.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAxwB4AAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-20T20:54:48.719Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Appointments_Tests.cs",
-              "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Models\\Appointments_Tests.cs",
-              "RelativeDocumentMoniker": "MasterPiece\\Models\\Appointments_Tests.cs",
-              "ToolTip": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Models\\Appointments_Tests.cs",
-              "RelativeToolTip": "MasterPiece\\Models\\Appointments_Tests.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-20T20:22:57.524Z",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "MasterPiece\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "MasterPiece\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-21T12:07:35.754Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "AppointmentPOST.cs",
-              "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\ViewModel\\AppointmentPOST.cs",
-              "RelativeDocumentMoniker": "MasterPiece\\ViewModel\\AppointmentPOST.cs",
-              "ToolTip": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\ViewModel\\AppointmentPOST.cs",
-              "RelativeToolTip": "MasterPiece\\ViewModel\\AppointmentPOST.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAA9AAAA",
+              "Title": "PayPalHelper.cs",
+              "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\PayPal\\PayPalHelper.cs",
+              "RelativeDocumentMoniker": "MasterPiece\\PayPal\\PayPalHelper.cs",
+              "ToolTip": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\PayPal\\PayPalHelper.cs",
+              "RelativeToolTip": "MasterPiece\\PayPal\\PayPalHelper.cs",
+              "ViewState": "AQIAABQAAAAAAAAAAAAvwDAAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-20T20:17:20.913Z",
+              "WhenOpened": "2024-09-21T09:57:50.295Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "MasterPiece\\Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Controllers\\HomeController.cs",
               "RelativeToolTip": "MasterPiece\\Controllers\\HomeController.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAAADgAAAAIAAAA",
+              "ViewState": "AQIAAHUAAAAAAAAAAAArwIsAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-20T18:21:55.258Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Appointment.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Views\\Home\\Appointment.cshtml",
               "RelativeDocumentMoniker": "MasterPiece\\Views\\Home\\Appointment.cshtml",
               "ToolTip": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Views\\Home\\Appointment.cshtml",
               "RelativeToolTip": "MasterPiece\\Views\\Home\\Appointment.cshtml",
-              "ViewState": "AQIAAGYDAAAAAAAAAAAawNEBAABHAAAA",
+              "ViewState": "AQIAAPQDAAAAAAAAAAAAABMEAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-09-20T18:16:59.639Z",
               "EditorCaption": ""

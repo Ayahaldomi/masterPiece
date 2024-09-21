@@ -11,7 +11,7 @@
     <Property Name="Email_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Phone_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Home_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Date_Of_Appo" Type="DateTime" Precision="0" />
+    <Property Name="Date_Of_Appo" Type="DateTime" Precision="3" />
     <Property Name="Total_price" Type="Decimal" Precision="10" Scale="2" />
     <Property Name="Amount_paid" Type="Decimal" Precision="10" Scale="2" />
     <Property Name="Billing_ID" Type="Int32" />

@@ -377,6 +377,54 @@
     }
 </style>
 
+<style>
+    /* Modal styling */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto; /* Center the modal */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less depending on the size you want */
+        max-width: 500px;
+    }
+
+    /* Close button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Error Modal styling */
+#errorModal .modal-content {
+    background-color: #f44336; /* Red color for error */
+    color: white;
+}
+</style>
+
+@{
+    var testValue = 0;
+}
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <form id="appointmentForm" action="/Home/CreateAppointment" method="post">
@@ -412,11 +460,11 @@
                 <div class="form_container">
                     <div class="input_wrap">
                         <label for="email">Full Name</label>
-                        <input type="text" name="Full_Name" class="input" id="email">
+                        <input type="text" name="Full_Name" class="input" id="email" required>
                     </div>
                     <div class="input_wrap">
                         <label for="password">Date of Birth</label>
-                        <input type="date" name="Date_Of_Birth" class="input" id="password">
+                        <input type="date" name="Date_Of_Birth" class="input" id="password" required>
                     </div>
                     <div class="input_wrap">
                         <label for="confirm_password">Gender</label>
@@ -436,15 +484,15 @@
                 <div class="form_container">
                     <div class="input_wrap">
                         <label for="user_name">Email Address</label>
-                        <input type="email" name="Email_Address" class="input" id="user_name">
+                        <input type="email" name="Email_Address" class="input" id="user_name" required>
                     </div>
                     <div class="input_wrap">
                         <label for="first_name">Phone Number</label>
-                        <input type="number" name="Phone_Number" class="input" id="first_name">
+                        <input type="number" name="Phone_Number" class="input" id="first_name" required>
                     </div>
                     <div class="input_wrap">
                         <label for="last_name">Home Address</label>
-                        <input type="text" name="Home_Address" class="input" id="last_name">
+                        <input type="text" name="Home_Address" class="input" id="last_name" required>
                     </div>
                 </div>
 
@@ -455,7 +503,7 @@
                 <div class="form_container">
                     <div class="input_wrap">
                         <label for="preferred_date">Preferred Date and Time</label>
-                        <input type="date" name="preferred_date" class="input" id="preferred_date" min="">
+                        <input type="date" name="preferred_date" class="input" id="preferred_date" min="" required>
                     </div>
 
                     <!-- Custom time button will be added here -->
@@ -472,7 +520,7 @@
                     </div>
 
                     <!-- Hidden input to store the final combined date and time -->
-                    <input type="hidden" id="dateOfAppointment" name="Date_Of_Appo" />
+                    <input type="hidden" id="dateOfAppointment" name="Date_Of_Appo" required />
 
                     <!-- Display chosen time -->
                     <p id="chosen_time" style="display:none;">Selected Time: <span id="time_value"></span></p>
@@ -506,14 +554,15 @@
                         <tfoot>
                             <tr>
                                 <th>Total</th>
-                                <th id="totalPrice">$0
-                                @*<input type="hidden" name="Total_price" id="Total_price" />*@
+                                <th id="totalPrice">
+                                    $0
+                                    @*<input type="hidden" name="Total_price" id="Total_price" />*@
                                 </th>
                                 <th></th> <!-- Empty cell for alignment -->
                             </tr>
                         </tfoot>
                     </table>
-                    <input name="Total_price" type="hidden" value="0" id="Total_price"/>
+                    <input name="Total_price" type="hidden" value="0" id="Total_price" />
 
                     <!-- Hidden inputs for selected tests -->
                     <div id="selectedTestsInputs"></div>
@@ -539,11 +588,7 @@
                         </div>
                     </div>
 
-                    <!-- PayPal-specific details (hidden initially) -->
-                    <div class="form-group" id="paypalDetails" style="display: none;">
-                        <label for="paypalEmail" class="form-label">PayPal Email</label>
-                        <input type="email" name="paypalEmail" class="form-control" id="paypalEmail" placeholder="Enter your PayPal email">
-                    </div>
+
                 </div>
             </div>
 
@@ -567,114 +612,136 @@
             </div>
         </div>
     </div>
-    </form>
-    
+</form>
 
-    <div class="modal_wrapper">
-        <div class="shadow"></div>
-        <div class="success_wrap">
-            <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span>
-            <p>You have successfully completed the process.</p>
-        </div>
+<!-- PayPal Modal (hidden by default) -->
+<div id="paypalModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span> <!-- Close button -->
+
+        @using (Html.BeginForm("ProcessPayment", "Home", FormMethod.Post, new { @id = "paypalForm", @class = "paypalForm", @target = "_blank" }))
+        {
+            @Html.Hidden("patientId", 1)
+            <input type="hidden" name="value" id="paypalValue" value="0" />
+            <button type="button" id="confirmAndPayBtn" class="btn btn-primary">Confirm and Pay</button>
+        }
     </div>
+</div>
 
-    <script>
-        var form_1 = document.querySelector(".form_1");
-        var form_2 = document.querySelector(".form_2");
-        var form_3 = document.querySelector(".form_3");
-        var form_4 = document.querySelector(".form_4");
-
-
-        var form_1_btns = document.querySelector(".form_1_btns");
-        var form_2_btns = document.querySelector(".form_2_btns");
-        var form_3_btns = document.querySelector(".form_3_btns");
-        var form_4_btns = document.querySelector(".form_4_btns");
+<!-- Error Modal for validation -->
+<div id="errorModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="errorMessage">Please fill in all required fields.</p>
+    </div>
+</div>
 
 
-        var form_1_next_btn = document.querySelector(".form_1_btns .btn_next");
-        var form_2_back_btn = document.querySelector(".form_2_btns .btn_back");
-        var form_2_next_btn = document.querySelector(".form_2_btns .btn_next");
-        var form_3_back_btn = document.querySelector(".form_3_btns .btn_back");
-        var form_3_next_btn = document.querySelector(".form_3_btns .btn_next");
-        var form_4_back_btn = document.querySelector(".form_4_btns .btn_back");
+@*<div class="modal_wrapper">
+    <div class="shadow"></div>
+    <div class="success_wrap">
+        <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span>
+        <p>You have successfully completed the process.</p>
+    </div>
+</div>*@
 
-        var form_2_progessbar = document.querySelector(".form_2_progessbar");
-        var form_3_progessbar = document.querySelector(".form_3_progessbar");
-        var form_4_progessbar = document.querySelector(".form_4_progessbar");
+<script>
+    var form_1 = document.querySelector(".form_1");
+    var form_2 = document.querySelector(".form_2");
+    var form_3 = document.querySelector(".form_3");
+    var form_4 = document.querySelector(".form_4");
 
-        var btn_done = document.querySelector(".btn_done");
-        var modal_wrapper = document.querySelector(".modal_wrapper");
-        var shadow = document.querySelector(".shadow");
 
-        form_1_next_btn.addEventListener("click", function () {
-            form_1.style.display = "none";
-            form_2.style.display = "block";
+    var form_1_btns = document.querySelector(".form_1_btns");
+    var form_2_btns = document.querySelector(".form_2_btns");
+    var form_3_btns = document.querySelector(".form_3_btns");
+    var form_4_btns = document.querySelector(".form_4_btns");
 
-            form_1_btns.style.display = "none";
-            form_2_btns.style.display = "flex";
 
-            form_2_progessbar.classList.add("active");
-        });
+    var form_1_next_btn = document.querySelector(".form_1_btns .btn_next");
+    var form_2_back_btn = document.querySelector(".form_2_btns .btn_back");
+    var form_2_next_btn = document.querySelector(".form_2_btns .btn_next");
+    var form_3_back_btn = document.querySelector(".form_3_btns .btn_back");
+    var form_3_next_btn = document.querySelector(".form_3_btns .btn_next");
+    var form_4_back_btn = document.querySelector(".form_4_btns .btn_back");
 
-        form_2_back_btn.addEventListener("click", function () {
-            form_1.style.display = "block";
-            form_2.style.display = "none";
+    var form_2_progessbar = document.querySelector(".form_2_progessbar");
+    var form_3_progessbar = document.querySelector(".form_3_progessbar");
+    var form_4_progessbar = document.querySelector(".form_4_progessbar");
 
-            form_1_btns.style.display = "flex";
-            form_2_btns.style.display = "none";
+    var btn_done = document.querySelector(".btn_done");
+    var modal_wrapper = document.querySelector(".modal_wrapper");
+    var shadow = document.querySelector(".shadow");
 
-            form_2_progessbar.classList.remove("active");
-        });
+    form_1_next_btn.addEventListener("click", function () {
+        form_1.style.display = "none";
+        form_2.style.display = "block";
 
-        form_2_next_btn.addEventListener("click", function () {
-            form_2.style.display = "none";
-            form_3.style.display = "block";
+        form_1_btns.style.display = "none";
+        form_2_btns.style.display = "flex";
 
-            form_3_btns.style.display = "flex";
-            form_2_btns.style.display = "none";
+        form_2_progessbar.classList.add("active");
+    });
 
-            form_3_progessbar.classList.add("active");
-        });
-        form_3_back_btn.addEventListener("click", function () {
-            form_2.style.display = "block";
-            form_3.style.display = "none";
+    form_2_back_btn.addEventListener("click", function () {
+        form_1.style.display = "block";
+        form_2.style.display = "none";
 
-            form_2_btns.style.display = "flex";
-            form_3_btns.style.display = "none";
+        form_1_btns.style.display = "flex";
+        form_2_btns.style.display = "none";
 
-            form_3_progessbar.classList.remove("active");
-        });
+        form_2_progessbar.classList.remove("active");
+    });
 
-        form_3_next_btn.addEventListener("click", function () {
-            form_3.style.display = "none";
-            form_4.style.display = "block";
+    form_2_next_btn.addEventListener("click", function () {
+        form_2.style.display = "none";
+        form_3.style.display = "block";
 
-            form_4_btns.style.display = "flex";
-            form_3_btns.style.display = "none";
+        form_3_btns.style.display = "flex";
+        form_2_btns.style.display = "none";
 
-            form_4_progessbar.classList.add("active");
-        });
+        form_3_progessbar.classList.add("active");
+    });
+    form_3_back_btn.addEventListener("click", function () {
+        form_2.style.display = "block";
+        form_3.style.display = "none";
 
-        form_4_back_btn.addEventListener("click", function () {
-            form_3.style.display = "block";
-            form_4.style.display = "none";
+        form_2_btns.style.display = "flex";
+        form_3_btns.style.display = "none";
 
-            form_4_btns.style.display = "none";
-            form_3_btns.style.display = "flex";
+        form_3_progessbar.classList.remove("active");
+    });
 
-            form_4_progessbar.classList.remove("active");
-        });
+    form_3_next_btn.addEventListener("click", function () {
+        form_3.style.display = "none";
+        form_4.style.display = "block";
 
-        btn_done.addEventListener("click", function () {
-            modal_wrapper.classList.add("active");
-        })
+        form_4_btns.style.display = "flex";
+        form_3_btns.style.display = "none";
 
-        shadow.addEventListener("click", function () {
-            modal_wrapper.classList.remove("active");
-        })
-    </script>
+        form_4_progessbar.classList.add("active");
+    });
 
-    
+    form_4_back_btn.addEventListener("click", function () {
+        form_3.style.display = "block";
+        form_4.style.display = "none";
+
+        form_4_btns.style.display = "none";
+        form_3_btns.style.display = "flex";
+
+        form_4_progessbar.classList.remove("active");
+    });
+
+    btn_done.addEventListener("click", function () {
+        modal_wrapper.classList.add("active");
+    })
+
+    shadow.addEventListener("click", function () {
+        modal_wrapper.classList.remove("active");
+    })
+</script>
+
+
 <script>
     // Function to filter dropdown items
     function filterFunction() {
@@ -697,17 +764,48 @@
     const customTimeCharge = 20;
     let customTimeSelected = false;
 
+    // Handle date change to fetch booked times
+    document.getElementById('preferred_date').addEventListener('change', function () {
+        const selectedDate = this.value; // Get selected date
+        const timeButtons = document.querySelectorAll('.time-btn');
+        const timeButtonContainer = document.getElementById('time_buttons');
+
+        // Show time buttons
+        timeButtonContainer.style.display = 'flex';
+
+        // Enable all buttons initially (reset)
+        timeButtons.forEach(button => {
+            button.disabled = false; // Reset all buttons to enabled
+        });
+
+        // Fetch the booked times for the selected date
+        fetch(`/Home/GetAvailableTimes?date=${selectedDate}`)
+            .then(response => response.json())
+            .then(bookedTimes => {
+                // Disable the buttons for the booked times
+                timeButtons.forEach(button => {
+                    const buttonTime = button.getAttribute('data-time');
+                    if (bookedTimes.includes(buttonTime)) {
+                        button.disabled = true; // Disable button if time is booked
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching available times:', error);
+            });
+    });
+
     // Handle time button clicks
     document.querySelectorAll('.time-btn').forEach(button => {
         button.addEventListener('click', function () {
             const selectedTime = this.getAttribute('data-time');
 
             if (selectedTime === 'custom') {
-                // Show the custom time picker when custom time button is clicked
+                // Show custom time picker
                 document.getElementById('custom_time_input').style.display = 'inline';
                 document.getElementById('chosen_time').style.display = 'none'; // Hide until custom time is chosen
             } else {
-                // Hide custom time input and additional charge, show the selected time
+                // Hide custom time input and additional charge, show selected time
                 document.getElementById('custom_time_input').style.display = 'none';
                 document.getElementById('additional_charge').style.display = 'none';
                 document.getElementById('chosen_time').style.display = 'block';
@@ -722,7 +820,7 @@
     document.getElementById('custom_time_input').addEventListener('change', function () {
         const customTime = this.value;
         if (customTime) {
-            // Display the custom time and additional charge
+            // Display custom time and additional charge
             document.getElementById('chosen_time').style.display = 'block';
             document.getElementById('time_value').textContent = customTime;
             document.getElementById('additional_charge').style.display = 'block';
@@ -731,6 +829,7 @@
         }
     });
 
+
     // Function to update the total price
     function updateTotalPrice() {
         // Always refresh the reference to the elements
@@ -738,6 +837,7 @@
         let totalPriceElement = document.getElementById("totalPrice");
         let totalPriceInput = document.getElementById("Total_price"); // Ensure correct reference
         let paypal = document.getElementById("paypal");
+        let paypalValue = document.getElementById("paypalValue");
 
         let total = 0;
 
@@ -757,6 +857,8 @@
         // Update the total price in the table footer
         totalPriceElement.textContent = "$" + total;
 
+        paypalValue.value = parseFloat(total);
+        testValue = parseFloat(total);
         // Update the hidden input for form submission
         if (totalPriceInput) {
             totalPriceInput.value = parseFloat(total);
@@ -886,6 +988,22 @@
         });
     });
 
+
+
+    // Handle PayPal button click
+    document.getElementById('confirmAndPayBtn').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent form submission for appointment
+
+        // Correctly target the PayPal form
+        let paypalForm = document.querySelector('.paypalForm');
+        if (paypalForm) {
+            paypalForm.submit(); // Submit PayPal form separately
+        } else {
+            console.error('PayPal form not found');
+        }
+    });
+
+
     document.getElementById('appointmentForm').addEventListener('submit', function (event) {
         // Get the selected date
         const selectedDate = document.getElementById('preferred_date').value;
@@ -903,10 +1021,110 @@
         document.getElementById('Total_price').value = document.getElementById('totalPrice').textContent.replace('$', '');
 
         console.log("Submitting Total Price:", document.getElementById('Total_price').value); // Debugging log
+
+        // Perform validation before submission
+        if (!validateForm()) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
     });
+
+    // Get the error modal
+    var errorModal = document.getElementById("errorModal");
+
+    // Get the close button in the error modal
+    var closeErrorModal = errorModal.querySelector(".close");
+
+    // Function to open the error modal with a custom message
+    function showErrorModal(message) {
+        document.getElementById("errorMessage").textContent = message;
+        errorModal.style.display = "block";
+    }
+
+    // Close the error modal when the user clicks on the close button
+    closeErrorModal.onclick = function () {
+        errorModal.style.display = "none";
+    };
+
+    // Close the error modal if the user clicks outside of it
+    window.onclick = function (event) {
+        if (event.target == errorModal) {
+            errorModal.style.display = "none";
+        }
+    };
+
+    // Function to validate form inputs
+    function validateForm() {
+        // List of required fields
+        const requiredFields = [
+            document.getElementById('email'),
+            document.getElementById('password'),
+            document.getElementById('gender'),
+            document.getElementById('user_name'),
+            document.getElementById('first_name'),
+            document.getElementById('last_name'),
+            document.getElementById('preferred_date'),
+            document.getElementById('time_value')
+        ];
+
+        // Check if any required field is empty
+        for (let field of requiredFields) {
+            if (!field || !field.value.trim()) {
+                showErrorModal("Please fill in all required fields.");
+                return false; // Stop form submission
+            }
+        }
+
+        // If all fields are filled, return true to proceed with form submission
+        return true;
+    }
 
 
 </script>
+
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("paypalModal");
+
+    // Get the radio button that opens the modal
+    var paypalRadio = document.getElementById("paypal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the PayPal radio button, open the modal
+    paypalRadio.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Handle PayPal form submission inside the modal
+    document.getElementById('confirmAndPayBtn').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the form submission if you want to handle further logic
+
+        let paypalForm = document.querySelector('.paypalForm');
+        if (paypalForm) {
+            paypalForm.submit(); // Submit PayPal form separately
+        } else {
+            console.error('PayPal form not found');
+        }
+
+        // Close the modal after submission
+        modal.style.display = "none";
+    });
+</script>
+
 
 
 
