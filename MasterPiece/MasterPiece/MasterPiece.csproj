@@ -243,6 +243,7 @@
     <Compile Include="ViewModel\ChatMessagesAndRooms.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\PackageAndTests.cs" />
+    <Compile Include="ViewModel\PackageAndTestsEDIT.cs" />
     <Compile Include="ViewModel\PatientAndChat.cs" />
   </ItemGroup>
   <ItemGroup>

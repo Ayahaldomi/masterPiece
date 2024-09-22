@@ -354,6 +354,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="edit_Price" class="form-label">Old Price</label>
+                        <input type="number" class="form-control" id="Old_price" name="Old_price" required step="0.01" />
+                    </div>
+
+                    <div class="mb-3">
                         <label for="edit_Picture" class="form-label">Package Image</label>
                         <input type="file" class="form-control" id="edit_Picture" name="Picture" onchange="previewImage(event)" />
                     </div>
@@ -364,36 +369,37 @@
                         <div id="editDropdownItems" class="dropdown-content">
                             @foreach (var test in ViewBag.TestsList)
                             {
-                                <a href="#" data-price="@test.Price" onclick="addTestToEditTable('@test.Test_Name', @test.Price)">@test.Test_Name</a>
+                                <a href="#" data-price="@test.Price" onclick="addTestToEditTable('@test.Test_Name', @test.Price, @test.Test_ID)">@test.Test_Name</a>
                             }
                         </div>
                     </div>
 
                     <!-- Table to display already selected tests -->
-            <div class="mb-3">
-                <h5>Selected Tests:</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Test Name</th>
-                            <th>Price</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="editTestTableBody">
-                        <!-- Pre-populated selected tests will be dynamically added here -->
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Total</th>
-                            <th id="editTotalPrice">$0</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
-               
-            </div>
+                    <div class="mb-3">
+                        <h5>Selected Tests:</h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Test Name</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="editTestTableBody">
+                                <!-- Pre-populated selected tests will be dynamically added here -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th id="editTotalPrice">$0</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
 
+
+                    </div>
+                    <div id="selectedTestsInputsEDIT"></div> <!-- Hidden inputs will go here -->
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 }
             </div>
@@ -436,7 +442,6 @@
         document.getElementById('edit_Description').value = description;
         document.getElementById('edit_Price').value = price;
         //document.getElementById('picturePreview').src = picture;
-
         // Fetch selected tests for the package using AJAX
         $.ajax({
             url: '/Admin/GetPackageDetails',
@@ -448,7 +453,7 @@
 
                 // Loop through the returned selected tests and add them to the table
                 data.selectedTests.forEach(function (test) {
-                    addTestToEditTable(test.Test_Name, test.Price);
+                    addTestToEditTable(test.Test_Name, test.Price, test.Test_ID);
                 });
 
                 // Update total price after populating the table
@@ -534,7 +539,7 @@
         removeBtn.classList.add("btn", "btn-danger", "btn-sm");
         removeBtn.textContent = "Remove";
         removeBtn.onclick = function () {
-            removeTestFromTable(newRow); // Call the remove function
+            removeTestFromTable(newRow, testId); // Call the remove function
         };
         actionCell.appendChild(removeBtn);
 
@@ -556,6 +561,7 @@
 
         selectedTestsCounter++; // Increment the counter
 
+        console.log(selectedTestsDiv)
         // Update the total price
         updateTotalPrice();
     }
@@ -579,7 +585,7 @@
     }
 
     // Function to remove a test from the table
-    function removeTestFromTable(row) {
+    function removeTestFromTable(row, testId) {
         let tableBody = document.getElementById("testTableBody");
         tableBody.removeChild(row); // Remove the row from the table
 
@@ -618,8 +624,11 @@
         }
     }
 
-   function addTestToEditTable(testName, price) {
-    let tableBody = document.getElementById("editTestTableBody");
+
+    let selectedTestsCounterEDIT = 0; // To index the selected tests
+
+   function addTestToEditTable(testName, price, testId) {
+       let tableBody = document.getElementById("editTestTableBody");
 
     // Check if the test is already in the table (avoid duplicates)
     let existingRows = tableBody.getElementsByTagName("tr");
@@ -648,7 +657,7 @@
     removeBtn.classList.add("btn", "btn-danger", "btn-sm");
     removeBtn.textContent = "Remove";
     removeBtn.onclick = function () {
-        removeTestFromEditTable(newRow); // Call the remove function
+        removeTestFromEditTable(newRow, testId); // Call the remove function
     };
     actionCell.appendChild(removeBtn);
 
@@ -658,7 +667,19 @@
     newRow.appendChild(actionCell);
 
     // Append the new row to the table body
-    tableBody.appendChild(newRow);
+       tableBody.appendChild(newRow);
+
+
+       // Add a hidden input for the selected test
+       let selectedTestsDiv = document.getElementById("selectedTestsInputsEDIT");
+       let hiddenTestInput = document.createElement("input");
+       hiddenTestInput.type = "hidden";
+       hiddenTestInput.name = `SelectedTestsEDIT[${selectedTestsCounterEDIT}].Test_ID`; // Bind to SelectedTests in the model
+       hiddenTestInput.value = testId;
+       selectedTestsDiv.appendChild(hiddenTestInput);
+
+       selectedTestsCounterEDIT++; // Increment the counter
+       console.log(selectedTestsDiv)
 
     // Update the total price
     updateEditTotalPrice();
@@ -682,32 +703,65 @@
         totalPriceElement.textContent = "$" + total;
     }
 
-    // Function to remove a test from the table in Edit modal
-    function removeTestFromEditTable(row) {
+    function removeTestFromEditTable(row, testId) {
         let tableBody = document.getElementById("editTestTableBody");
         tableBody.removeChild(row); // Remove the row from the table
 
+        // Remove the hidden input for the test
+        let selectedTestsDiv = document.getElementById("selectedTestsInputsEDIT");
+        let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
+
+        // Loop through hidden inputs and remove the one matching testId
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            if (hiddenInputs[i].value == testId) {
+                selectedTestsDiv.removeChild(hiddenInputs[i]);
+                break; // Exit loop after removing the matching input
+            }
+        }
+
+        // Reindex the remaining hidden inputs to maintain the correct array structure
+        reindexHiddenInputs();
+
         // Update the total price after removal
         updateEditTotalPrice();
+
+        // Debugging: Log the updated state of hidden inputs
+        console.log(selectedTestsDiv.innerHTML);
     }
 
-    // Function to populate Edit modal with selected tests and other package details
-    function populateEditModal(packageId, packageName, description, price, picture, selectedTests) {
-        document.getElementById('edit_Package_ID').value = packageId;
-        document.getElementById('edit_Package_Name').value = packageName;
-        document.getElementById('edit_Description').value = description;
-        document.getElementById('edit_Price').value = price;
-        document.getElementById('picturePreview').src = picture;
+    // Function to reindex hidden inputs
+    function reindexHiddenInputs() {
+        let selectedTestsDiv = document.getElementById("selectedTestsInputsEDIT");
+        let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
 
-        // Clear existing table rows
-        document.getElementById('editTestTableBody').innerHTML = '';
+        // Reindex all hidden inputs after removal
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            hiddenInputs[i].name = `SelectedTestsEDIT[${i}].Test_ID`; // Ensure correct model binding
+        }
 
-        // Loop through selected tests and add them to the table
-        selectedTests.forEach(function (test) {
-            addTestToEditTable(test.Test_Name, test.Price);
-        });
-
-        // Update total price
-        updateEditTotalPrice();
+        // Update the counter for adding new tests
+        selectedTestsCounterEDIT = hiddenInputs.length;
     }
+
+
+    //// Function to populate Edit modal with selected tests and other package details
+    //function populateEditModal(packageId, packageName, description, price, picture, selectedTests) {
+    //    document.getElementById('edit_Package_ID').value = packageId;
+    //    document.getElementById('edit_Package_Name').value = packageName;
+    //    document.getElementById('edit_Description').value = description;
+    //    document.getElementById('edit_Price').value = price;
+    //    document.getElementById('picturePreview').src = picture;
+
+    //    // Clear existing table rows
+    //    document.getElementById('editTestTableBody').innerHTML = '';
+
+    //    // Loop through selected tests and add them to the table
+    //    selectedTests.forEach(function (test) {
+    //        addTestToEditTable(test.Test_Name, test.Price);
+    //    });
+
+    //    // Update total price
+    //    updateEditTotalPrice();
+    //}
+
 </script>

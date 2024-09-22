@@ -1,4 +1,7 @@
-﻿<style>
+﻿@model MasterPiece.ViewModel.HomeViewModel
+
+
+<style>
 
     .service-item {
         position: relative;
@@ -104,97 +107,27 @@
             <h1 class="display-5 mb-5">Wellness Packages That We Offer For You</h1>
         </div>
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/Hair and nail.png" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <!-- <img class="img-fluid" src="img/icon/icon-3.png" alt="Icon"> -->
-                            <i class="fa fa-vials text-primary fs-4"></i>
+            @foreach (var service in Model.Package.Select((value, index) => new { value, index }))
+            {
+                var delay = 0.1 + (service.index % 3) * 0.2;<!-- Adjust the delay dynamically -->
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="@delay.ToString("0.0")s">
+                    <div class="service-item rounded d-flex h-100">
+                        <div class="service-img rounded">
+                            <img class="img-fluid" src="~/Uploads/Packages/@service.value.Picture" alt="@service.value.Picture">
                         </div>
-                        <h4 class="mb-3">Hair and Nail Package</h4>
-                        <p class="mb-4">Poor hair or nail health can be reversed when you identify what is causing it. We have packaged all the tests you need in one affordable BioHair & Nail package.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
+                        <div class="service-text rounded p-5">
+                            <div class="btn-square rounded-circle mx-auto mb-3">
+                                <i class="fa fa-vials text-primary fs-4"></i>
+                            </div>
+                            <h4 class="mb-3">@service.value.Package_Name</h4>
+                            <p class="mb-4">@service.value.Description</p>
+                            <a class="btn btn-sm" href="@Url.Action("ServiceDetails", "Home", new {id = service.value.Package_ID})">
+                                <i class="fa fa-plus text-primary me-2"></i>Read More
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/1 Biocheckups.png" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab checkup</h4>
-                        <p class="mb-4">PrimeLab offers a comprehensive package of tests that covers the metabolic functions, screening for anemia, diabetes, osteoporosis, gout disease, in addition to cardiac and thyroid levels and tumor markers.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/junior wellness 700 x 1280 px.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab Juniors</h4>
-                        <p class="mb-4">A comprehensive health checkup designed for children to ensure their overall well-being and monitor the health of young individuals, offering peace of mind to parents.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/StockCake-Healthy Eating Planning_1726423707.jpg" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab Diet & Fitness</h4>
-                        <p class="mb-4">Are there hidden reasons why your diet isn’t working? Your weight gain may be due to an underlying health condition? The BioDiet & Fitness profile can help assess your wellness levels to detect health conditions for better health maintaining.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/Checkups_BioCardiac Risk.png" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab Cardiac Risk</h4>
-                        <p class="mb-4">Cardiovascular disease (CVD) is a broad term used to describe a range of diseases that affect your heart or blood vessels. In general, it refers to narrowed or blocked blood vessels that lead to a heart attack, chest pain (angina) or stroke, resulting in a “heart disease”.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded d-flex h-100">
-                    <div class="service-img rounded">
-                        <img class="img-fluid" src="~/myContent/img/Checkups_BioMom to be.png" alt="">
-                    </div>
-                    <div class="service-text rounded p-5">
-                        <div class="btn-square rounded-circle mx-auto mb-3">
-                            <i class="fa fa-vials text-primary fs-4"></i>
-                        </div>
-                        <h4 class="mb-3">PrimeLab Mom to be</h4>
-                        <p class="mb-4">Healthy mothers, healthy babies. To promote optimal pregnancy outcomes and healthy lifestyle, Biolab offers BioMom to be panel, a routine checkup during pregnancy.</p>
-                        <a class="btn btn-sm" href=""><i class="fa fa-plus text-primary me-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>

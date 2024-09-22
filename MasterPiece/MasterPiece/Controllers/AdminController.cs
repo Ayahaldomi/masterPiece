@@ -198,7 +198,8 @@ namespace MasterPiece.Controllers
                                       .FirstOrDefault(p => p.Package_ID == id);
             var selectedTests = package.Package_Tests.Select(pt => new {
                 pt.Test.Test_Name,
-                pt.Test.Price
+                pt.Test.Price,
+                pt.Test.Test_ID
             }).ToList();
 
             return Json(new { selectedTests = selectedTests }, JsonRequestBehavior.AllowGet);
@@ -256,25 +257,111 @@ namespace MasterPiece.Controllers
         }
 
 
-        public ActionResult EditPackage(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPackage(PackageAndTestsEDIT model, HttpPostedFileBase Picture)
         {
-            // Fetch the package details
-            var package = db.Packages.Include(p => p.Package_Tests.Select(t => t.Test)).FirstOrDefault(p => p.Package_ID == id);
+            if (ModelState.IsValid)
+            {
+                // Check if a picture was uploaded
+                if (Picture != null && Picture.ContentLength > 0)
+                {
+                    // Generate a unique filename and save the file
+                    var fileName = Path.GetFileName(Picture.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Uploads/Packages"), fileName);
 
-            // Fetch the list of all tests
-            var tests = db.Tests.Select(t => new { t.Test_ID, t.Test_Name, t.Price }).ToList();
+                    // Save the file to the server
+                    Picture.SaveAs(path);
 
-            // Prepare the selected tests to pass to the view
-            var selectedTests = package.Package_Tests.Select(pt => new {
-                pt.Test.Test_Name,
-                pt.Test.Price
-            }).ToList();
+                    // Save the path to the database
+                    model.Picture = fileName; // Assign the file path to the model's Picture property
+                }
+                // Update the package details
+                var package = db.Packages.Find(model.Package_ID);
+                if (package == null)
+                {
+                    return HttpNotFound();
+                }
 
-            ViewBag.TestsList = tests;
-            ViewBag.SelectedTests = selectedTests;
+                package.Package_Name = model.Package_Name;
+                package.Description = model.Description;
+                package.Price = model.Price;
+                package.Picture = model.Picture;
+                // Handle image upload if necessary
 
-            return View(package);
+                // Remove old tests from the package
+                db.Package_Tests.RemoveRange(package.Package_Tests);
+
+                
+
+                foreach (var test in model.SelectedTestsEDIT)
+                {
+                    var t = new Package_Tests
+                    {
+                        Package_ID = package.Package_ID,
+                        Test_ID = test.Test_ID,
+                    };
+                    db.Package_Tests.Add(t);
+                }
+                db.SaveChanges();
+
+                db.Entry(package).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Packages");
+            }
+
+            // If something goes wrong, return the view with the model to show errors
+            return View(model);
         }
+
+        [HttpPost]
+        public ActionResult DeletePackage(int Package_ID)
+        {
+            // Find the package by ID
+            var package = db.Packages.Find(Package_ID);
+
+            if (package == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Find all tests associated with this package
+            var packageTests = db.Package_Tests.Where(pt => pt.Package_ID == Package_ID).ToList();
+
+            // Remove all associated tests for this package
+            db.Package_Tests.RemoveRange(packageTests);
+
+            // Remove the package itself
+            db.Packages.Remove(package);
+
+            // Save changes to the database
+            db.SaveChanges();
+
+            // Redirect back to the package list or any other page
+            return RedirectToAction("Packages");
+        }
+
+
+
+        //public ActionResult EditPackage(int id)
+        //{
+        //    // Fetch the package details
+        //    var package = db.Packages.Include(p => p.Package_Tests.Select(t => t.Test)).FirstOrDefault(p => p.Package_ID == id);
+
+        //    // Fetch the list of all tests
+        //    var tests = db.Tests.Select(t => new { t.Test_ID, t.Test_Name, t.Price }).ToList();
+
+        //    // Prepare the selected tests to pass to the view
+        //    var selectedTests = package.Package_Tests.Select(pt => new {
+        //        pt.Test.Test_Name,
+        //        pt.Test.Price
+        //    }).ToList();
+
+        //    ViewBag.TestsList = tests;
+        //    ViewBag.SelectedTests = selectedTests;
+
+        //    return View(package);
+        //}
 
 
         ///////////////////////////////////////////////////////          FeedBack          ///////////////////////////////////////////////////////////

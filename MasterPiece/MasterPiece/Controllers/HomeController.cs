@@ -46,9 +46,12 @@ namespace MasterPiece.Controllers
 
         public ActionResult Service()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var home = new HomeViewModel
+            {
+                Package = db.Packages.ToList(),
+                Feedback = db.Feedbacks.Where(f => f.Status == "Approved").ToList(),
+            };
+            return View(home);
         }
 
         //////////////////////////////////////////////////  Package Details  /////////////////////////////////////////////
