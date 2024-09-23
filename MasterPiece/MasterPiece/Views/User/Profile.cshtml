@@ -104,7 +104,7 @@
                                             }
                                         </td>
                                         <td>@s.Date</td>
-                                        <td><a href="@Url.Action("DownloadPdf", "Patients")" target="_blank"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-secondary">Download Results As PDF</button></a></td>
+                                        <td><a href="@Url.Action("DownloadPdf", "Patients", new {OrderID = s.Order_ID})" target="_blank"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-secondary">Download Results As PDF</button></a></td>
                                     </tr>
                                 }
                             </tbody>

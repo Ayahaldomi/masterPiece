@@ -21,8 +21,9 @@ namespace MasterPiece.Controllers
     {
         private MasterPieceEntities db = new MasterPieceEntities();
 
-        public ActionResult DownloadPdf()
+        public ActionResult DownloadPdf(int OrderID)
         {
+            var testOrder = db.Test_Order.FirstOrDefault(t => t.Order_ID == OrderID);
             // Path to your existing PDF template
             string templatePath = Server.MapPath("~/myContent/assets/pdf/templete.pdf");
 
@@ -33,37 +34,43 @@ namespace MasterPiece.Controllers
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 PdfStamper stamper = new PdfStamper(reader, memoryStream);
-
-                // Get the content layer of the existing PDF (background)
-                PdfContentByte content = stamper.GetOverContent(1); // Page 1 of the PDF
+                int pageCount = reader.NumberOfPages; // Get the total number of pages
 
                 // Define a base font
                 BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-                var name = "Ayah Hasan";
+                var name = testOrder.Patient.Full_Name;
+                var labNum = testOrder.Order_ID;
+                var Date = testOrder.Date;
 
-                // Add dynamic content on top of the background
-                content.BeginText();
-                content.SetFontAndSize(bf, 12);
+                for (int i = 1; i <= pageCount; i++)
+                {
+                    // Get the content layer of each page
+                    PdfContentByte content = stamper.GetOverContent(i);
 
-                // Example: Adding patient information at specific coordinates
-                content.SetTextMatrix(50, 610); // Set the position (x, y)
-                content.ShowText($"Patient Name: {name}");
+                    // Add dynamic content (header) on top of the background
+                    content.BeginText();
+                    content.SetFontAndSize(bf, 12);
 
-                content.SetTextMatrix(50, 590); // Adjust position for Lab Number
-                content.ShowText("Lab No.: 240812524");
+                    // Example: Adding patient information at specific coordinates for each page
+                    content.SetTextMatrix(50, 610); // Set the position (x, y)
+                    content.ShowText($"Patient Name: {name}");
 
-                content.SetTextMatrix(50, 570); // Adjust position for Sampling Date
-                content.ShowText("Sampling Date: 2024-09-04 14:34:41");
+                    content.SetTextMatrix(50, 590); // Adjust position for Lab Number
+                    content.ShowText($"Lab No.: {labNum}");
 
-                // End the text object
-                content.EndText();
+                    content.SetTextMatrix(50, 570); // Adjust position for Sampling Date
+                    content.ShowText($"Sampling Date: {Date}");
 
-                // Adding the Laboratory Report title
-                content.BeginText();
-                content.SetFontAndSize(bf, 16);
-                content.SetTextMatrix(230, 530); // Position for title
-                content.ShowText("Laboratory Report");
-                content.EndText();
+                    // End the text object
+                    content.EndText();
+
+                    // Adding the Laboratory Report title on every page
+                    content.BeginText();
+                    content.SetFontAndSize(bf, 16);
+                    content.SetTextMatrix(230, 530); // Position for title
+                    content.ShowText("Laboratory Report");
+                    content.EndText();
+                }
 
                 // Create the chemistry table
                 PdfPTable chemistryTable = new PdfPTable(4);
@@ -93,28 +100,19 @@ namespace MasterPiece.Controllers
                 normalRangeHeader.HorizontalAlignment = Element.ALIGN_CENTER;
                 chemistryTable.AddCell(normalRangeHeader);
 
-                // Add test data (no borders)
-                chemistryTable.AddCell(CreateStyledCell("Cholesterol", Element.ALIGN_LEFT));
-                chemistryTable.AddCell(CreateStyledCell("178", Element.ALIGN_CENTER));
-                chemistryTable.AddCell(CreateStyledCell("mg/dl", Element.ALIGN_CENTER));
-                chemistryTable.AddCell(CreateStyledCell("( < 200 )", Element.ALIGN_CENTER));
+                // Set the header row count (in this case, it's 1 because the first row is the header)
+                chemistryTable.HeaderRows = 1;
 
-                chemistryTable.AddCell(CreateStyledCell("Triglycerides", Element.ALIGN_LEFT));
-                chemistryTable.AddCell(CreateStyledCell("89", Element.ALIGN_CENTER));
-                chemistryTable.AddCell(CreateStyledCell("mg/dl", Element.ALIGN_CENTER));
-                chemistryTable.AddCell(CreateStyledCell("( 35.0 - 160.0 )", Element.ALIGN_CENTER));
+                // Add the test data rows
+                foreach (var test in testOrder.Test_Order_Tests)
+                {
+                    chemistryTable.AddCell(CreateStyledCell(test.Test.Test_Name, Element.ALIGN_LEFT));
+                    chemistryTable.AddCell(CreateStyledCell(test.Result, Element.ALIGN_CENTER));
+                    chemistryTable.AddCell(CreateStyledCell(test.Test.Unit, Element.ALIGN_CENTER));
+                    chemistryTable.AddCell(CreateStyledCell(test.Test.Normal_Range, Element.ALIGN_CENTER));
+                }
 
-                chemistryTable.AddCell(CreateStyledCell("SGOT (AST)", Element.ALIGN_LEFT));
-                chemistryTable.AddCell(CreateStyledCell("28", Element.ALIGN_CENTER));
-                chemistryTable.AddCell(CreateStyledCell("U/L", Element.ALIGN_CENTER));
-                chemistryTable.AddCell(CreateStyledCell("( < 35 )", Element.ALIGN_CENTER));
-
-                chemistryTable.AddCell(CreateStyledCell("SGPT (ALT)", Element.ALIGN_LEFT));
-                chemistryTable.AddCell(CreateStyledCell("21", Element.ALIGN_CENTER));
-                chemistryTable.AddCell(CreateStyledCell("U/L", Element.ALIGN_CENTER));
-                chemistryTable.AddCell(CreateStyledCell("( < 35 )", Element.ALIGN_CENTER));
-
-                // Write table to PDF at specific coordinates
+                // Write table to PDF at specific coordinates on the first page (adjust if needed)
                 PdfContentByte tableContent = stamper.GetOverContent(1);
                 chemistryTable.WriteSelectedRows(0, -1, 50, 500, tableContent); // Position for the table
 
@@ -138,6 +136,7 @@ namespace MasterPiece.Controllers
             cell.PaddingBottom = 6f; // Optional: Add some padding to make the table more readable
             return cell;
         }
+
 
 
 

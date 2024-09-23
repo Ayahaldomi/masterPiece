@@ -22,15 +22,124 @@ namespace MasterPiece.Controllers
             return View();
         }
 
+
+
+
+        ///////////////////////////////////////////////  Patient  ///////////////////////////////////////////////////
+
         public ActionResult AddPatient()
         {
-            return View();
+            var patient = db.Patients.ToList();
+            return View(patient);
         }
 
-        public ActionResult AddPatientTests()
+
+        [HttpPost]
+        public ActionResult AddPatient(Patient patient) 
         {
-            return View();
+            if (patient.Patient_ID == 0 || patient.Patient_ID == null)
+            {
+                db.Patients.Add(patient);
+
+                var order = new Test_Order
+                {
+                    Patient_ID = patient.Patient_ID,
+                    Date = DateTime.Now,
+                    Tech_ID = 1,
+                    Status = "Pending"
+
+                };
+                db.Test_Order.Add(order);
+                db.SaveChanges();
+                return RedirectToAction("AddPatientTests", new {orderID = order.Order_ID});
+            }
+            else
+            {
+                var existPatient = db.Patients.FirstOrDefault(p => p.Patient_ID == patient.Patient_ID);
+                existPatient.Full_Name = patient.Full_Name;
+                existPatient.Date_Of_Birth = patient.Date_Of_Birth;
+                existPatient.Gender = patient.Gender;
+                existPatient.Marital_Status = patient.Marital_Status;
+                existPatient.Nationality = patient.Nationality;
+                existPatient.Phone_Number = patient.Phone_Number;
+                existPatient.Home_Address = patient.Home_Address;
+                existPatient.Note = patient.Note;
+
+                db.Entry(existPatient).State = EntityState.Modified;
+                
+                var order = new Test_Order
+                {
+                    Patient_ID = patient.Patient_ID,
+                    Date = DateTime.Now,
+                    Tech_ID = 1,
+                    Status = "Pending"
+
+                };
+                db.Test_Order.Add(order);
+                db.SaveChanges();
+
+                return RedirectToAction("AddPatientTests", new { orderID = order.Order_ID });
+
+            }
         }
+
+        public ActionResult AddPatientTests()//int orderID
+        {
+            var order = db.Test_Order.Find(1002);
+            ViewBag.TestsList = db.Tests.ToList();
+            return View(order);
+        }
+
+
+        [HttpPost]
+        public ActionResult SaveTests(int orderId, List<Test_Order_Tests> selectedTests)
+        {
+            // Get the current order
+            var order = db.Test_Order.FirstOrDefault(o => o.Order_ID == orderId);
+            if (order == null)
+            {
+                return HttpNotFound("Order not found.");
+            }
+
+            if (order.Test_Order_Tests != null && order.Test_Order_Tests.Any())
+            {
+                db.Test_Order_Tests.RemoveRange(order.Test_Order_Tests);
+            }
+
+
+            decimal totalPrice = 0;
+            foreach (var testId in selectedTests)
+            {
+                var test = db.Tests.FirstOrDefault(t => t.Test_ID == testId.Test_ID);
+                if (test != null)
+                {
+                    var orderTest = new Test_Order_Tests
+                    {
+                        Order_ID = orderId,
+                        Test_ID = testId.Test_ID,
+                        Date_Of_Result = null,  
+                        Result = null,          
+                        Comment = null,
+                        Status = "Pending"      
+                    };
+                    db.Test_Order_Tests.Add(orderTest);
+
+                    // Add the price of the test to the total
+                    totalPrice += test.Price ?? 0;
+                }
+            }
+
+            // Update the total price of the order
+            order.Total_Price = totalPrice;
+            db.Entry(order).State = EntityState.Modified;
+
+            // Save all changes to the database
+            db.SaveChanges();
+
+            // Redirect to the payment page (or another appropriate page)
+            return RedirectToAction("Payment", new { orderId = order.Order_ID });
+        }
+
 
         public ActionResult AddPatientPayment()
         {
@@ -311,7 +420,7 @@ namespace MasterPiece.Controllers
             }
 
             // If something goes wrong, return the view with the model to show errors
-            return View(model);
+            return RedirectToAction("Packages");
         }
 
         [HttpPost]

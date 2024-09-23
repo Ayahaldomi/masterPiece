@@ -932,7 +932,25 @@
         updateTotalPrice();
     }
 
-    // Function to remove a test from the table
+    //// Function to remove a test from the table
+    //function removeTestFromTable(row, testId) {
+    //    let tableBody = document.getElementById("testTableBody");
+    //    tableBody.removeChild(row); // Remove the row from the table
+
+    //    // Remove the hidden input for the test
+    //    let selectedTestsDiv = document.getElementById("selectedTestsInputs");
+    //    let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
+    //    for (let i = 0; i < hiddenInputs.length; i++) {
+    //        if (hiddenInputs[i].value == testId) {
+    //            selectedTestsDiv.removeChild(hiddenInputs[i]);
+    //            break;
+    //        }
+    //    }
+
+    //    // Update the total price after removal
+    //    updateTotalPrice();
+    //}
+
     function removeTestFromTable(row, testId) {
         let tableBody = document.getElementById("testTableBody");
         tableBody.removeChild(row); // Remove the row from the table
@@ -940,15 +958,37 @@
         // Remove the hidden input for the test
         let selectedTestsDiv = document.getElementById("selectedTestsInputs");
         let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
+
+        // Loop through hidden inputs and remove the one matching testId
         for (let i = 0; i < hiddenInputs.length; i++) {
             if (hiddenInputs[i].value == testId) {
                 selectedTestsDiv.removeChild(hiddenInputs[i]);
-                break;
+                break; // Exit loop after removing the matching input
             }
         }
 
+        // Reindex the remaining hidden inputs to maintain the correct array structure
+        reindexHiddenInputs();
+
         // Update the total price after removal
-        updateTotalPrice();
+        updateEditTotalPrice();
+
+        // Debugging: Log the updated state of hidden inputs
+        console.log(selectedTestsDiv.innerHTML);
+    }
+
+    // Function to reindex hidden inputs
+    function reindexHiddenInputs() {
+        let selectedTestsDiv = document.getElementById("selectedTestsInputs");
+        let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
+
+        // Reindex all hidden inputs after removal
+        for (let i = 0; i < hiddenInputs.length; i++) {
+            hiddenInputs[i].name = `SelectedTests[${i}].Test_ID`; // Ensure correct model binding
+        }
+
+        // Update the counter for adding new tests
+        selectedTestsCounter = hiddenInputs.length;
     }
 
     // Function to handle payment details toggle

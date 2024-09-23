@@ -174,7 +174,7 @@ namespace MasterPiece.Controllers
 
             db.SaveChanges();
 
-            return View(appointment);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -184,12 +184,12 @@ namespace MasterPiece.Controllers
             DateTime selectedDate = DateTime.Parse(date);
 
             // Fetch appointments for the selected date (fetch all from DB first)
-var appointments = db.Appointments
+            var appointments = db.Appointments
                      .Where(a => a.Date_Of_Appo.HasValue)
                      .ToList(); // Bring the data into memory
 
-// Perform the date comparison in memory
-var bookedAppointments = appointments
+            // Perform the date comparison in memory
+            var bookedAppointments = appointments
                          .Where(a => a.Date_Of_Appo.Value.Date == selectedDate.Date) // Compare the date part only
                          .Select(a => a.Date_Of_Appo.Value.TimeOfDay)
                          .ToList();
