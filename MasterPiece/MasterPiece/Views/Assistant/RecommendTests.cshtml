@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "RecommendTests";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("RecommendTests", "Assistant", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="symptoms">Describe the patient's symptoms:</label>
+        <textarea class="form-control" id="symptoms" name="symptoms" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Get Test Recommendations</button>
+}

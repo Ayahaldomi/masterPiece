@@ -169,6 +169,8 @@ namespace MasterPiece.Controllers
 
         }
 
+        /////////////////////////////////////////// Manage Patient //////////////////////////////////////////////
+
         public ActionResult ManagePatient()
         {
             var patients = db.Patients.OrderByDescending(p => p.Patient_ID).ToList();
@@ -185,9 +187,19 @@ namespace MasterPiece.Controllers
             return View(patient);
         }
 
+        [HttpPost]
+        public ActionResult ManagePatientDetails(Patient patient)
+        {
+            db.Entry(patient).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("ManagePatientDetails", new { patientID = patient.Patient_ID });
+        }
+        //////////////////////////////////////////   Test Result  ///////////////////////////////////////////////////
         public ActionResult TestResults()
         {
-            return View();
+            var tests = db.Test_Order.OrderByDescending(t =>  t.Patient_ID).ToList();
+
+            return View(tests);
         }
 
         public ActionResult TestResultsAdd()

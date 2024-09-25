@@ -51,35 +51,36 @@
         <h1 class="text-center">Edit Patient Info</h1>
         <!-- <div class="row form-container">
           <div class="col-md-12"> -->
-        <form id="patient-form">
+        <form id="patient-form" action="/Admin/ManagePatientDetails" method="post">
+            @*<input type="hidden" value="@Model.Patients.Patient_ID" name="Patient_ID" />*@
             <div class="form-row mb-3">
                 <div class="form-group col-md-6">
                     <label for="patient-id">Patient ID</label>
-                    <input type="text" class="form-control" id="patient-id" name="patient-id" disabled value="@Model.Patients.Patient_ID">
+                    <input type="text" class="form-control" id="patient-id" name="Patient_ID" disabled value="@Model.Patients.Patient_ID">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group ">
                     <label for="full-name">Full Name</label>
-                    <input type="text" class="form-control" id="full-name" name="full-name" disabled value="@Model.Patients.Full_Name" required>
+                    <input type="text" class="form-control" id="full-name" name="Full_Name" disabled value="@Model.Patients.Full_Name" required>
                 </div>
                 <div class="form-group ">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" class="form-control" id="dob" name="dob" disabled value="@dateOfBirth" required>
+                    <input type="date" class="form-control" id="dob" name="Date_Of_Birth" disabled  value="@(Model.Patients.Date_Of_Birth.HasValue ? Model.Patients.Date_Of_Birth.Value.ToString("yyyy-MM-dd") : "")" required>
                     <span>@(Model.Patients.Date_Of_Birth.HasValue ? $"(Age: {age})" : "")</span>
                 </div>
             </div>
             <div class="form-row mb-3">
                 <div class="form-group col-md-6">
                     <label for="gender">Gender</label>
-                    <select class="form-select" id="gender" name="gender" disabled required>
-                        <option value="male" @(Model.Patients.Gender == "Male" ? "selected" : "")>Male</option>
-                        <option value="female" @(Model.Patients.Gender == "Female" ? "selected" : "")>Female</option>
+                    <select class="form-select" id="gender" name="Gender" disabled required>
+                        <option value="Male" @(Model.Patients.Gender == "Male" ? "selected" : "")>Male</option>
+                        <option value="Female" @(Model.Patients.Gender == "Female" ? "selected" : "")>Female</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="marital-status">Marital Status</label>
-                    <select class="form-select" id="marital-status" name="marital-status" disabled required>
+                    <select class="form-select" id="marital-status" name="Marital_Status" disabled required>
                         <option value="Single" @(Model.Patients.Marital_Status == "Single" ? "selected" : "")>Single</option>
                         <option value="Married" @(Model.Patients.Marital_Status == "Married" ? "selected" : "")>Married</option>
                         <option value="Divorced" @(Model.Patients.Marital_Status == "Divorced" ? "selected" : "")>Divorced</option>
@@ -91,28 +92,30 @@
             <div class="form-row mb-3">
                 <div class="form-group col-md-6">
                     <label for="nationality">Nationality</label>
-                    <input type="text" class="form-control" id="nationality" name="nationality" disabled value="@Model.Patients.Nationality">
+                    <input type="text" class="form-control" id="nationality" name="Nationality" disabled value="@Model.Patients.Nationality">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="phone-number">Phone Number</label>
-                    <input type="tel" class="form-control" id="phone-number" name="phone-number" disabled value="@Model.Patients.Phone_Number" required>
+                    <input type="tel" class="form-control" id="phone-number" name="Phone_Number" disabled value="@Model.Patients.Phone_Number" required>
                 </div>
             </div>
             <div class="form-row mb-3">
                 <div class="form-group">
                     <label for="home-address">Home Address</label>
-                    <input type="text" class="form-control" id="home-address" name="home-address" disabled value="@Model.Patients.Home_Address" required>
+                    <input type="text" class="form-control" id="home-address" name="Home_Address" disabled value="@Model.Patients.Home_Address" required>
                 </div>
             </div>
             <div class="form-row mb-3">
                 <div class="form-group">
                     <label for="note">Note</label>
-                    <textarea class="form-control" id="note" name="note" rows="4" disabled>@Model.Patients.Note</textarea>
+                    <textarea class="form-control" id="note" name="Note" rows="4" disabled>@Model.Patients.Note</textarea>
                 </div>
             </div>
             <div class="form-buttons text-center">
                 <button type="button" class="btn btn-outline-warning m-1" id="edit-button">Edit</button>
-                <button type="submit" class="btn btn-outline-warning m-1" id="cancel-button" style="display: none;">Cancel</button>
+                <a href="@Url.Action("ManagePatientDetails", "Admin", new { patientID = Model.Patients.Patient_ID })">
+                    <button type="button" class="btn btn-outline-warning m-1" id="cancel-button" style="display: none;">Cancel</button>
+                </a>
                 <button type="submit" class="btn btn-outline-success m-1" id="save-button" style="display: none;">Save</button>
                 <a href="@Url.Action("AddPatientTests", "Admin")">
                     <button type="button" class="btn btn-outline-primary m-1" id="edit-button">New Test Order</button>
