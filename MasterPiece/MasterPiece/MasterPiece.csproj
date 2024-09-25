@@ -245,6 +245,7 @@
     <Compile Include="ViewModel\PackageAndTests.cs" />
     <Compile Include="ViewModel\PackageAndTestsEDIT.cs" />
     <Compile Include="ViewModel\PatientAndChat.cs" />
+    <Compile Include="ViewModel\PatientAndTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />

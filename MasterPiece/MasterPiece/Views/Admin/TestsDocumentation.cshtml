@@ -41,7 +41,7 @@
     <div class="container mt-5">
         <h1 class="text-center mb-4">Test Documentation</h1>
         <div class="mb-3">
-            <input type="text" id="searchBar" class="form-control" onkeyup="searchTests()" placeholder="Search for tests by name or ID...">
+            <input type="text" id="searchBar" class="form-control" onkeyup="filterByTestName()" placeholder="Search for tests by name...">
         </div>
         <div class="mb-3">
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#testFormModal">
@@ -86,6 +86,12 @@
                 }
             </tbody>
         </table>
+        <!-- Centered Pagination controls -->
+        <div id="pagination" class="text-center">
+            <button class="btn btn-outline-primary" onclick="previousPage()">Previous</button>
+            <span id="pageNumber" class="mx-2"></span>
+            <button class="btn btn-outline-primary" onclick="nextPage()">Next</button>
+        </div>
     </div>
 </div>
 
@@ -332,5 +338,75 @@
         document.getElementById("editDescription").value = description;
         document.getElementById("editSampleType").value = sampleType;
         document.getElementById("editExpirationDate").value = expirationDate;
+    }
+</script>
+<script>
+    // Pagination setup
+    var currentPage = 1;
+    var rowsPerPage = 4; // Set the number of rows to display per page
+
+    function displayTableRows(page) {
+        var table = document.getElementById("testTable");
+        var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        var totalRows = rows.length;
+        var totalPages = Math.ceil(totalRows / rowsPerPage);
+
+        if (page < 1) page = 1;
+        if (page > totalPages) page = totalPages;
+
+        currentPage = page;
+
+        // Hide all rows first
+        for (var i = 0; i < totalRows; i++) {
+            rows[i].style.display = "none";
+        }
+
+        // Show rows for the current page
+        var start = (page - 1) * rowsPerPage;
+        var end = start + rowsPerPage;
+        for (var i = start; i < end && i < totalRows; i++) {
+            rows[i].style.display = "";
+        }
+
+        // Update page number display
+        document.getElementById("pageNumber").innerText = "Page " + currentPage + " of " + totalPages;
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            displayTableRows(currentPage - 1);
+        }
+    }
+
+    function nextPage() {
+        var table = document.getElementById("testTable");
+        var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        var totalPages = Math.ceil(rows.length / rowsPerPage);
+        if (currentPage < totalPages) {
+            displayTableRows(currentPage + 1);
+        }
+    }
+
+    // Initialize pagination on page load
+    window.onload = function () {
+        displayTableRows(currentPage);
+    };
+
+    // Filter by test name
+    function filterByTestName() {
+        var input = document.getElementById("searchBar");
+        var filter = input.value.toLowerCase();
+        var table = document.getElementById("testTable");
+        var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var testNameCell = rows[i].getElementsByTagName("td")[1]; // The second cell is Test Name
+            var testName = testNameCell.textContent || testNameCell.innerText;
+            if (testName.toLowerCase().indexOf(filter) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
     }
 </script>

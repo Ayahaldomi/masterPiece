@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using Microsoft.AspNet.SignalR.Hubs;
+using PayPal.Api;
 
 
 namespace MasterPiece.Controllers
@@ -137,23 +138,51 @@ namespace MasterPiece.Controllers
             db.SaveChanges();
 
             // Redirect to the payment page (or another appropriate page)
-            return RedirectToAction("Payment", new { orderId = order.Order_ID });
+            return RedirectToAction("AddPatientPayment", new { orderId = order.Order_ID });
         }
 
 
-        public ActionResult AddPatientPayment()
+        public ActionResult AddPatientPayment() //int orderId
         {
-            return View();
+            var order = db.Test_Order.Find(1002);
+            return View(order);
+        }
+
+        [HttpPost]
+        public ActionResult AddPatientPayment(Test_Order model) 
+        { 
+            var Order = db.Test_Order.Find(model.Order_ID);
+
+            if (model.Discount_Persent == null)
+            {
+                Order.Discount_Persent = 0;
+            }
+            else
+            {
+                Order.Discount_Persent = model.Discount_Persent;
+            }
+            Order.Amount_Paid += model.Amount_Paid;
+            db.Entry(Order).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("AddPatientPayment");//model.Order_ID
+
+
         }
 
         public ActionResult ManagePatient()
         {
-            return View();
+            var patients = db.Patients.OrderByDescending(p => p.Patient_ID).ToList();
+            return View(patients);
         }
 
-        public ActionResult ManagePatientDetails()
+        public ActionResult ManagePatientDetails(int patientID)
         {
-            return View();
+            var patient = new PatientAndTests
+            {
+                Patients = db.Patients.Find(patientID),
+                TestOrders = db.Test_Order.Where(p => p.Patient_ID == patientID).ToList()
+            };
+            return View(patient);
         }
 
         public ActionResult TestResults()

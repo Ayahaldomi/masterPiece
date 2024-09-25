@@ -4,6 +4,17 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+@{
+    int? age = null;
+
+    if (Model.Patient.Date_Of_Birth.HasValue)
+    {
+        var birthDate = Model.Patient.Date_Of_Birth.Value;
+        var today = DateTime.Today;
+        age = today.Year - birthDate.Year;
+        if (birthDate.Date > today.AddYears(-age.Value)) { age--; }
+    }
+}
 <style>
     .card {
         padding: 1em;
@@ -95,7 +106,16 @@
                         </div>
                         <div class="col-md-6 d-flex justify-content-flex-start">
                             <label for="age" class="fw-bolder">Age:</label>
-                            <p class="ms-2">@Model.Patient.Date_Of_Birth</p>
+                            <p class="ms-2">
+                                @if (Model.Patient.Date_Of_Birth.HasValue)
+                                {
+                                    <span>@Model.Patient.Date_Of_Birth.Value.ToString("dd/MM/yyyy") (Age: @age)</span>
+                                }
+                                else
+                                {
+                                    <span>Date of Birth: N/A</span>
+                                }
+                            </p>
                         </div>
                         <div class="col-md-6 d-flex justify-content-flex-start">
                             <label for="gender" class="fw-bolder">Gender:</label>
@@ -111,7 +131,7 @@
 
             <br>
 
-            
+
 
             <!-- Searchable Dropdown for selecting tests -->
             <div class="dropdown mb-3">
