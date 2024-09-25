@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\controllers\\assistantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\controllers\\assistantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\views\\admin\\employees.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\views\\admin\\employees.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\views\\admin\\testresults.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\masterpiece\\views\\admin\\testresults.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\views\\admin\\testresults.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
@@ -15,7 +19,7 @@
       "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\views\\user\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|c:\\users\\orange\\desktop\\masterpiecegit\\masterpiece\\masterpiece\\masterpiece\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\masterpiece\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{41FCCF4F-6AD6-4D64-B032-355A45D2A3EA}|MasterPiece\\MasterPiece.csproj|solutionrelative:masterpiece\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -35,6 +39,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AssistantController.cs",
+              "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Controllers\\AssistantController.cs",
+              "RelativeDocumentMoniker": "MasterPiece\\Controllers\\AssistantController.cs",
+              "ToolTip": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Controllers\\AssistantController.cs",
+              "RelativeToolTip": "MasterPiece\\Controllers\\AssistantController.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAgwEcAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T19:48:12.83Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Employees.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Views\\Admin\\Employees.cshtml",
               "RelativeDocumentMoniker": "MasterPiece\\Views\\Admin\\Employees.cshtml",
@@ -47,7 +64,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "TestResults.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Views\\Admin\\TestResults.cshtml",
               "RelativeDocumentMoniker": "MasterPiece\\Views\\Admin\\TestResults.cshtml",
@@ -55,12 +72,11 @@
               "RelativeToolTip": "MasterPiece\\Views\\Admin\\TestResults.cshtml",
               "ViewState": "AQIAAFcAAAAAAAAAAAAAAGoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-25T19:09:47.371Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-25T19:09:47.371Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "MasterPiece\\Controllers\\AdminController.cs",
@@ -68,12 +84,11 @@
               "RelativeToolTip": "MasterPiece\\Controllers\\AdminController.cs",
               "ViewState": "AQIAALoAAAAAAAAAAAAIwMkAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-25T18:35:24.061Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-25T18:35:24.061Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Profile.cshtml",
               "DocumentMoniker": "C:\\Users\\Orange\\Desktop\\masterPieceGit\\masterPiece\\MasterPiece\\MasterPiece\\Views\\User\\Profile.cshtml",
               "RelativeDocumentMoniker": "MasterPiece\\Views\\User\\Profile.cshtml",
@@ -81,8 +96,7 @@
               "RelativeToolTip": "MasterPiece\\Views\\User\\Profile.cshtml",
               "ViewState": "AQIAAFQAAAAAAAAAAAAAAGcAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-25T10:08:55.399Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-25T10:08:55.399Z"
             }
           ]
         }
