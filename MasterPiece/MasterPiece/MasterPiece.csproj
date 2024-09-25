@@ -200,7 +200,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\AssistantController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Models\Appointment.cs">
@@ -1183,8 +1182,6 @@
     <Content Include="Views\Chat\_ChatRoomDoctor.cshtml" />
     <Content Include="Views\Chat\_PatientChat.cshtml" />
     <Content Include="Views\Home\CloseTab.cshtml" />
-    <Content Include="Views\Assistant\RecommendTests.cshtml" />
-    <Content Include="Views\Assistant\Recommendations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
