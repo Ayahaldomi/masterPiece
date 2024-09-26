@@ -134,7 +134,7 @@
                                     @test.Status
                                 </span>
                             </td>
-                            <td><a href="@Url.Action("TestResultsAdd", "Admin")"><button class="btn btn-primary btn-sm">Add Result</button></a></td>
+                            <td><a href="@Url.Action("TestResultsAdd", "Admin", new {OrderID = test.Order_ID})"><button class="btn btn-primary btn-sm">Add Result</button></a></td>
                         </tr>
                     }
                     }

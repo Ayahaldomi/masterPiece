@@ -202,11 +202,62 @@ namespace MasterPiece.Controllers
             return View(tests);
         }
 
-        public ActionResult TestResultsAdd()
+        public ActionResult TestResultsAdd()// int OrderID
         {
-            return View();
+            var order = db.Test_Order.Find(1);
+            return View(order);
         }
 
+        public ActionResult Status(int OrderID) 
+        {
+            var order = db.Test_Order.Find(OrderID);
+            order.Status = "Completed";
+            db.Entry(order).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("TestResultsAdd");
+
+        }
+
+        [HttpPost]
+        public ActionResult SaveTestResults(Test_Order model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var testResult in model.Test_Order_Tests)
+                {
+                    var existingTestResult = db.Test_Order_Tests.FirstOrDefault(t => t.ID == testResult.ID);
+                    if (existingTestResult != null)
+                    {
+                        existingTestResult.Result = testResult.Result;
+                        existingTestResult.Status = "Completed";
+                        // Update any other necessary fields
+                        db.Entry(existingTestResult).State = EntityState.Modified;
+                    }
+                }
+                db.SaveChanges();
+
+                // Optionally redirect back to the same view or to a different page
+                return RedirectToAction("TestResultsAdd", new { id = model.Order_ID });
+            }
+
+            return View(model); // Return view with model if there's an error
+        }
+
+        //public ActionResult PrintPDF(int OrderID) 
+        //{
+        //    var order = db.Test_Order.Find(OrderID);
+
+        //    foreach (var testResult in order.Test_Order_Tests) {
+        //        if (testResult.Status == "Pending") { 
+                    
+        //        }
+        //    }
+
+            
+        //}
+
+
+        ///////////////////////////////////////  Appointment  ////////////////////////////////////////////////////
         public ActionResult Appointment()
         {
             var appointments = from a in db.Appointments
