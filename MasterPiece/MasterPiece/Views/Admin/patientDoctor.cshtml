@@ -1,8 +1,10 @@
 ﻿@model MasterPiece.ViewModel.PatientAndTests
+
 @{
-    ViewBag.Title = "ManagePatientDetails";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "patientDoctor";
+    Layout = "~/Views/Shared/_LayoutDoctor.cshtml";
 }
+
 @{
     string dateOfBirth = "N/A";
     int age = 0;
@@ -66,7 +68,7 @@
                 </div>
                 <div class="form-group ">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" class="form-control" id="dob" name="Date_Of_Birth" disabled  value="@(Model.Patients.Date_Of_Birth.HasValue ? Model.Patients.Date_Of_Birth.Value.ToString("yyyy-MM-dd") : "")" required>
+                    <input type="date" class="form-control" id="dob" name="Date_Of_Birth" disabled value="@(Model.Patients.Date_Of_Birth.HasValue ? Model.Patients.Date_Of_Birth.Value.ToString("yyyy-MM-dd") : "")" required>
                     <span>@(Model.Patients.Date_Of_Birth.HasValue ? $"(Age: {age})" : "")</span>
                 </div>
             </div>
@@ -111,7 +113,7 @@
                     <textarea class="form-control" id="note" name="Note" rows="4" disabled>@Model.Patients.Note</textarea>
                 </div>
             </div>
-            <div class="form-buttons text-center">
+            @*<div class="form-buttons text-center">
                 <button type="button" class="btn btn-outline-warning m-1" id="edit-button">Edit</button>
                 <a href="@Url.Action("ManagePatientDetails", "Admin", new { patientID = Model.Patients.Patient_ID })">
                     <button type="button" class="btn btn-outline-warning m-1" id="cancel-button" style="display: none;">Cancel</button>
@@ -120,7 +122,7 @@
                 <a href="@Url.Action("AddPatientTests", "Admin")">
                     <button type="button" class="btn btn-outline-primary m-1" id="edit-button">New Test Order</button>
                 </a>
-            </div>
+            </div>*@
         </form>
         <!-- </div>
         </div> -->
@@ -140,17 +142,17 @@
                     {
                         if (patient.Status == "Completed")
                         {
-                            <tr>
-                                <td>@patient.Patient_ID</td>
-                                <td>@patient.Patient.Full_Name</td>
-                                <td>@patient.Date</td>
-                                <td><a href="@Url.Action("DownloadPdf", "Patients", new { OrderID = patient.Order_ID })" target="_blank"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary">Download Results As PDF</button></a></td>
-                            </tr>
+                        <tr>
+                            <td>@patient.Patient_ID</td>
+                            <td>@patient.Patient.Full_Name</td>
+                            <td>@patient.Date</td>
+                            <td><a href="@Url.Action("DownloadPdf", "Patients", new { OrderID = patient.Order_ID })" target="_blank"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary">Download Results As PDF</button></a></td>
+                        </tr>
                         }
                     }
 
                 </tbody>
-                </table>
+            </table>
         </div>
     </div>
 </div>
@@ -168,3 +170,4 @@
         document.getElementById('cancel-button').style.display = 'inline-block';
     });
 </script>
+

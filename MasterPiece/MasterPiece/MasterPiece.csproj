@@ -1182,6 +1182,7 @@
     <Content Include="Views\Chat\_ChatRoomDoctor.cshtml" />
     <Content Include="Views\Chat\_PatientChat.cshtml" />
     <Content Include="Views\Home\CloseTab.cshtml" />
+    <Content Include="Views\Admin\patientDoctor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

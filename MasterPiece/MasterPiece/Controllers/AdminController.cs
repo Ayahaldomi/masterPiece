@@ -84,9 +84,9 @@ namespace MasterPiece.Controllers
             }
         }
 
-        public ActionResult AddPatientTests()//int orderID
+        public ActionResult AddPatientTests(int orderID)//int orderID
         {
-            var order = db.Test_Order.Find(1002);
+            var order = db.Test_Order.Find(orderID);
             ViewBag.TestsList = db.Tests.ToList();
             return View(order);
         }
@@ -142,9 +142,9 @@ namespace MasterPiece.Controllers
         }
 
 
-        public ActionResult AddPatientPayment() //int orderId
+        public ActionResult AddPatientPayment(int orderId) //int orderId
         {
-            var order = db.Test_Order.Find(1002);
+            var order = db.Test_Order.Find(orderId);
             return View(order);
         }
 
@@ -161,10 +161,14 @@ namespace MasterPiece.Controllers
             {
                 Order.Discount_Persent = model.Discount_Persent;
             }
+            if (Order.Amount_Paid == null)
+            {
+                Order.Amount_Paid = 0;
+            }
             Order.Amount_Paid += model.Amount_Paid;
             db.Entry(Order).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("AddPatientPayment");//model.Order_ID
+            return RedirectToAction("AddPatientPayment", new { orderId  = model.Order_ID });//model.Order_ID
 
 
         }
@@ -202,19 +206,19 @@ namespace MasterPiece.Controllers
             return View(tests);
         }
 
-        public ActionResult TestResultsAdd()// int OrderID
+        public ActionResult TestResultsAdd(int OrderID)// int OrderID
         {
-            var order = db.Test_Order.Find(1);
+            var order = db.Test_Order.Find(OrderID);
             return View(order);
         }
 
-        public ActionResult Status(int OrderID) 
+        public ActionResult Status(int Orderid) 
         {
-            var order = db.Test_Order.Find(OrderID);
+            var order = db.Test_Order.Find(Orderid);
             order.Status = "Completed";
             db.Entry(order).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("TestResultsAdd");
+            return RedirectToAction("TestResultsAdd", new { OrderID = Orderid });
 
         }
 
@@ -226,35 +230,22 @@ namespace MasterPiece.Controllers
                 foreach (var testResult in model.Test_Order_Tests)
                 {
                     var existingTestResult = db.Test_Order_Tests.FirstOrDefault(t => t.ID == testResult.ID);
-                    if (existingTestResult != null)
+                    if (testResult.Result != null)
                     {
                         existingTestResult.Result = testResult.Result;
                         existingTestResult.Status = "Completed";
-                        // Update any other necessary fields
                         db.Entry(existingTestResult).State = EntityState.Modified;
                     }
                 }
                 db.SaveChanges();
 
-                // Optionally redirect back to the same view or to a different page
-                return RedirectToAction("TestResultsAdd", new { id = model.Order_ID });
+                return RedirectToAction("TestResultsAdd", new { Orderid = model.Order_ID });
             }
 
             return View(model); // Return view with model if there's an error
         }
 
-        //public ActionResult PrintPDF(int OrderID) 
-        //{
-        //    var order = db.Test_Order.Find(OrderID);
-
-        //    foreach (var testResult in order.Test_Order_Tests) {
-        //        if (testResult.Status == "Pending") { 
-                    
-        //        }
-        //    }
-
-            
-        //}
+        
 
 
         ///////////////////////////////////////  Appointment  ////////////////////////////////////////////////////
@@ -290,11 +281,51 @@ namespace MasterPiece.Controllers
         {
             return View();
         }
-
+        ///////////////////////////////////////// Tests Documentation ///////////////////////////////////////////////
         public ActionResult TestsDocumentation()
         {
             var tests = db.Tests.ToList();
             return View(tests);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateTest(Test model) 
+        {
+            if (ModelState.IsValid)
+            {
+                db.Tests.Add(model);
+                db.SaveChanges();
+
+            }
+
+            return RedirectToAction("TestsDocumentation");
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTest(Test model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+               
+            }
+            return RedirectToAction("TestsDocumentation");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteTest(int Test_ID)
+        {
+            var test = db.Tests.Find(Test_ID);
+            if (test != null)
+            {
+                db.Tests.Remove(test);
+                db.SaveChanges();
+            }
+            return RedirectToAction("TestsDocumentation");
         }
 
         public ActionResult TestsDocumentationssssssssssss()
@@ -309,7 +340,7 @@ namespace MasterPiece.Controllers
 
 
 
-        ////////////////////////////////////////////Emloyee Page ///////////////////////////////////
+        //////////////////////////////////////////// Emloyee Page ///////////////////////////////////
       
         public ActionResult Employees()
         {
@@ -506,7 +537,7 @@ namespace MasterPiece.Controllers
                 }
                 db.SaveChanges();
 
-                db.Entry(package).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(package).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Packages");
             }
@@ -518,7 +549,6 @@ namespace MasterPiece.Controllers
         [HttpPost]
         public ActionResult DeletePackage(int Package_ID)
         {
-            // Find the package by ID
             var package = db.Packages.Find(Package_ID);
 
             if (package == null)
@@ -526,19 +556,14 @@ namespace MasterPiece.Controllers
                 return HttpNotFound();
             }
 
-            // Find all tests associated with this package
             var packageTests = db.Package_Tests.Where(pt => pt.Package_ID == Package_ID).ToList();
 
-            // Remove all associated tests for this package
             db.Package_Tests.RemoveRange(packageTests);
 
-            // Remove the package itself
             db.Packages.Remove(package);
 
-            // Save changes to the database
             db.SaveChanges();
 
-            // Redirect back to the package list or any other page
             return RedirectToAction("Packages");
         }
 
@@ -626,12 +651,42 @@ namespace MasterPiece.Controllers
 
         public ActionResult DoctorReport()
         {
-            return View();
+            var ordersWithDoctorReport = db.Test_Order
+                   .Where(order => order.Test_Order_Tests.Any(t => t.Test.Test_Name == "Doctor Report"))
+                   .ToList(); 
+            
+            return View(ordersWithDoctorReport);
         }
 
-        public ActionResult DoctorReportAdd()
+        public ActionResult DoctorReportAdd(int orderID)
         {
-            return View();
+            var order = db.Test_Order.Find(orderID);
+            return View(order);
+        }
+
+        [HttpPost]
+        public ActionResult saveDoctorReport(int orderID, string DoctorReport)
+        {
+            var test = db.Test_Order_Tests.Where(t => t.Order_ID == orderID && t.Test.Test_Name == "Doctor Report").FirstOrDefault();
+            test.Result = DoctorReport;
+            test.Status = "Completed";
+            db.Entry(test).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("DoctorReportAdd", new { orderID = orderID });
+
+        }
+
+
+        public ActionResult patientDoctor(int patientID)
+        {
+            var patient = new PatientAndTests
+            {
+                Patients = db.Patients.Find(patientID),
+                TestOrders = db.Test_Order.Where(p => p.Patient_ID == patientID).ToList()
+            };
+            return View(patient);
+
         }
 
 
