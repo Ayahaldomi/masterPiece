@@ -9,7 +9,8 @@ using System.Web.Mvc;
 using System.IO;
 using Microsoft.AspNet.SignalR.Hubs;
 using PayPal.Api;
-
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace MasterPiece.Controllers
 {
@@ -569,25 +570,7 @@ namespace MasterPiece.Controllers
 
 
 
-        //public ActionResult EditPackage(int id)
-        //{
-        //    // Fetch the package details
-        //    var package = db.Packages.Include(p => p.Package_Tests.Select(t => t.Test)).FirstOrDefault(p => p.Package_ID == id);
-
-        //    // Fetch the list of all tests
-        //    var tests = db.Tests.Select(t => new { t.Test_ID, t.Test_Name, t.Price }).ToList();
-
-        //    // Prepare the selected tests to pass to the view
-        //    var selectedTests = package.Package_Tests.Select(pt => new {
-        //        pt.Test.Test_Name,
-        //        pt.Test.Price
-        //    }).ToList();
-
-        //    ViewBag.TestsList = tests;
-        //    ViewBag.SelectedTests = selectedTests;
-
-        //    return View(package);
-        //}
+        
 
 
         ///////////////////////////////////////////////////////          FeedBack          ///////////////////////////////////////////////////////////
@@ -647,8 +630,84 @@ namespace MasterPiece.Controllers
             return RedirectToAction("FeedBacks");
         }
 
+
+        ////////////////////////////////////////////  Contact Us ////////////////////////////////////////////
+        
+        public ActionResult ContactAdmin()
+        {
+            var contact = db.Contacts.OrderByDescending(l => l.sent_date).ToList();
+
+        return View(contact); 
+        
+        }
+
+        public ActionResult contactDetails(int contactID)
+        {
+            var contact = db.Contacts.Find(contactID);
+            return View(contact);
+        }
+
+        [HttpPost]
+        public ActionResult contactDetails(Contact contact)
+        {
+            var contactPUT = db.Contacts.Find(contact.contact_id);
+            contactPUT.admin_response = contact.admin_response;
+            contactPUT.response_date = DateTime.Now;
+            contactPUT.status = 1;
+
+            db.Entry(contactPUT).State = EntityState.Modified;
+            db.SaveChanges();
+
+            try
+            {
+                string fromEmail = "election2024jordan@gmail.com";
+                string fromName = "PrimeLab";
+                string subjectText = "Patient ID";
+                string messageText = $@"
+                     <html>
+                    <body>
+                        <h2>Hello</h2>
+                        <pre>{contactPUT.admin_response}</pre>
+                        <p>If you have any more questions, feel free to reach out to us.</p>
+                        <p>With best regards,<br>Admin</p>
+                    </body>
+                    </html>";
+                string toEmail = contactPUT.email;
+                string smtpServer = "smtp.gmail.com";
+                int smtpPort = 465; // Port 465 for SSL
+
+                string smtpUsername = "election2024jordan@gmail.com";
+                string smtpPassword = "zwht jwiz ivfr viyt"; // Ensure this is correct
+
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(fromName, fromEmail));
+                message.To.Add(new MailboxAddress("", toEmail));
+                message.Subject = subjectText;
+                message.Body = new TextPart("html") { Text = messageText };
+
+                using (var client = new SmtpClient())
+                {
+                    client.Connect(smtpServer, smtpPort, true); // Use SSL
+                    client.Authenticate(smtpUsername, smtpPassword);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+                TempData["Email"] = "An Email With Your Patient ID Was Sent To You!";
+                return RedirectToAction("ContactAdmin");
+            }
+            catch
+            {
+                return RedirectToAction("ContactAdmin");
+            }
+        }
+
         //////////////////////////////////////////// doctor side ////////////////////////////////////////////
 
+
+        public ActionResult DoctorDashboard()
+        {
+            return View();
+        }
         public ActionResult DoctorReport()
         {
             var ordersWithDoctorReport = db.Test_Order

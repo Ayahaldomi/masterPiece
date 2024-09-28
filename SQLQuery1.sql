@@ -26,6 +26,9 @@ CREATE TABLE Patients (
 	PaymentStatus NVARCHAR(50) DEFAULT 'Unpaid'
 );
 
+ALTER TABLE Patients
+ADD Email nvarchar(max); 
+
 -- Create the Tests table
 CREATE TABLE Tests (
     Test_ID INT PRIMARY KEY identity(1,1),

@@ -80,12 +80,12 @@
                     @foreach (var order in Model)
                     {
                         <tr data-status="@foreach(var test in order.Test_Order_Tests)
-{
-    if(test.Test.Test_Name == "Doctor Report")
-    {
-        @test.Status
-    }
-}">
+                                        {
+                                            if(test.Test.Test_Name == "Doctor Report")
+                                            {
+                                                @test.Status
+                                            }
+                                        }">
                             <td>@order.Order_ID</td>
                             <td>@order.Patient.Full_Name</td>
                             <td>
