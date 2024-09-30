@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Appointments">
       <EntityTypeMapping TypeName="MasterPieceModel.Appointment">
         <MappingFragment StoreEntitySet="Appointments">
+          <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Full_Name" ColumnName="Full_Name" />
           <ScalarProperty Name="Gender" ColumnName="Gender" />

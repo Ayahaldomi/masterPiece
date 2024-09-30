@@ -17,6 +17,7 @@
     <Property Name="Billing_ID" Type="Int32" />
     <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Appointments_Tests" Relationship="Self.FK__Appointme__Appoi__3E52440B" FromRole="Appointments" ToRole="Appointments_Tests" />
+    <Property Name="Patient_ID" Type="Int32" />
   </EntityType>
   <EntityType Name="Appointments_Tests">
     <Key>

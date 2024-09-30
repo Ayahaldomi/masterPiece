@@ -1197,6 +1197,7 @@
     <Content Include="Views\Shared\_LayoutSuperAdmin.cshtml" />
     <Content Include="Views\Admin\ContactAdmin.cshtml" />
     <Content Include="Views\Admin\contactDetails.cshtml" />
+    <Content Include="Views\User\AppointmentUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

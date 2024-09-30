@@ -11,6 +11,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 using PayPal.Api;
 using MimeKit;
 using MailKit.Net.Smtp;
+using MailKit.Search;
 
 namespace MasterPiece.Controllers
 {
@@ -126,19 +127,15 @@ namespace MasterPiece.Controllers
                     };
                     db.Test_Order_Tests.Add(orderTest);
 
-                    // Add the price of the test to the total
                     totalPrice += test.Price ?? 0;
                 }
             }
 
-            // Update the total price of the order
             order.Total_Price = totalPrice;
             db.Entry(order).State = EntityState.Modified;
 
-            // Save all changes to the database
             db.SaveChanges();
 
-            // Redirect to the payment page (or another appropriate page)
             return RedirectToAction("AddPatientPayment", new { orderId = order.Order_ID });
         }
 
@@ -277,6 +274,111 @@ namespace MasterPiece.Controllers
 
             return View(appointments.ToList());
         }
+
+        public ActionResult CompleteAppointment(int id)
+        {
+            var appointment = db.Appointments.Include(l => l.Appointments_Tests).FirstOrDefault(a => a.ID == id);
+
+            if (appointment.Patient_ID == null || appointment.Patient_ID == 0)
+            {
+                var patient = new Patient
+                {
+                    Full_Name = appointment.Full_Name,
+                    Date_Of_Birth = appointment.Date_Of_Birth,
+                    Gender = appointment.Gender,
+                    Phone_Number = Convert.ToInt32(appointment.Phone_Number),
+                    Home_Address = appointment.Home_Address,
+                    Email = appointment.Email_Address,
+
+                };
+                db.Patients.Add(patient);
+                db.SaveChanges();
+
+                var order = new Test_Order
+                {
+                    Patient_ID = patient.Patient_ID,
+                    Date = DateTime.Now,
+                    Tech_ID = 1,
+                    Status = "Pending",
+                    Total_Price = appointment.Total_price,
+                    Amount_Paid = appointment.Amount_paid,
+
+                };
+                db.Test_Order.Add(order);
+                db.SaveChanges();
+
+                foreach (var testId in appointment.Appointments_Tests)
+                {
+                    var test = db.Tests.FirstOrDefault(t => t.Test_ID == testId.Test_ID);
+                    if (test != null)
+                    {
+                        var orderTest = new Test_Order_Tests
+                        {
+                            Order_ID = order.Order_ID,
+                            Test_ID = testId.Test_ID,
+                            Date_Of_Result = null,
+                            Result = null,
+                            Comment = null,
+                            Status = "Pending"
+                        };
+                        db.Test_Order_Tests.Add(orderTest);
+                        
+                    }
+                }
+
+                appointment.Status = "Completed";
+                db.Entry(appointment).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("AddPatientPayment", new { orderId = order.Order_ID });
+
+            }
+            else
+            {
+                var order = new Test_Order
+                {
+                    Patient_ID = appointment.Patient_ID,
+                    Date = DateTime.Now,
+                    Tech_ID = 1,
+                    Status = "Pending",
+                    Total_Price = appointment.Total_price,
+                    Amount_Paid = appointment.Amount_paid,
+
+                };
+                db.Test_Order.Add(order);
+                db.SaveChanges();
+
+                foreach (var testId in appointment.Appointments_Tests)
+                {
+                    var test = db.Tests.FirstOrDefault(t => t.Test_ID == testId.Test_ID);
+                    if (test != null)
+                    {
+                        var orderTest = new Test_Order_Tests
+                        {
+                            Order_ID = order.Order_ID,
+                            Test_ID = testId.Test_ID,
+                            Date_Of_Result = null,
+                            Result = null,
+                            Comment = null,
+                            Status = "Pending"
+                        };
+                        db.Test_Order_Tests.Add(orderTest);
+
+                    }
+                }
+                db.SaveChanges();
+
+                appointment.Status = "Completed";
+                db.Entry(appointment).State = EntityState.Modified;
+
+                return RedirectToAction("AddPatientPayment", new { orderId = order.Order_ID });
+
+
+            }
+        
+        }
+   
+
 
         public ActionResult InventoryManagement()
         {

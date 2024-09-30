@@ -16,6 +16,7 @@
     <Property Name="Amount_paid" Type="decimal" Precision="10" Scale="2" />
     <Property Name="Billing_ID" Type="int" />
     <Property Name="Status" Type="nvarchar(max)" />
+    <Property Name="Patient_ID" Type="int" />
   </EntityType>
   <EntityType Name="Appointments_Tests">
     <Key>

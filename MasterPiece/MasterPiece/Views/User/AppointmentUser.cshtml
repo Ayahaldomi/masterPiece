@@ -1,4 +1,11 @@
-﻿@model IEnumerable<MasterPiece.Models.Test>
+﻿
+@{
+    ViewBag.Title = "AppointmentUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model IEnumerable<MasterPiece.Models.Test>
 
 <style>
     @@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
@@ -442,6 +449,8 @@
 
 @{
     var testValue = 0;
+
+    var user = Session["userSession"] as MasterPiece.Models.Patient;
 }
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -474,20 +483,20 @@
         <div class="form_wrap">
             <div class="form_1 data_info">
                 <h2>Personal Information</h2>
-
+                                                <input type="hidden" value="@user.Patient_ID" /> 
                 <div class="form_container">
                     <div class="input_wrap">
                         <label for="email">Full Name</label>
-                        <input type="text" name="Full_Name" class="input" id="email" required>
+                        <input type="text" name="Full_Name" class="input" id="email" required value="@user.Full_Name">
                     </div>
                     <div class="input_wrap">
                         <label for="password">Date of Birth</label>
-                        <input type="date" name="Date_Of_Birth" class="input" id="password" required>
+                        <input type="date" name="Date_Of_Birth" class="input" id="password" required value="@user.Date_Of_Birth">
                     </div>
                     <div class="input_wrap">
                         <label for="confirm_password">Gender</label>
                         @*<input type="password" name="confirm password" class="input" id="confirm_password">*@
-                        <select class="input" id="gender" name="Gender" required>
+                        <select class="input" id="gender" name="Gender" required >
                             <option value="">Select Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -502,15 +511,15 @@
                 <div class="form_container">
                     <div class="input_wrap">
                         <label for="user_name">Email Address</label>
-                        <input type="email" name="Email_Address" class="input" id="user_name" required>
+                        <input type="email" name="Email_Address" class="input" id="user_name" required value="@user.Email">
                     </div>
                     <div class="input_wrap">
                         <label for="first_name">Phone Number</label>
-                        <input type="number" name="Phone_Number" class="input" id="first_name" required>
+                        <input type="number" name="Phone_Number" class="input" id="first_name" required value="@user.Phone_Number">
                     </div>
                     <div class="input_wrap">
                         <label for="last_name">Home Address</label>
-                        <input type="text" name="Home_Address" class="input" id="last_name" required>
+                        <input type="text" name="Home_Address" class="input" id="last_name" required value="@user.Home_Address">
                     </div>
                 </div>
 
