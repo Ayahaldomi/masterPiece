@@ -62,6 +62,9 @@ CREATE TABLE Appointments (
 ALTER TABLE Appointments
 ALTER COLUMN Date_Of_Appo DATETIME;
 
+ALTER TABLE Appointments
+ADD Patient_ID INT;
+
 CREATE TABLE Appointments_Tests (
 	ID INT PRIMARY KEY IDENTITY(1,1),
     Appointment_ID BIGINT,

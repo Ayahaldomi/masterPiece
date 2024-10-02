@@ -323,7 +323,7 @@ namespace MasterPiece.Controllers
                 <p>Thank you for scheduling your appointment with PrimeLab.</p>
                 <p><strong>Appointment Details:</strong></p>
                 <ul>
-                    <li><strong>Date of Appointment:</strong> {appointmentDate}</li>
+                    <li><strong>Date of Appointment:</strong> {appointment.Date_Of_Appo}</li>
                     <li><strong>Total Price:</strong> {appointment.Total_price:C}</li>
                     <li><strong>Amount Paid:</strong> {appointment.Amount_paid:C}</li>
                     <li><strong>Tests Scheduled:</strong> {selectedTestsList}</li>

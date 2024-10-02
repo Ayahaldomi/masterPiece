@@ -90,12 +90,33 @@ namespace MasterPiece.Controllers
         {
             var order = db.Test_Order.Find(orderID);
             ViewBag.TestsList = db.Tests.ToList();
+            // Use the ViewModel in your query
+            var packageList = db.Packages
+    .Select(p => new
+    {
+        Package_ID = p.Package_ID,
+        Package_Name = p.Package_Name,
+        Price = p.Price,
+        TestIds = p.Package_Tests.Select(pt => pt.Test_ID) // Retrieve Test IDs only for now
+    })
+    .ToList() // Retrieve data into memory
+    .Select(p => new PackageViewModel
+    {
+        Package_ID = p.Package_ID,
+        Package_Name = p.Package_Name,
+        Price = p.Price,
+        Tests = string.Join(",", p.TestIds.Select(id => id.ToString())) // Now apply string.Join in memory
+    })
+    .ToList();
+
+            ViewBag.PackagesList= packageList;
+
             return View(order);
         }
 
 
         [HttpPost]
-        public ActionResult SaveTests(int orderId, List<Test_Order_Tests> selectedTests)
+        public ActionResult SaveTests(int orderId, List<Test_Order_Tests> selectedTests, string totalPriceTest)
         {
             // Get the current order
             var order = db.Test_Order.FirstOrDefault(o => o.Order_ID == orderId);
@@ -109,6 +130,8 @@ namespace MasterPiece.Controllers
                 db.Test_Order_Tests.RemoveRange(order.Test_Order_Tests);
             }
 
+            string numericPart = totalPriceTest.Replace("JOD", "").Trim();
+            var nummm = Convert.ToDecimal(numericPart);
 
             decimal totalPrice = 0;
             foreach (var testId in selectedTests)
@@ -131,7 +154,7 @@ namespace MasterPiece.Controllers
                 }
             }
 
-            order.Total_Price = totalPrice;
+            order.Total_Price = nummm;
             db.Entry(order).State = EntityState.Modified;
 
             db.SaveChanges();
@@ -377,7 +400,91 @@ namespace MasterPiece.Controllers
             }
         
         }
-   
+
+        public ActionResult DeleteAppointment(int id)
+        {
+            // Find the appointment by ID
+            var appointment = db.Appointments.Find(id);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Remove the appointment from the database
+            db.Appointments.Remove(appointment);
+            db.SaveChanges();
+
+            // Redirect back to the appointment list or another page
+            return RedirectToAction("Appointment"); // Assuming Index is the action that lists all appointments
+        }
+
+
+        public ActionResult EmailAppointment()
+        {
+            var dateToday = DateTime.Now.Date;
+            var appointmentToday = db.Appointments
+    .Where(a => a.Date_Of_Appo.HasValue &&
+                System.Data.Entity.DbFunctions.TruncateTime(a.Date_Of_Appo.Value) == dateToday &&
+                a.Status == "Pending")
+    .ToList();
+            foreach (var patient in appointmentToday)
+            {
+                string selectedTestsList = "";  // Initialize an empty string to store the test names.
+
+                foreach (var selectedTest in patient.Appointments_Tests)
+                {
+                    var test = db.Tests.Where(p => p.Test_ID == selectedTest.Test_ID).FirstOrDefault();
+
+                    selectedTestsList += test.Test_Name + ", ";
+                }
+                string appointmentDate = patient.Date_Of_Appo.HasValue
+                ? patient.Date_Of_Appo.Value.ToString("MMMM dd, yyyy")
+                : "No appointment date set";
+
+                string fromEmail = "election2024jordan@gmail.com";
+                string fromName = "PrimeLab";
+                string subjectText = "Appointment";
+                string messageText = $@"
+            <html>
+            <body>
+                <h2>Hello {patient.Full_Name},</h2>
+                <p>We Are Reminding You That You Have Scheduled An Appointment Today</p>
+                <p><strong>Appointment Details:</strong></p>
+                <ul>
+                    <li><strong>Date of Appointment:</strong> {patient.Date_Of_Appo}</li>
+                    <li><strong>Total Price:</strong> {patient.Total_price:C}</li>
+                    <li><strong>Amount Paid:</strong> {patient.Amount_paid:C}</li>
+                    <li><strong>Tests Scheduled:</strong> {selectedTestsList}</li>
+                </ul>
+                <p>If you have any questions or need to make changes to your appointment, feel free to contact us at this email or call us at (xxx-xxx-xxxx).</p>
+                <p>We look forward to seeing you at PrimeLab!</p>
+                <p>With best regards,<br>PrimeLab Team</p>
+            </body>
+            </html>";
+                string toEmail = patient.Email_Address;
+                string smtpServer = "smtp.gmail.com";
+                int smtpPort = 465; // Port 465 for SSL
+
+                string smtpUsername = "election2024jordan@gmail.com";
+                string smtpPassword = "zwht jwiz ivfr viyt"; // Ensure this is correct
+
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(fromName, fromEmail));
+                message.To.Add(new MailboxAddress("", toEmail));
+                message.Subject = subjectText;
+                message.Body = new TextPart("html") { Text = messageText };
+
+                using (var client = new SmtpClient())
+                {
+                    client.Connect(smtpServer, smtpPort, true); // Use SSL
+                    client.Authenticate(smtpUsername, smtpPassword);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+            return RedirectToAction("Appointment");
+        }
+
 
 
         public ActionResult InventoryManagement()

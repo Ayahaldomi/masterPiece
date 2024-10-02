@@ -284,6 +284,7 @@
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\PackageAndTests.cs" />
     <Compile Include="ViewModel\PackageAndTestsEDIT.cs" />
+    <Compile Include="ViewModel\PackageViewModel.cs" />
     <Compile Include="ViewModel\PatientAndChat.cs" />
     <Compile Include="ViewModel\PatientAndTests.cs" />
   </ItemGroup>
