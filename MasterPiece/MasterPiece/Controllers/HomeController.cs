@@ -81,8 +81,31 @@ namespace MasterPiece.Controllers
 
            
         }
+
+        public ActionResult AppointmentDetails(int id)
+        {
+            var packageTests = db.Package_Tests.Where(t => t.Package_ID == id).ToList();
+            var package = db.Packages.Find(id);
+            List<Test> testsList = new List<Test>();
+
+            // Iterate over each Package_Test and retrieve the corresponding Test
+            foreach (var packageTest in packageTests)
+            {
+                var test = db.Tests.Where(t => t.Test_ID == packageTest.Test_ID).FirstOrDefault();
+                if (test != null)
+                {
+                    testsList.Add(test);
+                }
+            }
+
+            // Store the testsList in TempData
+            TempData["TestsPackageList"] = testsList;
+            TempData["PackagePrice"] = package.Price;
+
+            return RedirectToAction("Appointment");
+        }
         /////////////////////////////////////////////   Appointment   ///////////////////////////////////////////
-        
+
         public ActionResult Appointment()
         {
             ViewBag.Message = "Your contact page.";

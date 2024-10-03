@@ -171,7 +171,15 @@ CREATE TABLE ChatMessages (
 ALTER TABLE ChatRooms
 ADD hasUnreadMessages BIT DEFAULT 0; -- 0 = No unread messages, 1 = Unread messages exist
 
-
+CREATE TABLE Notifications (
+    Notification_ID INT PRIMARY KEY IDENTITY(1,1),
+    Doctor_ID INT,
+    Order_ID INT,
+    Notification_Date DATETIME,
+    IsRead BIT DEFAULT 0,  -- Optional: To track whether the notification has been seen/read
+    FOREIGN KEY (Doctor_ID) REFERENCES Lab_Tech(Tech_ID),
+    FOREIGN KEY (Order_ID) REFERENCES Test_Order(Order_ID)
+);
 
 INSERT INTO Patients (Full_Name, Date_Of_Birth, Gender, Marital_Status, Nationality, Phone_Number, Home_Address, Note)
 VALUES ('John Doe', '1985-06-15', 'Male', 'Married', 'American', 1234567890, '123 Main St, New York', 'No allergies');

@@ -443,7 +443,11 @@
 @{
     var testValue = 0;
 }
+@{
+    var testsList = TempData["TestsPackageList"] as List<MasterPiece.Models.Test>;
+    var packagePrice = TempData["PackagePrice"];
 
+}
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <form id="appointmentForm" action="/Home/CreateAppointment" method="post">
     <div class="wrapper">
@@ -544,19 +548,20 @@
                     <p id="chosen_time" style="display:none;">Selected Time: <span id="time_value"></span></p>
 
                     <!-- Display additional charge when custom time is selected -->
-                    <p id="additional_charge" style="display:none;">Additional Charge: $20</p>
+                    <p id="additional_charge" style="display:none; text-align:center;">Additional Charge: $20</p>
+                    @if (packagePrice == null)
+                    {
+                        <div class="dropdown">
+                            <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
+                            <div id="dropdownItems" class="dropdown-content">
+                                @foreach (var test in Model)
+                                {
+                                    <a href="#" data-price="@test.Price" onclick="addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID)" title="@test.Description">@test.Test_Name</a>
+                                }
 
-                    <div class="dropdown">
-                        <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
-                        <div id="dropdownItems" class="dropdown-content">
-                            @foreach (var test in Model)
-                            {
-                                <a href="#" data-price="@test.Price" onclick="addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID)" title="@test.Description">@test.Test_Name</a>
-                            }
-
+                            </div>
                         </div>
-                    </div>
-
+                    }
                     <!-- Table to display selected tests -->
                     <table id="selectedTestsTable" class="test-table">
                         <thead>
@@ -765,10 +770,16 @@ window.onload = function () {
         modal_wrapper.classList.add("active");
     })
 
-    shadow.addEventListener("click", function () {
-        modal_wrapper.classList.remove("active");
-    })
+    //shadow.addEventListener("click", function () {
+    //    modal_wrapper.classList.remove("active");
+    //})
 </script>
+
+@using Newtonsoft.Json
+
+
+
+
 
 
 <script>
@@ -877,6 +888,11 @@ window.onload = function () {
             let price = parseFloat(priceText.replace("$", ""));
             total += price;
         }
+        @if (packagePrice != null) {
+            <text>
+            total = @packagePrice;
+        </text>;
+        }
 
         // Add additional charge for custom time if selected
         if (customTimeSelected) {
@@ -930,14 +946,20 @@ window.onload = function () {
         testNameCell.textContent = testName;
         priceCell.textContent = "$" + price;
 
-        // Create the remove button
-        let removeBtn = document.createElement("button");
-        removeBtn.classList.add("remove-btn");
-        removeBtn.textContent = "Remove";
-        removeBtn.onclick = function () {
-            removeTestFromTable(newRow, testId); // Call the remove function
-        };
-        actionCell.appendChild(removeBtn);
+
+        @if (packagePrice == null) {
+            <text>
+            // Create the remove button
+            let removeBtn = document.createElement("button");
+            removeBtn.classList.add("remove-btn");
+            removeBtn.textContent = "Remove";
+            removeBtn.onclick = function () {
+                removeTestFromTable(newRow, testId); // Call the remove function
+            };
+            actionCell.appendChild(removeBtn);
+            </text>
+            }
+
 
         // Append the cells to the new row
         newRow.appendChild(testNameCell);
@@ -1032,18 +1054,7 @@ window.onload = function () {
 
 
 
-    //// Handle PayPal button click
-    //document.getElementById('confirmAndPayBtn').addEventListener('click', function (event) {
-    //    event.preventDefault(); // Prevent form submission for appointment
 
-    //    // Correctly target the PayPal form
-    //    let paypalForm = document.querySelector('.paypalForm');
-    //    if (paypalForm) {
-    //        paypalForm.submit(); // Submit PayPal form separately
-    //    } else {
-    //        console.error('PayPal form not found');
-    //    }
-    //});
 
 
     document.getElementById('appointmentForm').addEventListener('submit', function (event) {
@@ -1229,22 +1240,19 @@ window.onload = function () {
         }
     }
 
-    //// Handle PayPal form submission inside the modal
-    //document.getElementById('confirmAndPayBtn').addEventListener('click', function (event) {
-    //    event.preventDefault(); // Prevent the form submission if you want to handle further logic
 
-    //    let paypalForm = document.querySelector('.paypalForm');
-    //    if (paypalForm) {
-    //        paypalForm.submit(); // Submit PayPal form separately
-    //    } else {
-    //        console.error('PayPal form not found');
-    //    }
-
-    //    // Close the modal after submission
-    //    modal.style.display = "none";
-    //});
 </script>
 
+<script>
+    @if (TempData["TestsPackageList"] != null) {
+foreach (var test in testsList)
+            {
+               <text>
+    addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID);
+        </text>;
+            }}
+
+</script>
 
 
 

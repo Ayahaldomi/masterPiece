@@ -162,6 +162,8 @@ namespace MasterPiece.Controllers
             return RedirectToAction("AddPatientPayment", new { orderId = order.Order_ID });
         }
 
+        
+
 
         public ActionResult AddPatientPayment(int orderId) //int orderId
         {
@@ -266,7 +268,33 @@ namespace MasterPiece.Controllers
             return View(model); // Return view with model if there's an error
         }
 
-        
+        public ActionResult NotifyDoctor(int orderId)
+        {
+            // Get the doctor details (this is just an example)
+            var doctor = db.Lab_Tech.Where(l => l.Status == "Doctor").FirstOrDefault(); // Replace with actual doctor logic
+
+            if (doctor != null)
+            {
+                // Create a new notification
+                var notification = new Models.Notification
+                {
+                    Doctor_ID = doctor.Tech_ID,
+                    Order_ID = orderId,
+                    Notification_Date = DateTime.Now,
+                    IsRead = false,
+
+                };
+
+                // Add to the database
+                db.Notifications.Add(notification);
+                db.SaveChanges();
+
+            }
+
+            return RedirectToAction("TestResultsAdd", new { OrderID = orderId });
+        }
+
+
 
 
         ///////////////////////////////////////  Appointment  ////////////////////////////////////////////////////
@@ -621,6 +649,13 @@ namespace MasterPiece.Controllers
                 return RedirectToAction("Profile", new { id = updatedEmployee.Tech_ID });
             }
             return View("EmployeeProfile", updatedEmployee);
+        }
+
+
+        public ActionResult LogOut()
+        {
+            Session.Remove("Employee");
+            return RedirectToAction("EmployeePortal", "Home");
         }
 
 

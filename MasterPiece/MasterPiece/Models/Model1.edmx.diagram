@@ -29,6 +29,9 @@
         <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Patie__4AB81AF0" ManuallyRouted="false" />
         <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Order__4D94879B" ManuallyRouted="false" />
         <AssociationConnector Association="MasterPieceModel.FK__Test_Orde__Test___4E88ABD4" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MasterPieceModel.Notification" Width="1.5" PointX="9.75" PointY="11" />
+        <AssociationConnector Association="MasterPieceModel.FK__Notificat__Docto__1AD3FDA4" />
+        <AssociationConnector Association="MasterPieceModel.FK__Notificat__Order__1BC821DD" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

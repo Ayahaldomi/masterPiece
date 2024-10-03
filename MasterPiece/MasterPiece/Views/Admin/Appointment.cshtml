@@ -113,8 +113,10 @@
                             <td>@Html.DisplayFor(modelItem => item.Full_Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.Gender)</td>
                             <td>@Html.DisplayFor(modelItem => item.Date_Of_Birth)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Email_Address)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Phone_Number)</td>
+                            @*<td>@Html.DisplayFor(modelItem => item.Email_Address)</td>*@
+                            <td><a href="mailTo:@item.Email_Address">@item.Email_Address</a></td>
+                            @*<td>@Html.DisplayFor(modelItem => item.Phone_Number)</td>*@
+                            <td><a href=" https://wa.me/@item.Phone_Number">@item.Phone_Number</a></td>
                             <td>@Html.DisplayFor(modelItem => item.Home_Address)</td>
                             <td>@Html.DisplayFor(modelItem => item.Date_Of_Appo)</td>
                             <td>@Html.DisplayFor(modelItem => item.Total_price)</td>
