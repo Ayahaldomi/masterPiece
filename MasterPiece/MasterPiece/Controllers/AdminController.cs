@@ -22,7 +22,19 @@ namespace MasterPiece.Controllers
         // GET: Admin
         public ActionResult AdminDashboard()
         {
-            return View();
+            var date = DateTime.Now.Date;
+            var model = new AdminDashboard
+            {
+                Total_Patients = db.Patients.Count(),
+                Todays_Patients = db.Patients.Count(x => x.Date_Created == date),
+                Todays_Appointments = db.Appointments.Count(x => DbFunctions.TruncateTime(x.Date_Of_Appo) == date),
+                Monthly_Earnings = db.Test_Order.Sum(x => x.Amount_Paid),
+                Appointments = db.Appointments.Where(x => DbFunctions.TruncateTime(x.Date_Of_Appo) == date).ToList(),
+                Payments_History = db.Test_Order.OrderByDescending(x => x.Order_ID).Take(5).ToList(),
+                Doctor_List = db.Lab_Tech.Where(x => x.Status == "Doctor"),
+                LabTech_List = db.Lab_Tech.Where(x => x.Status == "Admin")
+            };
+            return View(model);
         }
 
 
@@ -301,6 +313,7 @@ namespace MasterPiece.Controllers
         public ActionResult Appointment()
         {
             var appointments = from a in db.Appointments
+                               orderby a.Date_Of_Appo descending  // Order by Date_Of_Appo in descending order
                                select new AppointmentViewModel
                                {
                                    ID = a.ID,
@@ -325,6 +338,7 @@ namespace MasterPiece.Controllers
 
             return View(appointments.ToList());
         }
+
 
         public ActionResult CompleteAppointment(int id)
         {

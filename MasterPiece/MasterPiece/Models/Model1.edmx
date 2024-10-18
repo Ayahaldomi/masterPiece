@@ -129,6 +129,7 @@
           <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="PaymentStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Date_Created" Type="datetime" />
         </EntityType>
         <EntityType Name="Test_Order">
           <Key>
@@ -543,6 +544,7 @@
           <NavigationProperty Name="Feedbacks" Relationship="Self.FK__Feedback__Patien__5441852A" FromRole="Patients" ToRole="Feedback" />
           <NavigationProperty Name="Test_Order" Relationship="Self.FK__Test_Orde__Patie__4AB81AF0" FromRole="Patients" ToRole="Test_Order" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Date_Created" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Test_Order">
           <Key>
@@ -960,6 +962,7 @@
           <EntitySetMapping Name="Patients">
             <EntityTypeMapping TypeName="MasterPieceModel.Patient">
               <MappingFragment StoreEntitySet="Patients">
+                <ScalarProperty Name="Date_Created" ColumnName="Date_Created" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Patient_ID" ColumnName="Patient_ID" />
                 <ScalarProperty Name="Full_Name" ColumnName="Full_Name" />

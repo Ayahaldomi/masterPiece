@@ -47,7 +47,7 @@
         </div>
 
         <div class="table-container">
-            <table class="table table-striped" id="patientTable">
+            <table class="table table-striped" id="testTable">
                 <thead>
                     <tr>
                         <th scope="col">Patient ID</th>
@@ -75,17 +75,19 @@
         </div>
 
         <!-- Pagination controls -->
-        <nav>
+        @*<nav>
             <ul class="pagination" id="paginationControls"></ul>
-        </nav>
+        </nav>*@
+        <!-- Centered Pagination controls -->
+        <div id="pagination" class="text-center">
+            <button class="btn btn-outline-primary" onclick="previousPage()">Previous</button>
+            <span id="pageNumber" class="mx-2"></span>
+            <button class="btn btn-outline-primary" onclick="nextPage()">Next</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // Number of rows per page
-    const rowsPerPage = 5;
-    let currentPage = 1;
-
     // Search functionality
     function searchPatients() {
         const searchString = document.getElementById('searchInput').value.toLowerCase();
@@ -96,61 +98,63 @@
             const patientName = row.cells[1].textContent.toLowerCase();
 
             if (patientID.includes(searchString) || patientName.includes(searchString)) {
-                row.style.display = '';
+                row.style.display = ''; // Show the row
             } else {
-                row.style.display = 'none';
+                row.style.display = 'none'; // Hide the row
             }
         });
 
-        // Reset pagination after search
-        paginate();
+        // After search, reset pagination
     }
 
-    // Pagination functionality
-    function paginate() {
-        const tableRows = document.querySelectorAll('#patientTableBody tr');
-        const totalRows = Array.from(tableRows).filter(row => row.style.display !== 'none').length;
-        const totalPages = Math.ceil(totalRows / rowsPerPage);
+    // Pagination setup
+    var currentPage = 1;
+    var rowsPerPage = 6; // Set the number of rows to display per page
 
-        // Clear pagination controls
-        const paginationControls = document.getElementById('paginationControls');
-        paginationControls.innerHTML = '';
+    function displayTableRows(page) {
+        var table = document.getElementById("testTable");
+        var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        var totalRows = rows.length;
+        var totalPages = Math.ceil(totalRows / rowsPerPage);
 
-        for (let i = 1; i <= totalPages; i++) {
-            const li = document.createElement('li');
-            li.className = `page-item ${i === currentPage ? 'active' : ''}`;
-            li.innerHTML = `<a class="page-link" href="javascript:void(0)" onclick="goToPage(${i})">${i}</a>`;
-            paginationControls.appendChild(li);
-        }
+        if (page < 1) page = 1;
+        if (page > totalPages) page = totalPages;
 
-        showPage(currentPage);
-    }
-
-    // Show rows for the current page
-    function showPage(page) {
-        const tableRows = document.querySelectorAll('#patientTableBody tr');
-        let visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none');
         currentPage = page;
 
-        // Hide all rows
-        tableRows.forEach(row => row.style.display = 'none');
-
-        // Show only the rows for the current page
-        for (let i = (page - 1) * rowsPerPage; i < page * rowsPerPage && i < visibleRows.length; i++) {
-            visibleRows[i].style.display = '';
+        // Hide all rows first
+        for (var i = 0; i < totalRows; i++) {
+            rows[i].style.display = "none";
         }
 
-        paginate();
+        // Show rows for the current page
+        var start = (page - 1) * rowsPerPage;
+        var end = start + rowsPerPage;
+        for (var i = start; i < end && i < totalRows; i++) {
+            rows[i].style.display = "";
+        }
+
+        // Update page number display
+        document.getElementById("pageNumber").innerText = "Page " + currentPage + " of " + totalPages;
     }
 
-    // Handle page change
-    function goToPage(page) {
-        currentPage = page;
-        showPage(page);
+    function previousPage() {
+        if (currentPage > 1) {
+            displayTableRows(currentPage - 1);
+        }
     }
 
-    // Initial pagination setup
+    function nextPage() {
+        var table = document.getElementById("testTable");
+        var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        var totalPages = Math.ceil(rows.length / rowsPerPage);
+        if (currentPage < totalPages) {
+            displayTableRows(currentPage + 1);
+        }
+    }
+
+    // Initialize pagination on page load
     window.onload = function () {
-        paginate();
-    }
+        displayTableRows(currentPage);
+    };
 </script>

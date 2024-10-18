@@ -74,7 +74,7 @@
                                 {
                                     @Html.ActionLink("Approve", "ApproveFeedBack", new { id = item.Feedback_ID }, new { @class = "btn btn-sm btn-outline-success" })
                                 }
-                                |
+                                
                                 <!-- Delete button to open delete confirmation modal -->
                                 <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteFeedbackModal"
                                         onclick="setDeleteFeedback('@item.Feedback_ID', '@item.Message')">

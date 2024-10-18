@@ -271,6 +271,7 @@
     </Compile>
     <Compile Include="PayPal\PayPalHelper.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\AdminDashboard.cs" />
     <Compile Include="ViewModel\AppointmentPOST.cs" />
     <Compile Include="ViewModel\AppointmentViewModel.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

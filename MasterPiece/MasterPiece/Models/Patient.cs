@@ -33,6 +33,7 @@ namespace MasterPiece.Models
         public string Note { get; set; }
         public string PaymentStatus { get; set; }
         public string Email { get; set; }
+        public Nullable<System.DateTime> Date_Created { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatRoom> ChatRooms { get; set; }

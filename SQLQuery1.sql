@@ -29,6 +29,9 @@ CREATE TABLE Patients (
 ALTER TABLE Patients
 ADD Email nvarchar(max); 
 
+ALTER TABLE Patients
+ADD Date_Created DATETIME DEFAULT GETDATE();
+
 -- Create the Tests table
 CREATE TABLE Tests (
     Test_ID INT PRIMARY KEY identity(1,1),

@@ -144,7 +144,13 @@
                 </tbody>
             </table>
             <!-- Pagination Controls -->
-            <ul class="pagination" id="pagination-controls"></ul>
+            @*<ul class="pagination" id="pagination-controls"></ul>*@
+            <!-- Centered Pagination controls -->
+            <div id="pagination" class="text-center">
+                <button class="btn btn-outline-primary" onclick="previousPage()">Previous</button>
+                <span id="pageNumber" class="mx-2"></span>
+                <button class="btn btn-outline-primary" onclick="nextPage()">Next</button>
+            </div>
         </div>
     </div>
 </div>
@@ -152,12 +158,12 @@
 <script>
     // Pagination variables
     let currentPage = 1;
-    const rowsPerPage = 5; // Change this number to adjust rows per page
+    const rowsPerPage = 5; // Set the number of rows to display per page
 
-    // Select table body, pagination controls, and filter buttons
+    // Select table body and filter buttons
     const tableBody = document.getElementById('table-body');
-    const paginationControls = document.getElementById('pagination-controls');
-    const rows = Array.from(tableBody.querySelectorAll('tr'));
+    const rows = Array.from(tableBody.querySelectorAll('tr')); // Keep the original rows as a reference
+    let filteredRows = [...rows]; // Will hold filtered rows (or all rows if no filtering is applied)
 
     const showAllButton = document.getElementById('show-all');
     const showCompletedButton = document.getElementById('show-completed');
@@ -168,25 +174,32 @@
         tableBody.innerHTML = ''; // Clear the table body
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
-        rows.slice(start, end).forEach(row => tableBody.appendChild(row));
-        updatePaginationControls();
+        filteredRows.slice(start, end).forEach(row => tableBody.appendChild(row));
+        updatePageInfo(); // Update pagination info (current page/total pages)
     }
 
-    // Update pagination controls
-    function updatePaginationControls() {
-        paginationControls.innerHTML = '';
-        const totalPages = Math.ceil(rows.length / rowsPerPage);
-        for (let i = 1; i <= totalPages; i++) {
-            const button = document.createElement('button');
-            button.textContent = i;
-            button.disabled = i === currentPage;
-            button.addEventListener('click', () => {
-                currentPage = i;
-                displayRows(currentPage);
-            });
-            const listItem = document.createElement('li');
-            listItem.appendChild(button);
-            paginationControls.appendChild(listItem);
+    // Update page info and disable buttons when necessary
+    function updatePageInfo() {
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        document.getElementById('pageNumber').innerText = `Page ${currentPage} of ${totalPages}`;
+        document.querySelector('button[onclick="previousPage()"]').disabled = currentPage === 1;
+        document.querySelector('button[onclick="nextPage()"]').disabled = currentPage === totalPages;
+    }
+
+    // Previous page button handler
+    function previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            displayRows(currentPage);
+        }
+    }
+
+    // Next page button handler
+    function nextPage() {
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayRows(currentPage);
         }
     }
 
@@ -196,38 +209,36 @@
 
     searchButton.addEventListener('click', () => {
         const query = searchInput.value.toLowerCase();
-        const filteredRows = rows.filter(row => {
+        filteredRows = rows.filter(row => {
             const testId = row.cells[0].textContent.toLowerCase();
             const patientName = row.cells[1].textContent.toLowerCase();
             const testName = row.cells[2].textContent.toLowerCase();
             return testId.includes(query) || patientName.includes(query) || testName.includes(query);
         });
-        tableBody.innerHTML = ''; // Clear the table body
-        filteredRows.forEach(row => tableBody.appendChild(row));
-        updatePaginationControls();
+        currentPage = 1; // Reset to the first page
+        displayRows(currentPage);
     });
 
     // Filter functionality
     showAllButton.addEventListener('click', () => {
-        tableBody.innerHTML = ''; // Clear the table
-        rows.forEach(row => tableBody.appendChild(row)); // Show all rows
-        updatePaginationControls();
+        filteredRows = [...rows]; // Show all rows
+        currentPage = 1; // Reset to the first page
+        displayRows(currentPage);
     });
 
     showCompletedButton.addEventListener('click', () => {
-        const filteredRows = rows.filter(row => row.cells[3].textContent.trim().toLowerCase() === 'completed');
-        tableBody.innerHTML = ''; // Clear the table
-        filteredRows.forEach(row => tableBody.appendChild(row)); // Show only completed rows
-        updatePaginationControls();
+        filteredRows = rows.filter(row => row.cells[3].textContent.trim().toLowerCase() === 'completed');
+        currentPage = 1; // Reset to the first page
+        displayRows(currentPage);
     });
 
     showPendingButton.addEventListener('click', () => {
-        const filteredRows = rows.filter(row => row.cells[3].textContent.trim().toLowerCase() === 'pending');
-        tableBody.innerHTML = ''; // Clear the table
-        filteredRows.forEach(row => tableBody.appendChild(row)); // Show only pending rows
-        updatePaginationControls();
+        filteredRows = rows.filter(row => row.cells[3].textContent.trim().toLowerCase() === 'pending');
+        currentPage = 1; // Reset to the first page
+        displayRows(currentPage);
     });
 
     // Initialize pagination
     displayRows(currentPage);
 </script>
+

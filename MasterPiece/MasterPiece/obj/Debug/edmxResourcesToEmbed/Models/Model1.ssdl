@@ -124,6 +124,7 @@
     <Property Name="Note" Type="nvarchar(max)" />
     <Property Name="PaymentStatus" Type="nvarchar" MaxLength="50" />
     <Property Name="Email" Type="nvarchar(max)" />
+    <Property Name="Date_Created" Type="datetime" />
   </EntityType>
   <EntityType Name="Test_Order">
     <Key>

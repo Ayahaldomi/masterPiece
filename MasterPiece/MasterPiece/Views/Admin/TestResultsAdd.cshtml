@@ -90,10 +90,7 @@
                         </div>
                         <div class="col-md-6 d-flex justify-content-flex-start">
                             <label for="testOrder" class="fw-bolder">Test Order Status: @Model.Status</label>
-                            <a href="@Url.Action("Status", "Admin", new {OrderID = Model.Order_ID})">
-
-                                <button id="mark-completed-button" type="button" class="btn btn-success">Mark as Completed</button>
-                            </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -101,6 +98,10 @@
 
         </div>
         <div class="table-container">
+            <a href="@Url.Action("Status", "Admin", new {OrderID = Model.Order_ID})">
+
+                <button id="mark-completed-button" type="button" class="btn btn-success">Mark Test Order as Completed</button>
+            </a>
             <form id="testResultsForm" action="/Admin/SaveTestResults" method="post">
                 <input type="hidden" value="@Model.Order_ID" name="Order_ID" />
                 <table class="table table-striped">
@@ -154,7 +155,7 @@
                 </table>
                 <div class="text-center mt-4">
                     <button id="save-button" type="submit" class="btn btn-primary">Save</button>
-                    <button id="print-button" type="button" class="btn btn-secondary" >Print</button>
+                    <button id="print-button" type="button" class="btn btn-secondary">Print</button>
 
                 </div>
             </form>

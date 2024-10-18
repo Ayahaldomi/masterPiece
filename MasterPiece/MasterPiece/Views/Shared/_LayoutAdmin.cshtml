@@ -46,6 +46,12 @@
 <body>
     @{ 
         var employee = Session["Employee"] as MasterPiece.Models.Lab_Tech;
+        if (employee == null)
+        {
+            // Redirect to login page if employee session is null
+            Response.Redirect(Url.Action("EmployeePortal", "Home"));
+            return;
+        }
     }
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -134,7 +140,9 @@
                                 <span class="hide-menu">Packages</span>
                             </a>
                         </li>
-                        @if (employee.Status == "Super Admin")
+                        @if (employee != null)
+                        {
+                        if (employee.Status == "Super Admin")
                         {
                             <li class="sidebar-item">
                                 <a class="sidebar-link" href="@Url.Action("Employees", "Admin")" aria-expanded="false">
@@ -160,8 +168,9 @@
                                     <span class="hide-menu">Contact Us</span>
                                 </a>
                             </li>
+                            }
                         }
-                        @*@{
+                       @*@{
             var controller = ViewContext.RouteData.Values["controller"].ToString();
             var action = ViewContext.RouteData.Values["action"].ToString();
 
@@ -225,14 +234,7 @@
                                             <i class="ti ti-user fs-6"></i>
                                             <p class="mb-0 fs-3">My Profile</p>
                                         </a>
-                                        @*<a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-mail fs-6"></i>
-                                            <p class="mb-0 fs-3">My Account</p>
-                                        </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-list-check fs-6"></i>
-                                            <p class="mb-0 fs-3">My Task</p>
-                                        </a>*@
+                                       
                                         <a href="@Url.Action("LogOut", "Admin")" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
