@@ -331,7 +331,10 @@
     <Content Include="myContent\assets\images\backgrounds\rocket.png" />
     <Content Include="myContent\assets\images\logos\2.png" />
     <Content Include="myContent\assets\images\logos\dark-logo.svg" />
+    <Content Include="myContent\assets\images\logos\doctorICON.png" />
     <Content Include="myContent\assets\images\logos\favicon.png" />
+    <Content Include="myContent\assets\images\logos\labTechICON.png" />
+    <Content Include="myContent\assets\images\logos\patientICON.png" />
     <Content Include="myContent\assets\images\logos\PDFfooter.png" />
     <Content Include="myContent\assets\images\logos\PDFheader.png" />
     <Content Include="myContent\assets\images\logos\Prime Lab.png" />

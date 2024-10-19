@@ -7,13 +7,13 @@
 
                                     @foreach (var message in Model)
                                     {
-                                        if (message.SenderType == "LabTech")
+                                        if (message.SenderType == "Doctor")
                                         {
 
 
                                             <div class="d-flex flex-row justify-content-start">
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                                                     alt="avatar 1" style="width: 45px; height: 100%;">
+                                                <img src="~/myContent/assets/images/logos/doctorICON.png"
+                                                     alt="avatar 1" style="width: 45px; height: 100%; border-radius: 50%;">
                                                 <div>
                                                     <span  style="margin-left: 20px;">@message.ChatRoom.Lab_Tech.Name</span>
                                                     <p class="fs-4 p-2 ms-3 mb-1 rounded-3 bg-body-tertiary">
@@ -41,8 +41,8 @@
 : "N/A")
                                         </p>
                                     </div>
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                         alt="avatar 1" style="width: 45px; height: 100%;">
+                                    <img src="~/myContent/assets/images/logos/patientICON.png"
+                                         alt="avatar 1" style="width: 45px; height: 100%; border-radius: 50%;">
                                 </div>
                 }
                                     }

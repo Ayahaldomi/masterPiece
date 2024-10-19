@@ -73,6 +73,13 @@
         margin-top: 18px;
         margin-bottom: 15px;
     }
+    div#chatMessages {
+        background-color: #69acc736;
+        border-radius: 8px;
+    }
+    .bg-primary {
+        background-color: #69acc7 !important;
+    }
 </style>
 
 <!-- Chat messages display area -->
@@ -146,12 +153,12 @@
                             @if (ViewBag.ChatRoomId != null)
                             {
                                 <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3" style="width: 40px; height: 100%;">
+                                    <img src="~/myContent/assets/images/logos/doctorICON.png" alt="avatar 3" style="width: 40px; height: 100%;">
                                     @using (Html.BeginForm("SendMessage", "Chat", FormMethod.Post, new { @class = "w-100" }))
                                     {
                                         @Html.Hidden("chatRoomId", (int)ViewBag.ChatRoomId)
                                         @Html.Hidden("senderId", (int)ViewBag.LabTechId)
-                                        @Html.Hidden("senderType", "LabTech")
+                                        @Html.Hidden("senderType", "Doctor")
 
 
                                         <div class="d-flex align-items-center w-100">

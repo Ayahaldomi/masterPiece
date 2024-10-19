@@ -35,6 +35,8 @@ namespace MasterPiece.Controllers
         [HttpPost]
         public ActionResult SignUp(Patient patient)
         {
+            patient.PaymentStatus = "Unpaid";
+            patient.Date_Created = DateTime.Now;
             db.Patients.Add(patient);
             db.SaveChanges();
             try

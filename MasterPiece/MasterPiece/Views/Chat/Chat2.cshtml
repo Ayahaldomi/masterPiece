@@ -58,6 +58,18 @@
     p.fs-4.p-2.ms-3.mb-1.rounded-3.bg-body-tertiary {
         font-size: 0.875rem !important;
     }
+    input#messageInput {
+        border-color: #00000030 !important;
+    }
+    div#chatMessages {
+        background-color: #69acc736;
+        border-radius: 8px;
+    }
+    .bg-body-tertiary {
+        --bs-bg-opacity: 1;
+        background-color: rgba(246, 249, 252) !important
+    }
+    
 </style>
 
 <link rel="stylesheet" href="~/myContent/css/styles1.css">
@@ -115,7 +127,7 @@
                                                     @if (Model.Messages.Count(m => m.SenderId == ViewBag.PatientId && m.SenderType == "Patient") < 2 || ViewBag.PaymentStatus == "Paid")
                                                     {
                                                         <div class="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
-                                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
+                                                            <img src="~/myContent/assets/images/logos/patientICON.png"
                                                                  alt="avatar 3" style="width: 40px; height: 100%;">
                                                             @using (Html.BeginForm("SendMessage2", "Chat", FormMethod.Post, new { @class = "w-100" }))
                                                             {

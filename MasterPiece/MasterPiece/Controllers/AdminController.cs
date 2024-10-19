@@ -26,7 +26,7 @@ namespace MasterPiece.Controllers
             var model = new AdminDashboard
             {
                 Total_Patients = db.Patients.Count(),
-                Todays_Patients = db.Patients.Count(x => x.Date_Created == date),
+                Todays_Patients = db.Patients.Count(x => DbFunctions.TruncateTime(x.Date_Created) == date),
                 Todays_Appointments = db.Appointments.Count(x => DbFunctions.TruncateTime(x.Date_Of_Appo) == date),
                 Monthly_Earnings = db.Test_Order.Sum(x => x.Amount_Paid),
                 Appointments = db.Appointments.Where(x => DbFunctions.TruncateTime(x.Date_Of_Appo) == date).ToList(),

@@ -5,6 +5,12 @@
 }
 @{ 
     var employee = Session["Employee"] as MasterPiece.Models.Lab_Tech;
+    if (employee == null)
+    {
+        // Redirect to login page if employee session is null
+        Response.Redirect(Url.Action("EmployeePortal", "Home"));
+        return;
+    }
 }
 @if (employee.Status == "Admin")
 {
@@ -123,7 +129,6 @@
         <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="service-item  position-relative">
                 <div class="icon">
- <i class="fas fa-book"></i> 
 <i class="fa-solid fa-hospital-user"></i>
         </div>
         <a href="@Url.Action("AddPatient", "Admin")">
@@ -135,7 +140,6 @@
 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
     <div class="service-item position-relative">
         <div class="icon">
- <i class="fas fa-poll"></i> 
 <i class="fa-solid fa-list-check"></i>
         </div>
         <a href="@Url.Action("ManagePatient", "Admin")">
@@ -147,7 +151,6 @@
 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
     <div class="service-item position-relative">
         <div class="icon">
- <i class="fas fa-comments"></i> 
 <i class="fa-solid fa-microscope"></i>
         </div>
         <a href="@Url.Action("TestResults", "Admin")">
@@ -159,7 +162,6 @@
 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
     <div class="service-item position-relative">
         <div class="icon">
- <i class="fas fa-user-graduate"></i> 
 <i class="fa-solid fa-warehouse"></i>
         </div>
         <a href="@Url.Action("InventoryManagement", "Admin")">
@@ -172,7 +174,6 @@
 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
     <div class="service-item position-relative">
         <div class="icon">
- <i class="fas fa-poll"></i> 
 <i class="fa-solid fa-vials"></i>
         </div>
         <a href="@Url.Action("TestsDocumentation", "Admin")">
@@ -184,7 +185,6 @@
 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
     <div class="service-item position-relative">
         <div class="icon">
- <i class="fas fa-poll"></i> 
 <i class="fa-regular fa-calendar-check"></i>
         </div>
         <a href="@Url.Action("Appointment", "Admin")">
@@ -196,7 +196,6 @@
 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
     <div class="service-item position-relative">
         <div class="icon">
- <i class="fas fa-poll"></i> 
 <i class="fas fa-user"></i>
         </div>
         <a href="@Url.Action("Employees", "Admin")">
@@ -208,7 +207,6 @@
 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
     <div class="service-item position-relative">
         <div class="icon">
- <i class="fas fa-poll"></i> 
 <i class="fas fa-box"></i>
         </div>
         <a href="@Url.Action("Packages", "Admin")">
@@ -404,7 +402,7 @@ else
                 <div class="stat-card bg-warning">
                     <div>
                         <h5>Today's Patients</h5>
-                        <h2>@Model.Total_Patients</h2>
+                        <h2>@Model.Todays_Patients</h2>
                     </div>
                     <div>
                         <i class="fas fa-user-injured"></i>
@@ -499,10 +497,10 @@ else
                         <ul class="list-unstyled">
                             @foreach (var doc in Model.Doctor_List)
                             {
-                                <li class="doctor-item">
-                                    <img src="https://via.placeholder.com/40" class="me-3" alt="Doctor">
+                                <li class="doctor-item d-flex align-items-center">
+                                    <img src="~/myContent/assets/images/logos/doctorICON.png" class="me-3" alt="Doctor" width="40">
                                     <div>
-                                        <strong>Dr. @doc.Name</strong><br>
+                                        <strong>@doc.Name</strong><br>
                                     </div>
                                 </li>
                             }
@@ -520,12 +518,12 @@ else
                         <ul class="list-unstyled">
                             @foreach (var lab in Model.LabTech_List)
                             {
-                                <li class="doctor-item">
-                                    <img src="https://via.placeholder.com/40" class="me-3" alt="Doctor">
-                                    <div>
-                                        <strong>@lab.Name </strong><br>
-                                    </div>
-                                </li>
+                               <li class="doctor-item d-flex align-items-center">
+                                   <img src="~/myContent/assets/images/logos/labTechICON.png" class="me-3" alt="Doctor" width="40">
+                                   <div>
+                                       <strong>@lab.Name</strong><br>
+                                   </div>
+                               </li>
                             }
                             
                         </ul>
