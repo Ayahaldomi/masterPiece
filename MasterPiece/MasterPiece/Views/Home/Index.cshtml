@@ -1,5 +1,6 @@
 ﻿@model MasterPiece.ViewModel.HomeViewModel
 
+
 <style>
 
 
@@ -239,7 +240,7 @@
                                     <p class="text-white mb-2">Experience</p>
                                     <h5 class="text-white mb-0">Staff</h5>
                                     <br />
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -252,7 +253,7 @@
                                     <p class="text-white mb-2">Quality</p>
                                     <h5 class="text-white mb-0">Services</h5>
                                     <br />
-                                 
+
                                 </div>
                             </div>
                         </div>
@@ -286,10 +287,16 @@
                                     }
                                     else
                                     {
-                                        <a href="@Url.Action("CreateChatRoom", "Chat")" class="btn btn-light mt-2">
-                                            Chat with a Doctor
-                                        </a>
-
+                                        
+                                         var user = Session["userSession"] as MasterPiece.Models.Patient;
+                                        
+                                        
+                                        using (Html.BeginForm("CreateChatRoom", "Chat", FormMethod.Post))
+                                        {
+                                            @Html.Hidden("labTechId", 1)
+                                            @Html.Hidden("patientId", user.Patient_ID)
+                                            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-light mt-2">Chat With A Doctor</button>
+                                        }
                                     }
 
                                 </div>
@@ -373,7 +380,9 @@
 
 
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Book Appointment</button>
+                                <a href="@Url.Action("Appointment","Home")">
+                                    <button class="btn btn-primary w-100 py-3" type="button">Book Appointment</button>
+                                </a>
                             </div>
                         </div>
                     </form>

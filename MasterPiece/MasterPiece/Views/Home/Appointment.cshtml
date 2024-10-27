@@ -440,6 +440,46 @@
     }
 </style>
 
+
+<style>
+    /* Modal styling */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto; /* Center the modal */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less depending on the size you want */
+        max-width: 500px;
+    }
+
+    /* Close button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+</style>
 @{
     var testValue = 0;
 }
@@ -449,7 +489,7 @@
 
 }
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<form id="appointmentForm" action="/Home/CreateAppointment" method="post">
+<form id="appointmentForm" action="/Home/CreateAppointment" method="post" novalidate>
     <div class="wrapper">
         <div class="header">
             <ul>
@@ -567,8 +607,12 @@
                         <thead>
                             <tr>
                                 <th>Test Name</th>
-                                <th>Price ($)</th>
-                                <th>Action</th> <!-- New "Action" column for remove button -->
+                                <th>Price (JOD)</th>
+                                @if (packagePrice == null)
+                                {
+                                    <th>Action</th>
+                                }
+                                <!-- New "Action" column for remove button -->
                             </tr>
                         </thead>
                         <tbody id="testTableBody">
@@ -578,10 +622,14 @@
                             <tr>
                                 <th>Total</th>
                                 <th id="totalPrice">
-                                    $0
+                                    0 JOD
                                     @*<input type="hidden" name="Total_price" id="Total_price" />*@
                                 </th>
-                                <th></th> <!-- Empty cell for alignment -->
+                                @if (packagePrice == null)
+                                {
+                                    <th></th>
+                                }
+                                <!-- Empty cell for alignment -->
                             </tr>
                         </tfoot>
                     </table>
@@ -766,9 +814,9 @@ window.onload = function () {
         form_4_progessbar.classList.remove("active");
     });
 
-    btn_done.addEventListener("click", function () {
-        modal_wrapper.classList.add("active");
-    })
+    //btn_done.addEventListener("click", function () {
+    //    modal_wrapper.classList.add("active");
+    //})
 
     //shadow.addEventListener("click", function () {
     //    modal_wrapper.classList.remove("active");
@@ -801,7 +849,7 @@ window.onload = function () {
     }
 
     // Custom time charge amount
-    const customTimeCharge = 20;
+    const customTimeCharge = 5;
     let customTimeSelected = false;
 
     // Handle date change to fetch booked times
@@ -885,7 +933,7 @@ window.onload = function () {
         let rows = tableBody.getElementsByTagName("tr");
         for (let i = 0; i < rows.length; i++) {
             let priceText = rows[i].getElementsByTagName("td")[1].textContent;
-            let price = parseFloat(priceText.replace("$", ""));
+            let price = parseFloat(priceText.replace(" JOD", ""));
             total += price;
         }
         @if (packagePrice != null) {
@@ -900,7 +948,7 @@ window.onload = function () {
         }
 
         // Update the total price in the table footer
-        totalPriceElement.textContent = "$" + total;
+        totalPriceElement.textContent = total + " JOD";
 
         paypalValue.value = parseFloat(total);
         testValue = parseFloat(total);
@@ -940,11 +988,15 @@ window.onload = function () {
         // Create cells for test name, price, and remove button
         let testNameCell = document.createElement("td");
         let priceCell = document.createElement("td");
-        let actionCell = document.createElement("td");
 
+        @if (packagePrice == null) {
+            <text>
+        let actionCell = document.createElement("td");
+         </text>
+        }
         // Set the cell values
         testNameCell.textContent = testName;
-        priceCell.textContent = "$" + price;
+        priceCell.textContent = price + " JOD";
 
 
         @if (packagePrice == null) {
@@ -964,8 +1016,12 @@ window.onload = function () {
         // Append the cells to the new row
         newRow.appendChild(testNameCell);
         newRow.appendChild(priceCell);
-        newRow.appendChild(actionCell);
 
+        @if (packagePrice == null) {
+            <text>
+        newRow.appendChild(actionCell);
+         </text>
+        }
         // Append the new row to the table body
         tableBody.appendChild(newRow);
 
@@ -1058,30 +1114,32 @@ window.onload = function () {
 
 
     document.getElementById('appointmentForm').addEventListener('submit', function (event) {
+        
         // Get the selected date
         event.preventDefault(); // Prevent the default form submission
+        if (validateForm()) {
+            // Check if PayPal is selected
+            const isPayPalSelected = document.getElementById('paypal').checked;
 
-        // Check if PayPal is selected
-        const isPayPalSelected = document.getElementById('paypal').checked;
+            if (isPayPalSelected) {
+                // Temporarily store the appointment data using AJAX before PayPal payment
+                storeAppointmentData();
+            } else {
+                const appointmentForm = document.getElementById('appointmentForm');
 
-        if (isPayPalSelected) {
-            // Temporarily store the appointment data using AJAX before PayPal payment
-            storeAppointmentData();
-        } else {
-            const appointmentForm = document.getElementById('appointmentForm');
+                // Set the combined date and time before submitting the form
+                const selectedDate = document.getElementById('preferred_date').value;
+                const selectedTime = document.getElementById('time_value').innerText;
+                const combinedDateTime = selectedDate + "T" + selectedTime;
 
-            // Set the combined date and time before submitting the form
-            const selectedDate = document.getElementById('preferred_date').value;
-            const selectedTime = document.getElementById('time_value').innerText;
-            const combinedDateTime = selectedDate + "T" + selectedTime;
+                document.getElementById('dateOfAppointment').value = combinedDateTime;
 
-            document.getElementById('dateOfAppointment').value = combinedDateTime;
+                // Set the total price in the hidden input
+                document.getElementById('Total_price').value = document.getElementById('totalPrice').textContent.replace(' JOD', '');
 
-            // Set the total price in the hidden input
-            document.getElementById('Total_price').value = document.getElementById('totalPrice').textContent.replace('$', '');
-
-            // Submit the form
-            appointmentForm.submit();
+                // Submit the form
+                appointmentForm.submit();
+            }
         }
     });
     function storeAppointmentData() {
@@ -1159,6 +1217,103 @@ window.onload = function () {
         }
     });
 
+    //// Get the error modal
+    //var errorModal = document.getElementById("errorModal");
+
+    //// Get the close button in the error modal
+    //var closeErrorModal = errorModal.querySelector(".close");
+
+    //// Function to open the error modal with a custom message
+    //function showErrorModal(message) {
+    //    document.getElementById("errorMessage").textContent = message;
+    //    errorModal.style.display = "block";
+    //}
+
+    //// Close the error modal when the user clicks on the close button
+    //closeErrorModal.onclick = function () {
+    //    errorModal.style.display = "none";
+    //};
+
+    //// Close the error modal if the user clicks outside of it
+    //window.onclick = function (event) {
+    //    if (event.target == errorModal) {
+    //        errorModal.style.display = "none";
+    //    }
+    //};
+
+    //// Function to validate form inputs
+    //function validateForm() {
+    //    // List of required fields
+    //    const requiredFields = [
+    //        document.getElementById('email'),
+    //        document.getElementById('password'),
+    //        document.getElementById('gender'),
+    //        document.getElementById('user_name'),
+    //        document.getElementById('first_name'),
+    //        document.getElementById('last_name'),
+    //        document.getElementById('preferred_date'),
+    //        document.getElementById('time_value')
+    //    ];
+
+    //    // Check if any required field is empty
+    //    for (let field of requiredFields) {
+    //        if (!field || !field.value.trim()) {
+    //            showErrorModal("Please fill in all required fields.");
+    //            return false; // Stop form submission
+    //        }
+    //    }
+
+    //    // If all fields are filled, return true to proceed with form submission
+    //    return true;
+    //}
+
+
+</script>
+
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("paypalModal");
+
+    // Get the radio button that opens the modal
+    var paypalRadio = document.getElementById("paypal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the PayPal radio button, open the modal
+    //paypalRadio.onclick = function () {
+    //    modal.style.display = "block";
+    //}
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+</script>
+
+<script>
+    @if (TempData["TestsPackageList"] != null) {
+foreach (var test in testsList)
+            {
+               <text>
+    addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID);
+        </text>;
+            }}
+
+</script>
+
+<script>
+    // error model
+
     // Get the error modal
     var errorModal = document.getElementById("errorModal");
 
@@ -1185,73 +1340,49 @@ window.onload = function () {
 
     // Function to validate form inputs
     function validateForm() {
-        // List of required fields
-        const requiredFields = [
-            document.getElementById('email'),
-            document.getElementById('password'),
-            document.getElementById('gender'),
-            document.getElementById('user_name'),
-            document.getElementById('first_name'),
-            document.getElementById('last_name'),
-            document.getElementById('preferred_date'),
-            document.getElementById('time_value')
+
+        const appointmentForm = document.getElementById('appointmentForm');
+
+        // Set the combined date and time before submitting the form
+        const selectedDate = document.getElementById('preferred_date').value;
+        const selectedTime = document.getElementById('time_value').innerText;
+        const combinedDateTime = selectedDate + "T" + selectedTime;
+
+        document.getElementById('dateOfAppointment').value = combinedDateTime;
+
+        // List of required fields and their labels
+        const fields = [
+            { id: 'email', label: 'Full Name' },
+            { id: 'password', label: 'Date of Birth' },
+            { id: 'gender', label: 'Gender' },
+            { id: 'user_name', label: 'Email Address' },
+            { id: 'first_name', label: 'Phone Number' },
+            { id: 'last_name', label: 'Home Address' },
+            { id: 'dateOfAppointment', label: 'Preferred Date' },
+           
         ];
 
-        // Check if any required field is empty
-        for (let field of requiredFields) {
-            if (!field || !field.value.trim()) {
-                showErrorModal("Please fill in all required fields.");
-                return false; // Stop form submission
+        // Array to hold missing fields
+        let missingFields = [];
+
+        // Check each field and if empty, add its label to the missingFields array
+        fields.forEach(field => {
+            let input = document.getElementById(field.id);
+            if (!input || !input.value) {
+                missingFields.push(field.label);
             }
+        });
+
+        // If there are missing fields, display an error message listing them
+        if (missingFields.length > 0) {
+            let message = "Please fill in the following fields:\n" + missingFields.join(', ');
+            showErrorModal(message);
+            return false; // Stop form submission
         }
 
         // If all fields are filled, return true to proceed with form submission
         return true;
     }
-
-
-</script>
-
-
-<script>
-    // Get the modal
-    var modal = document.getElementById("paypalModal");
-
-    // Get the radio button that opens the modal
-    var paypalRadio = document.getElementById("paypal");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the PayPal radio button, open the modal
-    //paypalRadio.onclick = function () {
-    //    modal.style.display = "block";
-    //}
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-
-</script>
-
-<script>
-    @if (TempData["TestsPackageList"] != null) {
-foreach (var test in testsList)
-            {
-               <text>
-    addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID);
-        </text>;
-            }}
-
 </script>
 
 

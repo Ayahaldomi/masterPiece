@@ -487,17 +487,17 @@
                 <div class="form_container">
                     <div class="input_wrap">
                         <label for="email">Full Name</label>
-                        <input type="text" name="Full_Name" class="input" id="email" required value="@user.Full_Name">
+                        <input type="text" name="Full_Name" class="input" id="email" required value="@user.Full_Name" readonly>
                     </div>
                     <div class="input_wrap">
                         <label for="password">Date of Birth</label>
                         <input type="date" name="Date_Of_Birth" class="input" id="password" required
-                               value="@(user.Date_Of_Birth.HasValue ? user.Date_Of_Birth.Value.ToString("yyyy-MM-dd") : "")">
+                               value="@(user.Date_Of_Birth.HasValue ? user.Date_Of_Birth.Value.ToString("yyyy-MM-dd") : "")" readonly>
                     </div>
                     <div class="input_wrap">
                         <label for="confirm_password">Gender</label>
                         @*<input type="password" name="confirm password" class="input" id="confirm_password">*@
-                    <select class="input" id="gender" name="Gender" required>
+                    <select class="input" id="gender" name="Gender" required disabled>
                         <option value="">Select Gender</option>
                         <option value="male" @(user.Gender == "Male" ? "selected" : "")>Male</option>
                         <option value="female" @(user.Gender == "Female" ? "selected" : "")>Female</option>
@@ -512,15 +512,15 @@
                 <div class="form_container">
                     <div class="input_wrap">
                         <label for="user_name">Email Address</label>
-                        <input type="email" name="Email_Address" class="input" id="user_name" required value="@user.Email">
+                        <input type="email" name="Email_Address" class="input" id="user_name" required value="@user.Email" readonly>
                     </div>
                     <div class="input_wrap">
                         <label for="first_name">Phone Number</label>
-                        <input type="number" name="Phone_Number" class="input" id="first_name" required value="@user.Phone_Number">
+                        <input type="number" name="Phone_Number" class="input" id="first_name" required value="@user.Phone_Number" readonly>
                     </div>
                     <div class="input_wrap">
                         <label for="last_name">Home Address</label>
-                        <input type="text" name="Home_Address" class="input" id="last_name" required value="@user.Home_Address">
+                        <input type="text" name="Home_Address" class="input" id="last_name" required value="@user.Home_Address" readonly>
                     </div>
                 </div>
 
