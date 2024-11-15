@@ -67,16 +67,23 @@
 
 
     .d-flex.align-items-center.w-100.test {
-        justify-content: end;
+        justify-content: space-between;
     }
+
     button.btn.btn-primary.test {
         margin-top: 18px;
         margin-bottom: 15px;
     }
+    button.btn.btn-danger.test {
+        margin-top: 18px;
+        margin-bottom: 15px;
+    }
+
     div#chatMessages {
         background-color: #69acc736;
         border-radius: 8px;
     }
+
     .bg-primary {
         background-color: #69acc7 !important;
     }
@@ -127,8 +134,14 @@
                         <div class="col-md-6 col-lg-7 col-xl-8">
                             @if (ViewBag.ChatRoomId != null)
                             {
+
                                 <div class="d-flex align-items-center w-100 test">
-                                    <a href="@Url.Action("patientDoctor", "Admin", new {patientID = ViewBag.PatientId})">
+
+                                    <button type="button" class="btn btn-danger test" onclick="confirmEndSession()">
+                                        End Session
+                                    </button>
+
+                                    <a href="@Url.Action("patientDoctor", "Admin", new { patientID = ViewBag.PatientId })">
                                         <button type="button" class="btn btn-primary test">
                                             <i class="fas fa-paper-plane"></i> View Patient Details
                                         </button>
@@ -136,17 +149,26 @@
                                 </div>
                             }
 
-
+                            <!-- Payment status banner (red and transparent) -->
+                            @if (ViewBag.PaymentStatus == "Unpaid")
+                            {
+                                <div class="payment-status-banner text-white text-center p-2" style="background-color: rgba(255, 0, 0, 0.6); border-radius: 5px; font-size: 14px;">
+                                    <strong>Payment Pending</strong>
+                                </div>
+                            }
 
                             <div id="chatMessages" class="pt-3 pe-3" style="position: relative; height: 400px; overflow-y: auto;">
                                 @if (ViewBag.ChatRoomId != null)
                                 {
                                     @Html.Partial("_ChatMessagesPartial", Model.Messages)
+
                                 }
                                 else
                                 {
                                     <p>Select a chat room to view messages</p>
                                 }
+
+
                             </div>
 
 
@@ -187,6 +209,9 @@
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
 
     <script src="~/Scripts/jquery-3.7.0.min.js"></script>
     <script type="text/javascript">
@@ -248,7 +273,7 @@
 
             // Show only chat rooms with unread messages
             $('#showUnread').on('click', function () {
-                
+
                 $('#chatRoomList .chat-room-item').each(function () {
                     if ($(this).data('has-unread') == 'True') {
                         $(this).show();  // Show if it has unread messages
@@ -259,4 +284,37 @@
             });
         });
     </script>
+
+    <script>
+    @if (ViewBag.ChatRoomId != null) {
+        <text>
+        function confirmEndSession() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This action is irreversible!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, end it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("EndSession", "Chat")',
+                        type: 'POST',
+                        data: { patientId: '@ViewBag.PatientId' }, 
+                        success: function (response) {
+                            Swal.fire('Session Ended', 'The session has been successfully ended.', 'success');
+                            window.location.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire('Error', 'There was an error ending the session.', 'error');
+                        }
+                    });
+                }
+            });
+        }
+        </text>
+    }
+    </script>
+
 }

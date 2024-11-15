@@ -47,14 +47,12 @@ namespace MasterPiece.Controllers
             }
             else
             {
-                // Set default values for when no chat room is selected
                 ViewBag.ChatRoomId = null;
                 ViewBag.PatientId = null;
                 ViewBag.LabTechId = null;
                 ViewBag.PaymentStatus = "N/A";
             }
 
-            // Create the view model with chat rooms and messages (empty if no room selected)
             var viewModel = new ChatMessagesAndRooms
             {
                 Rooms = chatRooms,
@@ -62,6 +60,14 @@ namespace MasterPiece.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public ActionResult EndSession(int patientId)
+        {
+            var patient = _context.Patients.Find(patientId);
+            patient.PaymentStatus = "Unpaid";
+            _context.SaveChanges();
+            return Json(new { success = true });
         }
 
         public ActionResult Chat2(int chatRoomId)
@@ -183,42 +189,7 @@ namespace MasterPiece.Controllers
             return RedirectToAction("Chat2", new { chatRoomId = chatRoom.ChatRoom_ID });
         }
 
-        // View to display when payment is required
-        ////public ActionResult PaymentRequired(int chatRoomId)
-        ////{
-        ////    ViewBag.ChatRoomId = chatRoomId;
-        ////    var chatRoom = _context.ChatRooms.Find(chatRoomId);
-        ////    if (chatRoom == null)
-        ////    {
-        ////        return HttpNotFound("Chat room not found.");
-        ////    }
 
-        ////    ViewBag.PatientId = chatRoom.Patient_ID;
-
-        ////    return View();
-        ////}
-
-        ////// Process the payment (this could be integrated with PayPal, Stripe, etc.)
-        ////[HttpPost]
-        ////public ActionResult ProcessPayment(int patientId)
-        ////{
-        ////    var patient = _context.Patients.Find(patientId);
-        ////    if (patient != null)
-        ////    {
-        ////        // Update the payment status to "Paid"
-        ////        patient.PaymentStatus = "Paid";
-        ////        _context.SaveChanges();
-        ////    }
-
-        ////    // After payment, redirect back to the chat room
-        ////    var chatRoomId = _context.ChatRooms.FirstOrDefault(cr => cr.Patient_ID == patientId)?.ChatRoom_ID;
-        ////    if (chatRoomId.HasValue)
-        ////    {
-        ////        return RedirectToAction("Chat", new { chatRoomId = chatRoomId.Value });
-        ////    }
-
-        ////    return RedirectToAction("Index", "Home"); // If no chat room, redirect to home
-        ////}
 
 
         [HttpPost]
@@ -235,7 +206,7 @@ namespace MasterPiece.Controllers
             string cancelUrl = Url.Action("PaymentCancel", "Chat", new { patientId }, protocol: Request.Url.Scheme);
 
             // Create PayPal payment
-            var payment = PayPalHelper.CreatePayment(redirectUrl, cancelUrl, 50.00m); // Amount can be dynamic
+            var payment = PayPalHelper.CreatePayment(redirectUrl, cancelUrl, 50.00m); 
 
             // Get the PayPal redirect URL and redirect the user
             var redirect = payment.links.FirstOrDefault(link => link.rel.ToLower().Trim().Equals("approval_url"));
@@ -257,12 +228,10 @@ namespace MasterPiece.Controllers
                 return View("Error");
             }
 
-            // Update the patient's payment status to "Paid"
             var patient = _context.Patients.Find(patientId);
             patient.PaymentStatus = "Paid";
             _context.SaveChanges();
 
-            // After successful payment, redirect to the chat room
             var chatRoomId = _context.ChatRooms.FirstOrDefault(cr => cr.Patient_ID == patientId)?.ChatRoom_ID;
             if (chatRoomId.HasValue)
             {

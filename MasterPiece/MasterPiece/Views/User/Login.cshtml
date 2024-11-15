@@ -4,7 +4,9 @@
 
     @@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
-
+    body {
+        background-color: #f4fffe;
+    }
 
     .myDiv {
         display: flex;
@@ -225,6 +227,73 @@
             width: 40px;
         }
 </style>
+<style>
+    /* Modal styles */
+    .modal {
+        display: none; 
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 30%;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+        .modal-content h1 {
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .modal-content input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            background-color: #69acc7;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+            .modal-content button:hover {
+                background-color: #5792aa;
+            }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        text-align: end;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+</style>
+
 <div class="myDiv">
     <div class="container1" id="container">
         <div class="form-container sign-up-container">
@@ -245,7 +314,7 @@
                 <br />
                 <input type="text" placeholder="Patient ID" name="Patient_ID" />
                 <input type="text" placeholder="Phone Number" name="Phone_Number" />
-                @*<a href="#">Forgot your password?</a>*@
+                <a href="#" id="forgotPasswordLink">Forgot your Patient ID?</a>
                 <button type="submit">Sign In</button>
             </form>
         </div>
@@ -266,6 +335,19 @@
     </div>
 </div>
 
+<!-- Forgot Password Modal -->
+<div id="forgotPasswordModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h1>Forgot your patient ID</h1>
+        <p>Enter your name and email address to get your patient ID by email.</p>
+        <form action="/User/ForgotPassword" method="post">
+            <input type="text" placeholder="Full Name" name="fullName" required />
+            <input type="email" placeholder="Email" name="Email" required />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
 
 
 <script>
@@ -287,7 +369,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-// Check if there's a login error message from the server
 window.onload = function () {
     @if (TempData["Email"] != null)
     {
@@ -299,5 +380,41 @@ window.onload = function () {
         });
         </text>
     }
+    @if (TempData["Error"] != null)
+    {
+        <text>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '@TempData["Error"]',
+        });
+        </text>
+    }
 };
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const forgotPasswordLink = document.querySelector('a[href="#"]');
+        const modal = document.getElementById('forgotPasswordModal');
+        const closeModal = document.getElementById('closeModal');
+
+        // Open the modal
+        forgotPasswordLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            modal.style.display = 'block';
+        });
+
+        // Close the modal
+        closeModal.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        // Close the modal when clicking outside of it
+        window.addEventListener('click', function (event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>
+

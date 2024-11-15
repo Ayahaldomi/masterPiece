@@ -58,7 +58,7 @@
             </div>
             @if (Session["userSession"] == null)
             {
-                <a href="@Url.Action("Login", "User")" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block @(ViewContext.RouteData.Values["action"].ToString() == "Login" && ViewContext.RouteData.Values["controller"].ToString() == "User" ? "active" : "")">Results / Login<i class="fa fa-arrow-right ms-3"></i></a>
+                <a href="@Url.Action("Login", "User")" class="nav-item nav-link btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block @(ViewContext.RouteData.Values["action"].ToString() == "Login" && ViewContext.RouteData.Values["controller"].ToString() == "User" ? "active" : "")">Results / Login<i class="fa fa-arrow-right ms-3"></i></a>
 
             }
             else
@@ -78,9 +78,9 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h5 class="text-light mb-4">Address</h5>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Irbid, Jordan</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>079 345 6789</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>primelab@gmail.com</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
@@ -91,40 +91,33 @@
                 <div class="col-lg-3 col-md-6">
 
                     <h5 class="text-light mb-4">Quick Links</h5>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Packages</a>
-                    <a class="btn btn-link" href="">Appointment</a>
-                    <a class="btn btn-link" href="">Employee Portal</a>
+
+                    <a class="btn btn-link" href="@Url.Action("Service", "Home")">Our Packages</a>
+                    <a class="btn btn-link" href="@Url.Action("Appointment", "Home")">Appointment</a>
+                    <a class="btn btn-link" href="@Url.Action("EmployeePortal", "Home")">Employee Portal</a>
+                    <a class="btn btn-link" href="@Url.Action("About", "Home")">About Us</a>
+                    <a class="btn btn-link" href="@Url.Action("Contact", "Home")">Contact Us</a>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-6 col-md-12">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53808.14973804233!2d35.80620984794825!3d32.55259548017164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151c76916dac0453%3A0x5416e113d81f7d82!2sIrbid!5e0!3m2!1sen!2sjo!4v1731678648107!5m2!1sen!2sjo" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <!-- <h5 class="text-light mb-4">Services</h5>
-                    <a class="btn btn-link" href="">Cardiology</a>
-                    <a class="btn btn-link" href="">Pulmonary</a>
-                    <a class="btn btn-link" href="">Neurology</a>
-                    <a class="btn btn-link" href="">Orthopedics</a>
-                    <a class="btn btn-link" href="">Laboratory</a> -->
+    <a class="btn btn-link" href="">Cardiology</a>
+    <a class="btn btn-link" href="">Pulmonary</a>
+    <a class="btn btn-link" href="">Neurology</a>
+    <a class="btn btn-link" href="">Orthopedics</a>
+    <a class="btn btn-link" href="">Laboratory</a> -->
                 </div>
-                <div class="col-lg-3 col-md-6">
+                @*<div class="col-lg-3 col-md-6">
                     <h5 class="text-light mb-4">Newsletter</h5>
                     <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
                         <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
-        <div class="container">
-            <div class="copyright">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
-                    </div>
-
-                </div>
-            </div>
-        </div>
+       
     </div>
     <!-- Footer End -->
     <!-- Back to Top -->

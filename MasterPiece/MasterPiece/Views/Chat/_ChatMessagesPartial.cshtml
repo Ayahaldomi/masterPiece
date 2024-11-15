@@ -1,49 +1,45 @@
 ﻿@model IEnumerable<MasterPiece.Models.ChatMessage>
 
-
-
-
-
-
-                                    @foreach (var message in Model)
-                                    {
-                                        if (message.SenderType == "Doctor")
-                                        {
-
-
-                                            <div class="d-flex flex-row justify-content-start">
-                                                <img src="~/myContent/assets/images/logos/doctorICON.png"
-                                                     alt="avatar 1" style="width: 45px; height: 100%; border-radius: 50%;">
-                                                <div>
-                                                    <span  style="margin-left: 20px;">@message.ChatRoom.Lab_Tech.Name</span>
-                                                    <p class="fs-4 p-2 ms-3 mb-1 rounded-3 bg-body-tertiary">
-                                                        @message.MessageText
-                                                    </p>
-                                                    <p class="small ms-3 mb-3 rounded-3 text-muted float-end">
-                                                        @(message.SentAt.HasValue
-                                                        ? message.SentAt.Value.ToString("MMMM dd, yyyy hh:mm tt")
-                                                        : "N/A")
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        }
+@foreach (var message in Model)
+{
+    if (message.SenderType == "Doctor")
+    {
+        <div class="d-flex flex-row justify-content-start">
+            <img src="~/myContent/assets/images/logos/doctorICON.png"
+                 alt="avatar 1" style="width: 45px; height: 100%; border-radius: 50%;">
+            <div>
+                <span style="margin-left: 20px;">@message.ChatRoom.Lab_Tech.Name</span>
+                <p class="fs-4 p-2 ms-3 mb-1 rounded-3 bg-body-tertiary">
+                    @message.MessageText
+                </p>
+                <p class="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    @(message.SentAt.HasValue
+                    ? message.SentAt.Value.ToString("MMMM dd, yyyy hh:mm tt")
+                    : "N/A")
+                </p>
+            </div>
+        </div>
+    }
     else
-                {
-                                <div class="d-flex flex-row justify-content-end">
-                                    <div>
-                                        <span>@message.ChatRoom.Patient.Full_Name</span>
-                                        <p class="fs-4 p-2 me-3 mb-1 text-white rounded-3 bg-primary">
-                                            @message.MessageText
-                                        </p>
-                                        <p class="small me-3 mb-3 rounded-3 text-muted">
-                                            @(message.SentAt.HasValue
-? message.SentAt.Value.ToString("MMMM dd, yyyy hh:mm tt")
-: "N/A")
-                                        </p>
-                                    </div>
-                                    <img src="~/myContent/assets/images/logos/patientICON.png"
-                                         alt="avatar 1" style="width: 45px; height: 100%; border-radius: 50%;">
-                                </div>
-                }
-                                    }
+    {
+        <div class="d-flex flex-row justify-content-end">
+            <div>
+                <span>@message.ChatRoom.Patient.Full_Name</span>
+                <p class="fs-4 p-2 me-3 mb-1 text-white rounded-3 bg-primary">
+                    @message.MessageText
+                </p>
+                <p class="small me-3 mb-3 rounded-3 text-muted">
+                    @(message.SentAt.HasValue
+                    ? message.SentAt.Value.ToString("MMMM dd, yyyy hh:mm tt")
+                    : "N/A")
+                </p>
+            </div>
+            <img src="~/myContent/assets/images/logos/patientICON.png"
+                 alt="avatar 1" style="width: 45px; height: 100%; border-radius: 50%;">
+        </div>
+
+
+    }
+    
+}
 

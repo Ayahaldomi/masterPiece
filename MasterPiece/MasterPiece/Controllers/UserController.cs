@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using MailKit.Net.Smtp;
 using MimeKit;
+using PayPal.Api;
 
 namespace MasterPiece.Controllers
 {
@@ -47,7 +48,7 @@ namespace MasterPiece.Controllers
                 string messageText = $@"
                     <html>
                     <body>
-                        <h2>Hello</h2>
+                        <h2>Hello {patient.Full_Name}</h2>
                         <p>Welcome To PrimeLab</p>
                         <p>Your Paient ID is: {patient.Patient_ID}</p>
                         <p>With best regards,<br>Admin</p>
@@ -80,6 +81,67 @@ namespace MasterPiece.Controllers
                 return View("Login");
             }
 
+        }
+
+        [HttpPost]
+        public ActionResult ForgotPassword(string fullName, string Email)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = db.Patients.FirstOrDefault(u => u.Full_Name == fullName && u.Email == Email);
+                if (user != null)
+                {
+
+                    try
+                    {
+                        string fromEmail = "election2024jordan@gmail.com";
+                        string fromName = "PrimeLab";
+                        string subjectText = "Patient ID";
+                        string messageText = $@"
+                    <html>
+                    <body>
+                        <h2>Hello {user.Full_Name}</h2>
+                        <p>Welcome To PrimeLab</p>
+                        <p>Your Paient ID is: {user.Patient_ID}</p>
+                        <p>With best regards,<br>Admin</p>
+                    </body>
+                    </html>";
+                        string toEmail = user.Email;
+                        string smtpServer = "smtp.gmail.com";
+                        int smtpPort = 465; // Port 465 for SSL
+
+                        string smtpUsername = "election2024jordan@gmail.com";
+                        string smtpPassword = "zwht jwiz ivfr viyt"; // Ensure this is correct
+
+                        var message = new MimeMessage();
+                        message.From.Add(new MailboxAddress(fromName, fromEmail));
+                        message.To.Add(new MailboxAddress("", toEmail));
+                        message.Subject = subjectText;
+                        message.Body = new TextPart("html") { Text = messageText };
+
+                        using (var client = new SmtpClient())
+                        {
+                            client.Connect(smtpServer, smtpPort, true); // Use SSL
+                            client.Authenticate(smtpUsername, smtpPassword);
+                            client.Send(message);
+                            client.Disconnect(true);
+                        }
+                        TempData["Email"] = "An Email With Your Patient ID Was Sent To You!";
+                    }
+                    catch
+                    {
+                        return View("Login");
+                    }
+                    
+                }
+                else
+                {
+                    TempData["Error"] = "your name or email are Wrong please try again.";
+                }
+
+                return RedirectToAction("Login");
+            }
+            return View();
         }
         public ActionResult LogOut() {
             Session.Remove("userSession");

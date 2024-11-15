@@ -486,16 +486,16 @@
                                                 <input type="hidden" value="@user.Patient_ID" /> 
                 <div class="form_container">
                     <div class="input_wrap">
-                        <label for="email">Full Name</label>
+                        <label for="email">Patient Full Name</label>
                         <input type="text" name="Full_Name" class="input" id="email" required value="@user.Full_Name" readonly>
                     </div>
                     <div class="input_wrap">
-                        <label for="password">Date of Birth</label>
+                        <label for="password">Patient Date of Birth</label>
                         <input type="date" name="Date_Of_Birth" class="input" id="password" required
                                value="@(user.Date_Of_Birth.HasValue ? user.Date_Of_Birth.Value.ToString("yyyy-MM-dd") : "")" readonly>
                     </div>
                     <div class="input_wrap">
-                        <label for="confirm_password">Gender</label>
+                        <label for="confirm_password">Patient Gender</label>
                         @*<input type="password" name="confirm password" class="input" id="confirm_password">*@
                     <select class="input" id="gender" name="Gender" required disabled>
                         <option value="">Select Gender</option>
@@ -511,15 +511,15 @@
 
                 <div class="form_container">
                     <div class="input_wrap">
-                        <label for="user_name">Email Address</label>
+                        <label for="user_name">Patient Email Address</label>
                         <input type="email" name="Email_Address" class="input" id="user_name" required value="@user.Email" readonly>
                     </div>
                     <div class="input_wrap">
-                        <label for="first_name">Phone Number</label>
+                        <label for="first_name">Patient Phone Number</label>
                         <input type="number" name="Phone_Number" class="input" id="first_name" required value="@user.Phone_Number" readonly>
                     </div>
                     <div class="input_wrap">
-                        <label for="last_name">Home Address</label>
+                        <label for="last_name">Patient Home Address</label>
                         <input type="text" name="Home_Address" class="input" id="last_name" required value="@user.Home_Address" readonly>
                     </div>
                 </div>
@@ -557,6 +557,7 @@
                     <p id="additional_charge" style="display:none;">Additional Charge: $20</p>
 
                     <div class="dropdown">
+                        <label for="searchInput">Preferred Tests</label>
                         <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
                         <div id="dropdownItems" class="dropdown-content">
                             @foreach (var test in Model)
@@ -651,6 +652,7 @@
         {
             @Html.Hidden("patientId", 1)
             <input type="hidden" name="value" id="paypalValue" value="0" />
+            <p>Go To PayPal To Finsh Payment</p>
             <button type="button" id="confirmAndPayBtn" class="btn btn-primary">Confirm and Pay</button>
         }
     </div>
@@ -1014,10 +1016,10 @@ window.onload = function () {
 
 
 
-    // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().split('T')[0];
     // Set the min attribute to today for the preferred date input
     document.getElementById('preferred_date').setAttribute('min', today);
+
 
     // Show time buttons when date is selected
     document.getElementById('preferred_date').addEventListener('change', function () {
