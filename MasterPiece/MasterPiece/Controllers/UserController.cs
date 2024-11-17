@@ -27,6 +27,7 @@ namespace MasterPiece.Controllers
         {
             var user = db.Patients.Where(l => l.Patient_ID == p.Patient_ID && l.Phone_Number == p.Phone_Number).FirstOrDefault();
             if (user == null) {
+                TempData["Error"] = "Your patient ID or phone number is wrong!";
                 return View();
             }
             Session["userSession"] = user;

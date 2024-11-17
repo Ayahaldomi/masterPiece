@@ -994,7 +994,7 @@ window.onload = function () {
         reindexHiddenInputs();
 
         // Update the total price after removal
-        updateEditTotalPrice();
+        updateTotalPrice();
 
         // Debugging: Log the updated state of hidden inputs
         console.log(selectedTestsDiv.innerHTML);
@@ -1043,19 +1043,6 @@ window.onload = function () {
     });
 
 
-
-    //// Handle PayPal button click
-    //document.getElementById('confirmAndPayBtn').addEventListener('click', function (event) {
-    //    event.preventDefault(); // Prevent form submission for appointment
-
-    //    // Correctly target the PayPal form
-    //    let paypalForm = document.querySelector('.paypalForm');
-    //    if (paypalForm) {
-    //        paypalForm.submit(); // Submit PayPal form separately
-    //    } else {
-    //        console.error('PayPal form not found');
-    //    }
-    //});
 
 
     document.getElementById('appointmentForm').addEventListener('submit', function (event) {
@@ -1241,20 +1228,7 @@ window.onload = function () {
         }
     }
 
-    //// Handle PayPal form submission inside the modal
-    //document.getElementById('confirmAndPayBtn').addEventListener('click', function (event) {
-    //    event.preventDefault(); // Prevent the form submission if you want to handle further logic
 
-    //    let paypalForm = document.querySelector('.paypalForm');
-    //    if (paypalForm) {
-    //        paypalForm.submit(); // Submit PayPal form separately
-    //    } else {
-    //        console.error('PayPal form not found');
-    //    }
-
-    //    // Close the modal after submission
-    //    modal.style.display = "none";
-    //});
 </script>
 
 

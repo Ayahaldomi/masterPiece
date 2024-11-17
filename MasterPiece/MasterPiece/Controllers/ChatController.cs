@@ -14,12 +14,11 @@ namespace MasterPiece.Controllers
     {
         private MasterPieceEntities _context = new MasterPieceEntities();
         // GET: Chat
+        //for doctors
         public ActionResult Chat(int? chatRoomId = null)
         {
-            // Get the list of all chat rooms
             var chatRooms = _context.ChatRooms.ToList();
 
-            // Check if a specific chat room was provided
             List<ChatMessage> messages = new List<ChatMessage>();
             if (chatRoomId.HasValue)
             {
@@ -31,13 +30,12 @@ namespace MasterPiece.Controllers
                 chatRoom.hasUnreadMessages = false;
                 _context.Entry(chatRoom).State = EntityState.Modified;
                 _context.SaveChanges();
-                // Get the messages for the specific chat room
+
                 messages = _context.ChatMessages
                     .Where(m => m.ChatRoom_ID == chatRoomId.Value)
                     .OrderBy(m => m.SentAt)
                     .ToList();
 
-                // Set ViewBag data for use in the view
                 ViewBag.ChatRoomId = chatRoomId;
                 ViewBag.PatientId = chatRoom.Patient_ID;
                 ViewBag.LabTechId = chatRoom.LabTech_ID;
@@ -70,6 +68,7 @@ namespace MasterPiece.Controllers
             return Json(new { success = true });
         }
 
+        //for patient
         public ActionResult Chat2(int chatRoomId)
         {
             var chatRoom = _context.ChatRooms.Find(chatRoomId);
@@ -83,12 +82,10 @@ namespace MasterPiece.Controllers
                 .OrderBy(m => m.SentAt)
                 .ToList();
 
-            // Set ViewBag data for use in the view
             ViewBag.ChatRoomId = chatRoomId;
             ViewBag.PatientId = chatRoom.Patient_ID;
             ViewBag.LabTechId = chatRoom.LabTech_ID;
 
-            // Get the patient's payment status
             var patient = _context.Patients.Find(chatRoom.Patient_ID);
             ViewBag.PaymentStatus = patient?.PaymentStatus;
 
@@ -101,7 +98,7 @@ namespace MasterPiece.Controllers
             return View(viewModel);
         }
 
-        // Send a message
+        // Send a message for doctor
         [HttpPost]
         public ActionResult SendMessage(int chatRoomId, int senderId, string messageText, string senderType)
         {
@@ -112,7 +109,6 @@ namespace MasterPiece.Controllers
                 return HttpNotFound("Chat room not found.");
             }
 
-            // Check if the sender is a patient and if they are allowed to send more messages
             if (senderType == "Patient")
             {
                 int patientMessageCount = _context.ChatMessages
@@ -123,12 +119,10 @@ namespace MasterPiece.Controllers
 
                 if (patientMessageCount >= 2 && patient.PaymentStatus != "Paid")
                 {
-                    // Redirect to payment required view if the patient has exceeded the free message limit
                     return RedirectToAction("PaymentRequired", new { chatRoomId });
                 }
             }
 
-            // Add the new message to the ChatMessages table
             var message = new ChatMessage
             {
                 ChatRoom_ID = chatRoomId,
@@ -144,7 +138,7 @@ namespace MasterPiece.Controllers
             return RedirectToAction("Chat", new { chatRoomId });
         }
 
-        // Send a message
+        // Send a message for patient
         [HttpPost]
         public ActionResult SendMessage2(int chatRoomId, int senderId, string messageText, string senderType)
         {
@@ -158,7 +152,6 @@ namespace MasterPiece.Controllers
             _context.Entry(chatRoom).State = EntityState.Modified;
             _context.SaveChanges();
 
-            // Check if the sender is a patient and if they are allowed to send more messages
 
             int patientMessageCount = _context.ChatMessages
                     .Where(m => m.ChatRoom_ID == chatRoomId && m.SenderId == senderId && m.SenderType == "Patient")
@@ -168,12 +161,10 @@ namespace MasterPiece.Controllers
 
                 if (patientMessageCount >= 2 && patient.PaymentStatus != "Paid")
                 {
-                    // Redirect to payment required view if the patient has exceeded the free message limit
                     return RedirectToAction("PaymentRequired", new { chatRoomId });
                 }
             
 
-            // Add the new message to the ChatMessages table
             var message = new ChatMessage
             {
                 ChatRoom_ID = chatRoomId,
@@ -249,23 +240,6 @@ namespace MasterPiece.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // Create a chat room between a patient and lab tech (if it doesn't exist already)
         [HttpPost]
         public ActionResult CreateChatRoom(int labTechId, int patientId)
@@ -305,7 +279,7 @@ namespace MasterPiece.Controllers
             return View(chatRooms);
         }
 
-        // List all chat rooms for a particular lab tech (for lab tech view)
+        // List all chat rooms for a particular doctor
         public ActionResult LabTechChatRooms(int labTechId)
         {
 
@@ -319,7 +293,7 @@ namespace MasterPiece.Controllers
 
         public ActionResult test() { return View(); }
 
-
+        // for doctors
         public ActionResult GetChatMessages(int chatRoomId)
         {
             var messages = _context.ChatMessages
@@ -327,8 +301,10 @@ namespace MasterPiece.Controllers
                 .OrderBy(m => m.SentAt)
                 .ToList();
 
-            return PartialView("_ChatMessagesPartial", messages); // Return the partial view with updated messages
+            return PartialView("_ChatMessagesPartial", messages); 
         }
+
+        // for patient
         public ActionResult GetChatMessages2(int chatRoomId)
         {
             var messages = _context.ChatMessages
@@ -336,7 +312,7 @@ namespace MasterPiece.Controllers
                 .OrderBy(m => m.SentAt)
                 .ToList();
 
-            return PartialView("_PatientChat", messages); // Return the partial view with updated messages
+            return PartialView("_PatientChat", messages); 
         }
 
         public ActionResult GetChatRooms()

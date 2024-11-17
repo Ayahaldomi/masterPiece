@@ -34,7 +34,9 @@
                     </div>
                     <div class="ms-4">
                         <p class="mb-2">Call Us Now</p>
-                        <h5 class="mb-0">079 345 6789</h5>
+                        <a href="https://wa.me/0793456789" target="_blank">
+                            <h5 class="mb-0">079 345 6789</h5>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -45,7 +47,9 @@
                     </div>
                     <div class="ms-4">
                         <p class="mb-2">Mail Us Now</p>
-                        <h5 class="mb-0">primelab@gmail.com</h5>
+                        <a href="mailTo:primelab@gmail.com">
+                            <h5 class="mb-0">primelab@gmail.com</h5>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -53,7 +57,6 @@
                 <div class="bg-light rounded p-5">
                     <p class="d-inline-block border rounded-pill py-1 px-4">Contact Us</p>
                     <h1 class="mb-4">Have Any Query? Please Contact Us!</h1>
-                    <!-- <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p> -->
                     <form action="/Home/contactPost" method="post">
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -102,7 +105,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-// Check if there's a login error message from the server
 window.onload = function () {
     @if (TempData["confirm"] != null)
     {

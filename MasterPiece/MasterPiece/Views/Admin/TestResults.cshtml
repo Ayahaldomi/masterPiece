@@ -103,15 +103,15 @@
             <button class="btn btn-outline-primary" id="show-pending">Show Pending</button>
         </div>
 
-        <div class="table-container">
+        <div class="table-responsive">
             <table class="table table-striped" id="test-results-table">
                 <thead>
                     <tr>
-                        <th class="col-2">Test ID</th> <!-- Bootstrap column width 2 -->
-                        <th class="col-2">Patient Name</th> <!-- Bootstrap column width 3 -->
-                        <th class="col-4">Test Name</th> <!-- Bootstrap column width 4 -->
-                        <th class="col-1">Status</th> <!-- Bootstrap column width 1 -->
-                        <th class="col-3">Actions</th> <!-- Bootstrap column width 2 -->
+                        <th class="col-2">Test ID</th> 
+                        <th class="col-2">Patient Name</th>
+                        <th class="col-4">Test Name</th> 
+                        <th class="col-1">Status</th> 
+                        <th class="col-3">Actions</th> 
                     </tr>
                 </thead>
                 <tbody id="table-body">
@@ -139,13 +139,11 @@
                                 <a href="@Url.Action("TestResultsAdd", "Admin", new {OrderID = test.Order_ID})"><button class="btn btn-primary btn-sm">Add Result</button></a>
                             </td>
                         </tr>
-                    }
+                    
                     }
                 </tbody>
             </table>
-            <!-- Pagination Controls -->
-            @*<ul class="pagination" id="pagination-controls"></ul>*@
-            <!-- Centered Pagination controls -->
+        
             <div id="pagination" class="text-center">
                 <button class="btn btn-outline-primary" onclick="previousPage()">Previous</button>
                 <span id="pageNumber" class="mx-2"></span>
@@ -158,12 +156,12 @@
 <script>
     // Pagination variables
     let currentPage = 1;
-    const rowsPerPage = 5; // Set the number of rows to display per page
+    const rowsPerPage = 5; 
 
     // Select table body and filter buttons
     const tableBody = document.getElementById('table-body');
-    const rows = Array.from(tableBody.querySelectorAll('tr')); // Keep the original rows as a reference
-    let filteredRows = [...rows]; // Will hold filtered rows (or all rows if no filtering is applied)
+    const rows = Array.from(tableBody.querySelectorAll('tr')); 
+    let filteredRows = [...rows]; 
 
     const showAllButton = document.getElementById('show-all');
     const showCompletedButton = document.getElementById('show-completed');
@@ -171,11 +169,11 @@
 
     // Display table rows for the current page
     function displayRows(page) {
-        tableBody.innerHTML = ''; // Clear the table body
+        tableBody.innerHTML = ''; 
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         filteredRows.slice(start, end).forEach(row => tableBody.appendChild(row));
-        updatePageInfo(); // Update pagination info (current page/total pages)
+        updatePageInfo(); 
     }
 
     // Update page info and disable buttons when necessary
@@ -215,26 +213,26 @@
             const testName = row.cells[2].textContent.toLowerCase();
             return testId.includes(query) || patientName.includes(query) || testName.includes(query);
         });
-        currentPage = 1; // Reset to the first page
+        currentPage = 1; 
         displayRows(currentPage);
     });
 
     // Filter functionality
     showAllButton.addEventListener('click', () => {
-        filteredRows = [...rows]; // Show all rows
-        currentPage = 1; // Reset to the first page
+        filteredRows = [...rows]; 
+        currentPage = 1; 
         displayRows(currentPage);
     });
 
     showCompletedButton.addEventListener('click', () => {
         filteredRows = rows.filter(row => row.cells[3].textContent.trim().toLowerCase() === 'completed');
-        currentPage = 1; // Reset to the first page
+        currentPage = 1; 
         displayRows(currentPage);
     });
 
     showPendingButton.addEventListener('click', () => {
         filteredRows = rows.filter(row => row.cells[3].textContent.trim().toLowerCase() === 'pending');
-        currentPage = 1; // Reset to the first page
+        currentPage = 1; 
         displayRows(currentPage);
     });
 

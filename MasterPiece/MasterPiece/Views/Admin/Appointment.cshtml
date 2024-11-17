@@ -50,16 +50,15 @@
                 color: white;
                 border-color: #007bff;
             }
-    /* Custom styles for the status text based on the appointment status */
     .status-completed {
-        background-color: #d4edda; /* Light green */
+        background-color: #d4edda !important; 
         color: #155724;
         padding: 5px;
         border-radius: 5px;
     }
 
     .status-pending {
-        background-color: #fff3cd; /* Light yellow */
+        background-color: #fff3cd;
         color: #856404;
         padding: 5px;
         border-radius: 5px;
@@ -69,6 +68,7 @@
         padding: 5px;
         border-radius: 5px;
     }
+
 </style>
 
 <div class="container">
@@ -113,9 +113,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Full_Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.Gender)</td>
                             <td>@Html.DisplayFor(modelItem => item.Date_Of_Birth)</td>
-                            @*<td>@Html.DisplayFor(modelItem => item.Email_Address)</td>*@
                             <td><a href="mailTo:@item.Email_Address">@item.Email_Address</a></td>
-                            @*<td>@Html.DisplayFor(modelItem => item.Phone_Number)</td>*@
                             <td><a href=" https://wa.me/@item.Phone_Number">@item.Phone_Number</a></td>
                             <td>@Html.DisplayFor(modelItem => item.Home_Address)</td>
                             <td>@Html.DisplayFor(modelItem => item.Date_Of_Appo)</td>
@@ -174,7 +172,7 @@
 </div>
 
 <script>
-    const rowsPerPage = 5; // Number of rows per page
+    const rowsPerPage = 5; 
     let currentPage = 1;
 
     // Function to display rows based on the page number
@@ -193,7 +191,6 @@
             }
         });
 
-        // Update pagination
         updatePagination(page, totalRows);
     }
 
@@ -223,8 +220,8 @@
         let emailPatients = document.getElementById("emailPatients");
 
         const rows = document.querySelectorAll('.appointment-row');
-        const today = new Date().toISOString().split('T')[0]; // Get today's date in 'yyyy-mm-dd' format
-        let visibleRows = 0; // Track how many rows match the filter
+        const today = new Date().toISOString().split('T')[0]; 
+        let visibleRows = 0; 
 
         rows.forEach(row => {
             const appointmentDate = row.getAttribute('data-date');
@@ -245,23 +242,19 @@
 
             }
 
-            // Toggle row visibility based on filter
             row.style.display = showRow ? '' : 'none';
 
-            // Count visible rows
             if (showRow) visibleRows++;
         });
 
-        // Reset pagination after filtering
         if (filter === 'all') {
             displayRows(currentPage);
             emailPatients.style.display = "none";
 
         } else {
-            updatePagination(1, visibleRows); // Update pagination based on the visible rows
+            updatePagination(1, visibleRows); 
         }
     }
 
-    // Initial display
     displayRows(currentPage);
 </script>

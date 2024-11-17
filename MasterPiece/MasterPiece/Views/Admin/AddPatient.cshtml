@@ -63,7 +63,6 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="Full_Name">Full Name</label>
-                            @*<input type="text" id="Full_Name" name="Full_Name" required>*@
                             <input type="text" placeholder="Search Users.." id="userSearchInput" onkeyup="filterUsers()" class="search-box" name="Full_Name" required>
                             <ul id="userList" class="user-list">
                                 @foreach (var user in Model)
@@ -119,7 +118,6 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="Home_Address">Home Address</label>
-                            <!-- <textarea id="home-address" name="home-address" rows="4" required></textarea> -->
                             <input type="text" id="Home_Address" name="Home_Address" required>
                         </div>
 
@@ -132,7 +130,6 @@
                     </div>
                     <div class="form-buttons">
                         <button type="button" class="btn btn-outline-danger m-1" id="cancel-button">Cancel</button>
-                        @*<button type="button" class="btn btn-outline-secondary m-1">Save</button>*@
                           <button type="submit" class="btn btn-outline-primary m-1" id="save-button">Save and Add Tests</button>
 
                     </div>
@@ -154,22 +151,22 @@
         if (filter.trim() !== "") {
             ul.style.display = "block";
         } else {
-            ul.style.display = "none"; // Hide the list if input is empty
+            ul.style.display = "none"; 
         }
 
         for (let i = 0; i < li.length; i++) {
             let txtValue = li[i].textContent || li[i].innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = ""; // Show matching item
+                li[i].style.display = ""; 
             } else {
-                li[i].style.display = "none"; // Hide non-matching item
+                li[i].style.display = "none"; 
             }
         }
     }
 
     // Function to handle user selection and fill the form
     function selectUser(element) {
-        // Get the data from the selected list item
+
         let userId = element.getAttribute("data-user-id");
         let fullName = element.getAttribute("data-full-name");
         let dateOfBirth = element.getAttribute("data-date-of-birth");
@@ -184,7 +181,7 @@
         let formattedDateOfBirth = '';
         if (dateOfBirth) {
             let date = new Date(dateOfBirth);
-            formattedDateOfBirth = date.toISOString().split('T')[0]; // Get only the date in yyyy-MM-dd format
+            formattedDateOfBirth = date.toISOString().split('T')[0]; 
         }
 
         // Populate the form fields with the selected user details

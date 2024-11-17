@@ -36,6 +36,7 @@
     .mb-4 {
         margin-bottom: 0rem !important;
     }
+
     .form-group input,
     .form-group select,
     .form-group textarea {
@@ -96,7 +97,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="dob">Date of Birth</label>
-                                    <input type="date" id="dob" name="Date_Of_Birth"  value="@(Model.Date_Of_Birth.HasValue ? Model.Date_Of_Birth.Value.ToString("yyyy-MM-dd") : string.Empty)" disabled>
+                                    <input type="date" id="dob" name="Date_Of_Birth" value="@(Model.Date_Of_Birth.HasValue ? Model.Date_Of_Birth.Value.ToString("yyyy-MM-dd") : string.Empty)" disabled>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -147,23 +148,41 @@
     </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // Function to enable form fields except the Patient ID
     function enableFormFields() {
-        // Select all the input and select elements in the form except the Patient ID
         let formElements = document.querySelectorAll('#patient-form input:not(#fpatient-id), #patient-form select');
-
-        // Loop through the elements and enable them
         formElements.forEach(function (element) {
             element.disabled = false;
         });
-
-        // Show the save button after enabling the form
         document.getElementById('save-button').style.display = 'inline-block';
     }
 
-    // Add event listener to the "Edit" button
     document.getElementById('edit-button').addEventListener('click', function () {
         enableFormFields();
     });
+
+    document.getElementById('patient-form').addEventListener('submit', function (e) {
+        const phoneNumber = document.getElementById('phone-number').value;
+        const jordanianPhoneRegex = /^((07[7-9]|06)[0-9]{7})$/;
+
+        if (!jordanianPhoneRegex.test(phoneNumber)) {
+            e.preventDefault(); 
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Phone Number',
+                text: 'Please enter a valid Jordanian phone number (e.g., 079XXXXXXX or 065XXXXXX).',
+                confirmButtonText: 'Try Again'
+            });
+        } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Your changes have been saved successfully.',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
 </script>
+
+

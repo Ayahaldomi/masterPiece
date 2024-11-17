@@ -14,20 +14,17 @@ namespace MasterPiece.Controllers
         [HttpGet]
         public JsonResult GetLatest()
         {
-            // Step 1: Fetch the data from the database without formatting the date in the LINQ query
             var notifications = db.Notifications
                 .Where(n => n.IsRead == false)
                 .OrderByDescending(n => n.Notification_Date)
                 .Take(10)
-                .ToList(); // Materialize the data into memory
+                .ToList(); 
 
-            // Step 2: Format the date after the data has been fetched
             var formattedNotifications = notifications.Select(n => new {
                 n.Order_ID,
                 Notification_Date = n.Notification_Date.HasValue ? n.Notification_Date.Value.ToString("yyyy-MM-ddTHH:mm:ss") : null
             }).ToList();
 
-            // Step 3: Return the formatted notifications
             return Json(formattedNotifications, JsonRequestBehavior.AllowGet);
 
         }

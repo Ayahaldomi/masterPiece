@@ -35,7 +35,7 @@
     .container-fluid {
         padding-top: 120px !important;
     }
-    /* Style for the discount radio buttons */
+
     .form-check {
         display: flex;
         align-items: center;
@@ -46,7 +46,7 @@
         margin-right: 10px;
         width: 20px;
         height: 20px;
-        transform: scale(1.2); /* Make radio buttons slightly larger */
+        transform: scale(1.2);
         cursor: pointer;
     }
 
@@ -60,7 +60,7 @@
         display: flex;
         align-items: center;
         margin-top: 10px;
-        justify-content: flex-start; /* Ensures the radio buttons are aligned */
+        justify-content: flex-start;
     }
 
     .discount-label {
@@ -94,6 +94,12 @@
 
     .card.p-4.shadow-md {
         background-color: #00000012;
+    }
+
+    .col-sm-10 {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
     }
 </style>
 
@@ -167,20 +173,20 @@
             </tbody>
         </table>
         <form action="/Admin/AddPatientPayment" method="post">
-            <input type="hidden" value="@Model.Order_ID" name="Order_ID"/>
+            <input type="hidden" value="@Model.Order_ID" name="Order_ID" />
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label discount-label">Discount</label>
                 <div class="col-sm-10 discount-group">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="Discount_Persent" id="discount10" value="10" onclick="applyDiscount(10)"  @(Model.Discount_Persent == 10 ? "checked" : "")>
+                        <input class="form-check-input" type="radio" name="Discount_Persent" id="discount10" value="10" onclick="applyDiscount(10)" @(Model.Discount_Persent == 10 ? "checked" : "")>
                         <label class="form-check-label" for="discount10">10%</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="Discount_Persent" id="discount20" value="20" onclick="applyDiscount(20)"  @(Model.Discount_Persent == 20 ? "checked" : "")>
+                        <input class="form-check-input" type="radio" name="Discount_Persent" id="discount20" value="20" onclick="applyDiscount(20)" @(Model.Discount_Persent == 20 ? "checked" : "")>
                         <label class="form-check-label" for="discount20">20%</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="Discount_Persent" id="discount30" value="30" onclick="applyDiscount(30)"  @(Model.Discount_Persent == 30 ? "checked" : "")>
+                        <input class="form-check-input" type="radio" name="Discount_Persent" id="discount30" value="30" onclick="applyDiscount(30)" @(Model.Discount_Persent == 30 ? "checked" : "")>
                         <label class="form-check-label" for="discount30">30%</label>
                     </div>
                     <div class="form-check">
@@ -205,36 +211,33 @@
                 <label for="amountPaid" class="col-sm-2 col-form-label">Amount Paid</label>
                 <div class="col-sm-3">
                     <input type="number" class="form-control" id="amountPaid" placeholder="Enter amount" name="Amount_Paid" step="0.01" min="0.01">
-                    <span id="amountPaidStatus" class="col-form-label"></span> <!-- Status span -->
+                    <span id="amountPaidStatus" class="col-form-label"></span>
                 </div>
             </div>
 
-            <!-- The Save Payment button, now with the onclick event -->
             <button type="submit" class="btn btn-outline-success m-1" onclick="validatePayment()">Save Payment</button>
 
         </form>
-      </div>
-    
+    </div>
+
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // Ensure originalPrice is correctly set to a number
-let originalPrice = @(Model.Total_Price.HasValue ? Model.Total_Price.Value : 0); // Defaults to 0 if null
+let originalPrice = @(Model.Total_Price.HasValue ? Model.Total_Price.Value : 0);
 let totalPriceElement = document.querySelector('#totalPrice');
 
-// Set the total price in the element, ensuring it's a valid number
 if (!isNaN(originalPrice)) {
-    totalPriceElement.innerText = `${originalPrice.toFixed(2)} JOD`; // Set the initial total price
+    totalPriceElement.innerText = `${originalPrice.toFixed(2)} JOD`;
 }
 
-// Apply discount if any
 applyDiscount(@Model.Discount_Persent);
 
 // Function to apply a discount
 function applyDiscount(discountPercentage) {
     if (discountPercentage) {
         const discountedPrice = originalPrice - (originalPrice * (discountPercentage / 100));
-        totalPriceElement.innerText = `${discountedPrice.toFixed(2)} JOD`; // Update the displayed total
+        totalPriceElement.innerText = `${discountedPrice.toFixed(2)} JOD`;
     }
 }
 
@@ -242,17 +245,17 @@ function applyDiscount(discountPercentage) {
 function removeDiscount() {
     totalPriceElement.innerText = `${originalPrice.toFixed(2)} JOD`;
 
-    // Uncheck the selected radio button (if any)
     const selectedRadio = document.querySelector('input[name="discountOptions"]:checked');
     if (selectedRadio) {
-        selectedRadio.checked = false; // Uncheck the radio button
+        selectedRadio.checked = false;
     }
 }
+
     validatePayment()
     // Function to validate the payment when Save Payment is clicked
     function validatePayment() {
         const amountPaidInput = document.getElementById('amountPaid');
-        const amountPaid = parseFloat('@(Model.Amount_Paid ?? 0)');         // parseFloat(amountPaidInput.value);
+        const amountPaid = parseFloat('@(Model.Amount_Paid ?? 0)');
         const total = parseFloat(totalPriceElement.innerText.replace(' JOD', ''));
         const amountPaidStatus = document.getElementById('amountPaidStatus');
 
@@ -273,7 +276,38 @@ function removeDiscount() {
             amountPaidStatus.classList.remove('red');
         }
     }
+
+    document.querySelector('button[type="submit"]').addEventListener('click', function (event) {
+         const amountPaidInput = document.getElementById('amountPaid');
+         const enteredAmount = parseFloat(amountPaidInput.value);
+         const total = parseFloat(totalPriceElement.innerText.replace(' JOD', ''));
+         const amountPaidStatus = document.getElementById('amountPaidStatus');
+         const alreadyPaid = parseFloat('@(Model.Amount_Paid ?? 0)');
+         const remainingAmount = total - alreadyPaid;
+
+        if (isNaN(enteredAmount) || enteredAmount <= 0) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Amount',
+                text: 'Please enter a valid payment amount greater than 0.',
+            });
+            return;
+        }
+
+        if (enteredAmount > remainingAmount) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Excess Payment',
+                text: `The entered amount (${enteredAmount.toFixed(2)} JOD) exceeds the remaining balance (${remainingAmount.toFixed(2)} JOD). Please enter a valid amount.`,
+            });
+            return;
+        }
+    validatePayment();
+});
 </script>
+
 
 
 

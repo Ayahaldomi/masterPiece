@@ -88,7 +88,6 @@ namespace MasterPiece.Controllers
             var package = db.Packages.Find(id);
             List<Test> testsList = new List<Test>();
 
-            // Iterate over each Package_Test and retrieve the corresponding Test
             foreach (var packageTest in packageTests)
             {
                 var test = db.Tests.Where(t => t.Test_ID == packageTest.Test_ID).FirstOrDefault();
@@ -98,7 +97,6 @@ namespace MasterPiece.Controllers
                 }
             }
 
-            // Store the testsList in TempData
             TempData["TestsPackageList"] = testsList;
             TempData["PackagePrice"] = package.Price;
 
@@ -166,7 +164,7 @@ namespace MasterPiece.Controllers
         {
             // Retrieve the appointment data from TempData
             var appointment = TempData["AppointmentData"] as AppointmentPOST;
-            // Save appointment information (same as before)
+
             var app = new Appointment
             {
                 Full_Name = appointment.Full_Name,
@@ -184,12 +182,11 @@ namespace MasterPiece.Controllers
             db.Appointments.Add(app);
             db.SaveChanges();
 
-            // Save selected tests
             foreach (var selectedTest in appointment.SelectedTests)
             {
                 var appointmentTest = new Appointments_Tests
                 {
-                    Appointment_ID = app.ID, // Use the saved appointment ID
+                    Appointment_ID = app.ID, 
                     Test_ID = selectedTest.Test_ID
                 };
 
@@ -279,7 +276,6 @@ namespace MasterPiece.Controllers
         [HttpPost]
         public ActionResult StoreAppointmentData(AppointmentPOST appointment)
         {
-            // Temporarily store the appointment data in the session (or you can use a database)
             Session["AppointmentData"] = appointment;
 
             return Json(new { success = true });
@@ -290,7 +286,6 @@ namespace MasterPiece.Controllers
         [HttpPost]
         public ActionResult CreateAppointment(AppointmentPOST appointment)
         {
-            // Save appointment information
             var app = new Appointment
             {
                 Full_Name = appointment.Full_Name,
@@ -303,12 +298,11 @@ namespace MasterPiece.Controllers
                 Total_price = appointment.Total_price,
                 Amount_paid = appointment.Amount_paid,
                 Billing_ID = 2656,
-                Status = "Pending" // Example status
+                Status = "Pending" 
             };
             db.Appointments.Add(app);
             db.SaveChanges();
 
-            // Save selected tests
             foreach (var selectedTest in appointment.SelectedTests)
             {
                 var appointmentTest = new Appointments_Tests
@@ -324,7 +318,7 @@ namespace MasterPiece.Controllers
 
             try
             {
-                string selectedTestsList = "";  // Initialize an empty string to store the test names.
+                string selectedTestsList = "";  
 
                 foreach (var selectedTest in appointment.SelectedTests)
                 {
@@ -393,21 +387,17 @@ namespace MasterPiece.Controllers
         [HttpGet]
         public JsonResult GetAvailableTimes(string date)
         {
-            // Convert the string date to DateTime to match the Date_Of_Appo column
             DateTime selectedDate = DateTime.Parse(date);
 
-            // Fetch appointments for the selected date (fetch all from DB first)
             var appointments = db.Appointments
                      .Where(a => a.Date_Of_Appo.HasValue)
-                     .ToList(); // Bring the data into memory
+                     .ToList();
 
-            // Perform the date comparison in memory
             var bookedAppointments = appointments
-                         .Where(a => a.Date_Of_Appo.Value.Date == selectedDate.Date) // Compare the date part only
+                         .Where(a => a.Date_Of_Appo.Value.Date == selectedDate.Date) 
                          .Select(a => a.Date_Of_Appo.Value.TimeOfDay)
                          .ToList();
 
-            // Return the booked times as a list of strings in the "HH:mm" format
             var bookedTimes = bookedAppointments.Select(t => t.ToString(@"hh\:mm")).ToList();
 
             return Json(bookedTimes, JsonRequestBehavior.AllowGet);

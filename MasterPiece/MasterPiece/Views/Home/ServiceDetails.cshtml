@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    /* General Styling */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -12,16 +11,11 @@
         background-color: #f9f9f9;
     }
 
-
-
-
-    /* Main Content */
     .main-content {
         display: flex;
         margin: auto;
     }
 
-    /* Sidebar */
     .sidebar {
         width: 25%;
         padding-right: 20px;
@@ -58,7 +52,6 @@
         font-weight: bold;
     }
 
-    /* Service Content */
     .service-content {
         width: 75%;
     }
@@ -222,7 +215,6 @@
         </div>
     </div>
 </div>
-<!-- Info Section (Careers, Health Awareness, Contact Us) -->
 <div class="info-section">
     <div><a href="@Url.Action("Contact", "Home")" style="text-decoration: none; color: inherit;"><i class="fas fa-map-marker-alt"></i> Visit Us</a></div>
     <div><a href="@Url.Action("AppointmentDetails", "Home", new {id = Model.Package_ID})" style="text-decoration: none; color: inherit;"><i class="fas fa-calendar-alt"></i> Book An Appointment</a></div>

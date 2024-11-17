@@ -92,6 +92,10 @@
                 background-color: #cccccc;
                 cursor: not-allowed;
             }
+    .bg-info {
+        --gk-bg-opacity: 1;
+        background-color: #ff5050 !important;
+    }
 </style>
 
 <div class="container mt-5">
@@ -149,7 +153,6 @@
 
         <!-- Pagination Controls -->
         <div class="pagination" id="paginationControls">
-            <!-- Pagination buttons will be dynamically added here -->
         </div>
     </div>
 </div>
@@ -157,7 +160,7 @@
 <script>
     const rowsPerPage = 5;
     let currentPage = 1;
-    let currentFilter = 'all'; // Track the current filter
+    let currentFilter = 'all'; 
 
     // Function to render the pagination buttons
     function renderPagination(totalRows) {
@@ -188,7 +191,7 @@
         // Apply the current filter to the rows
         rows.forEach((row) => {
             if (currentFilter === 'all' || row.classList.contains(currentFilter)) {
-                filteredRows.push(row); // Add row to filtered list if it matches the filter
+                filteredRows.push(row); 
             }
         });
 
@@ -196,7 +199,6 @@
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        // Hide all rows initially
         rows.forEach((row) => {
             row.style.display = 'none';
         });

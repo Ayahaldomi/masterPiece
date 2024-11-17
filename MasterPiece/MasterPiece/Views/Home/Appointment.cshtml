@@ -249,14 +249,12 @@
             }
 
 
-    /* Dropdown container */
     .dropdown {
         width: 490px;
         max-width: 100%;
         margin: 0 auto 20px;
     }
 
-    /* Style the search box */
     .search-box {
         border: 2px solid var(--secondary);
         border-radius: 3px;
@@ -267,7 +265,6 @@
         transition: 0.5s ease;
     }
 
-    /* The container for the dropdown items */
     .dropdown-content {
         display: none;
         position: absolute;
@@ -276,11 +273,10 @@
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
         z-index: 1;
         max-height: 200px;
-        overflow-y: auto; /* Scroll when dropdown exceeds height */
+        overflow-y: auto; 
         border: 1px solid #ddd;
     }
 
-        /* Links inside the dropdown */
         .dropdown-content a {
             color: black;
             padding: 12px;
@@ -288,17 +284,14 @@
             display: block;
         }
 
-            /* Highlight the search result links when hovered */
             .dropdown-content a:hover {
                 background-color: #f1f1f1;
             }
 
-    /* Show the dropdown */
     .dropdown:hover .dropdown-content {
         display: block;
     }
 
-    /* Table styles */
     .test-table {
         width: 75%;
         margin: 20px auto;
@@ -316,12 +309,10 @@
             background-color: #f4f4f4;
         }
 
-        /* Style the Total Price Row */
         .test-table tfoot th {
             font-weight: bold;
             background-color: #f4f4f4;
         }
-    /* Style the Remove button */
     .remove-btn {
         background-color: #ff4d4d;
         color: white;
@@ -348,25 +339,25 @@
     .time-btn {
         display: inline-block;
         margin: 5px;
-        padding: 10px 20px; /* Increase padding for better button size */
+        padding: 10px 20px; 
         background-color: #f0f0f0;
-        border: 2px solid #ddd; /* Add border for a cleaner look */
-        border-radius: 5px; /* Add border-radius for rounded buttons */
+        border: 2px solid #ddd; 
+        border-radius: 5px; 
         cursor: pointer;
-        font-size: 16px; /* Adjust font size */
+        font-size: 16px; 
         transition: background-color 0.3s ease;
     }
 
         .time-btn.selected {
             background-color: #5196b1;
             color: white;
-            border-color: #5196b1; /* Match border color when selected */
+            border-color: #5196b1;
         }
 
         .time-btn:hover {
-            background-color: #5196b1; /* Add hover effect for better interactivity */
+            background-color: #5196b1; 
             color: white;
-            border-color: #5196b1; /* Match border color on hover */
+            border-color: #5196b1; 
         }
 
     p#chosen_time {
@@ -376,48 +367,44 @@
         margin-bottom: 10px;
     }
 
-    /* Flexbox to align the radio button and label side-by-side */
     .custom-radio {
         display: flex;
         align-items: center;
-        gap: 10px; /* Space between the radio button and the label */
+        gap: 10px; 
     }
 
-    /* Optional: adjust input size and label styling */
     .form-check-input {
         margin: 0;
-        transform: scale(1.2); /* Slightly enlarge the radio button if desired */
+        transform: scale(1.2); 
     }
 
     .form-check-label {
         font-size: 16px;
-        color: #495057; /* Label color */
+        color: #495057;
     }
 </style>
 
 <style>
-    /* Modal styling */
     .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1000; /* Sit on top */
+        display: none; 
+        position: fixed; 
+        z-index: 1000; 
         left: 0;
         top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+        width: 100%; 
+        height: 100%; 
+        background-color: rgba(0, 0, 0, 0.5); 
     }
 
     .modal-content {
         background-color: #fff;
-        margin: 15% auto; /* Center the modal */
+        margin: 15% auto; 
         padding: 20px;
         border: 1px solid #888;
-        width: 80%; /* Could be more or less depending on the size you want */
+        width: 80%; 
         max-width: 500px;
     }
 
-    /* Close button */
     .close {
         color: #aaa;
         float: right;
@@ -433,37 +420,34 @@
             cursor: pointer;
         }
 
-    /* Error Modal styling */
     #errorModal .modal-content {
-        background-color: #f44336; /* Red color for error */
+        background-color: #f44336; 
         color: white;
     }
 </style>
 
 
 <style>
-    /* Modal styling */
     .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1000; /* Sit on top */
+        display: none; 
+        position: fixed; 
+        z-index: 1000;
         left: 0;
         top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+        width: 100%; 
+        height: 100%; 
+        background-color: rgba(0, 0, 0, 0.5); 
     }
 
     .modal-content {
         background-color: #fff;
-        margin: 15% auto; /* Center the modal */
+        margin: 15% auto; 
         padding: 20px;
         border: 1px solid #888;
-        width: 80%; /* Could be more or less depending on the size you want */
+        width: 80%; 
         max-width: 500px;
     }
 
-    /* Close button */
     .close {
         color: #aaa;
         float: right;
@@ -478,7 +462,6 @@
             text-decoration: none;
             cursor: pointer;
         }
-
 </style>
 @{
     var testValue = 0;
@@ -530,7 +513,6 @@
                     </div>
                     <div class="input_wrap">
                         <label for="confirm_password">Patient Gender</label>
-                        @*<input type="password" name="confirm password" class="input" id="confirm_password">*@
                         <select class="input" id="gender" name="Gender" required>
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
@@ -568,7 +550,6 @@
                         <input type="date" name="preferred_date" class="input" id="preferred_date" min="" required>
                     </div>
 
-                    <!-- Custom time button will be added here -->
                     <div id="time_buttons" style="display:none;">
                         <button type="button" class="time-btn" data-time="08:00">8:00 AM</button>
                         <button type="button" class="time-btn" data-time="10:00">10:00 AM</button>
@@ -589,20 +570,23 @@
 
                     <!-- Display additional charge when custom time is selected -->
                     <p id="additional_charge" style="display:none; text-align:center;">Additional Charge: 5 JOD</p>
-                    @if (packagePrice == null)
-                    {
+                    <div class="input_wrap">
                         <label for="searchInput">Preferred Tests</label>
-                        <div class="dropdown">
-                            <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
-                            <div id="dropdownItems" class="dropdown-content">
-                                @foreach (var test in Model)
-                                {
-                                    <a href="#" data-price="@test.Price" onclick="addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID)" title="@test.Description">@test.Test_Name</a>
-                                }
+                        @if (packagePrice == null)
+                        {
 
+                            <div class="dropdown">
+                                <input type="text" placeholder="Search.." id="searchInput" onkeyup="filterFunction()" class="search-box">
+                                <div id="dropdownItems" class="dropdown-content">
+                                    @foreach (var test in Model)
+                                    {
+                                        <a href="#" data-price="@test.Price" onclick="addTestToTable('@test.Test_Name', @test.Price, @test.Test_ID)" title="@test.Description">@test.Test_Name</a>
+                                    }
+
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                     <!-- Table to display selected tests -->
                     <table id="selectedTestsTable" class="test-table">
                         <thead>
@@ -613,7 +597,6 @@
                                 {
                                     <th>Action</th>
                                 }
-                                <!-- New "Action" column for remove button -->
                             </tr>
                         </thead>
                         <tbody id="testTableBody">
@@ -624,13 +607,11 @@
                                 <th>Total</th>
                                 <th id="totalPrice">
                                     0 JOD
-                                    @*<input type="hidden" name="Total_price" id="Total_price" />*@
                                 </th>
                                 @if (packagePrice == null)
                                 {
                                     <th></th>
                                 }
-                                <!-- Empty cell for alignment -->
                             </tr>
                         </tfoot>
                     </table>
@@ -686,10 +667,10 @@
     </div>
 </form>
 
-<!-- PayPal Modal (hidden by default) -->
+<!-- PayPal Modal  -->
 <div id="paypalModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span> <!-- Close button -->
+        <span class="close">&times;</span>
 
         @using (Html.BeginForm("ProcessPayment", "Home", FormMethod.Post, new { @id = "paypalForm", @class = "paypalForm" }))
         {
@@ -712,7 +693,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-// Check if there's a login error message from the server
+
 window.onload = function () {
     @if (TempData["confirmForm"] != null)
     {
@@ -860,10 +841,8 @@ window.onload = function () {
         const timeButtons = document.querySelectorAll('.time-btn');
         const timeButtonContainer = document.getElementById('time_buttons');
 
-        // Show time buttons
         timeButtonContainer.style.display = 'flex';
 
-        // Enable all buttons initially (reset)
         timeButtons.forEach(button => {
             button.disabled = false; // Reset all buttons to enabled
         });
@@ -872,11 +851,10 @@ window.onload = function () {
         fetch(`/Home/GetAvailableTimes?date=${selectedDate}`)
             .then(response => response.json())
             .then(bookedTimes => {
-                // Disable the buttons for the booked times
                 timeButtons.forEach(button => {
                     const buttonTime = button.getAttribute('data-time');
                     if (bookedTimes.includes(buttonTime)) {
-                        button.disabled = true; // Disable button if time is booked
+                        button.disabled = true; 
                     }
                 });
             })
@@ -891,16 +869,14 @@ window.onload = function () {
             const selectedTime = this.getAttribute('data-time');
 
             if (selectedTime === 'custom') {
-                // Show custom time picker
                 document.getElementById('custom_time_input').style.display = 'inline';
-                document.getElementById('chosen_time').style.display = 'none'; // Hide until custom time is chosen
+                document.getElementById('chosen_time').style.display = 'none'; 
             } else {
-                // Hide custom time input and additional charge, show selected time
                 document.getElementById('custom_time_input').style.display = 'none';
                 document.getElementById('additional_charge').style.display = 'none';
                 document.getElementById('chosen_time').style.display = 'block';
                 document.getElementById('time_value').textContent = selectedTime;
-                customTimeSelected = false; // Reset custom time flag
+                customTimeSelected = false; 
                 updateTotalPrice();
             }
         });
@@ -910,22 +886,20 @@ window.onload = function () {
     document.getElementById('custom_time_input').addEventListener('change', function () {
         const customTime = this.value;
         if (customTime) {
-            // Display custom time and additional charge
             document.getElementById('chosen_time').style.display = 'block';
             document.getElementById('time_value').textContent = customTime;
             document.getElementById('additional_charge').style.display = 'block';
             customTimeSelected = true;
-            updateTotalPrice(); // Update total with additional charge
+            updateTotalPrice(); 
         }
     });
 
 
     // Function to update the total price
     function updateTotalPrice() {
-        // Always refresh the reference to the elements
         let tableBody = document.getElementById("testTableBody");
         let totalPriceElement = document.getElementById("totalPrice");
-        let totalPriceInput = document.getElementById("Total_price"); // Ensure correct reference
+        let totalPriceInput = document.getElementById("Total_price"); 
         let paypal = document.getElementById("paypal");
         let paypalValue = document.getElementById("paypalValue");
 
@@ -944,17 +918,17 @@ window.onload = function () {
         </text>;
         }
 
-        // Add additional charge for custom time if selected
+        //  for custom time
         if (customTimeSelected) {
             total += customTimeCharge;
         }
 
-        // Update the total price in the table footer
         totalPriceElement.textContent = total + " JOD";
 
         paypalValue.value = parseFloat(total);
         testValue = parseFloat(total);
-        // Update the hidden input for form submission
+
+        // Update the hidden input 
         if (totalPriceInput) {
             totalPriceInput.value = parseFloat(total);
         }
@@ -964,23 +938,23 @@ window.onload = function () {
             paypal.value = total;
         }
 
-        console.log("Total Price Updated:", total); // Debugging log
+        console.log("Total Price Updated:", total); 
     }
 
 
-    let selectedTestsCounter = 0; // To index the selected tests
+    let selectedTestsCounter = 0; 
 
     // Function to add the selected test and price to the table
     function addTestToTable(testName, price, testId) {
         let tableBody = document.getElementById("testTableBody");
 
-        // Check if the test is already in the table (avoid duplicates)
+        // Check if the test is already in the table
         let existingRows = tableBody.getElementsByTagName("tr");
         for (let i = 0; i < existingRows.length; i++) {
             let existingTest = existingRows[i].getElementsByTagName("td")[0].textContent;
             if (existingTest === testName) {
                 alert('This test is already added!');
-                return; // Exit if test is already added
+                return;
             }
         }
 
@@ -1008,7 +982,7 @@ window.onload = function () {
             removeBtn.classList.add("remove-btn");
             removeBtn.textContent = "Remove";
             removeBtn.onclick = function () {
-                removeTestFromTable(newRow, testId); // Call the remove function
+                removeTestFromTable(newRow, testId);
             };
             actionCell.appendChild(removeBtn);
             </text>
@@ -1031,20 +1005,19 @@ window.onload = function () {
         let selectedTestsDiv = document.getElementById("selectedTestsInputs");
         let hiddenTestInput = document.createElement("input");
         hiddenTestInput.type = "hidden";
-        hiddenTestInput.name = `SelectedTests[${selectedTestsCounter}].Test_ID`; // Bind to SelectedTests in the model
+        hiddenTestInput.name = `SelectedTests[${selectedTestsCounter}].Test_ID`;
         hiddenTestInput.value = testId;
         selectedTestsDiv.appendChild(hiddenTestInput);
 
-        selectedTestsCounter++; // Increment the counter
+        selectedTestsCounter++; 
 
-        // Update the total price
         updateTotalPrice();
     }
 
 
     function removeTestFromTable(row, testId) {
         let tableBody = document.getElementById("testTableBody");
-        tableBody.removeChild(row); // Remove the row from the table
+        tableBody.removeChild(row); 
 
         // Remove the hidden input for the test
         let selectedTestsDiv = document.getElementById("selectedTestsInputs");
@@ -1054,17 +1027,14 @@ window.onload = function () {
         for (let i = 0; i < hiddenInputs.length; i++) {
             if (hiddenInputs[i].value == testId) {
                 selectedTestsDiv.removeChild(hiddenInputs[i]);
-                break; // Exit loop after removing the matching input
+                break; 
             }
         }
 
-        // Reindex the remaining hidden inputs to maintain the correct array structure
         reindexHiddenInputs();
 
-        // Update the total price after removal
-        updateEditTotalPrice();
+        updateTotalPrice();
 
-        // Debugging: Log the updated state of hidden inputs
         console.log(selectedTestsDiv.innerHTML);
     }
 
@@ -1075,10 +1045,9 @@ window.onload = function () {
 
         // Reindex all hidden inputs after removal
         for (let i = 0; i < hiddenInputs.length; i++) {
-            hiddenInputs[i].name = `SelectedTests[${i}].Test_ID`; // Ensure correct model binding
+            hiddenInputs[i].name = `SelectedTests[${i}].Test_ID`;
         }
 
-        // Update the counter for adding new tests
         selectedTestsCounter = hiddenInputs.length;
     }
 
@@ -1091,7 +1060,6 @@ window.onload = function () {
 
     // Show time buttons when date is selected
     document.getElementById('preferred_date').addEventListener('change', function () {
-        // Show the time buttons once a date is selected
         document.getElementById('time_buttons').style.display = 'flex';
     });
 
@@ -1099,12 +1067,9 @@ window.onload = function () {
     const timeButtons = document.querySelectorAll('.time-btn');
     timeButtons.forEach(button => {
         button.addEventListener('click', function () {
-            // Remove 'selected' class from all buttons
             timeButtons.forEach(btn => btn.classList.remove('selected'));
-            // Add 'selected' class to the clicked button
             this.classList.add('selected');
 
-            // Show the chosen time below the buttons
             document.getElementById('chosen_time').style.display = 'block';
             document.getElementById('time_value').innerText = this.getAttribute('data-time');
         });
@@ -1116,36 +1081,29 @@ window.onload = function () {
 
 
     document.getElementById('appointmentForm').addEventListener('submit', function (event) {
-        
-        // Get the selected date
-        event.preventDefault(); // Prevent the default form submission
+
+        event.preventDefault(); 
         if (validateForm()) {
-            // Check if PayPal is selected
             const isPayPalSelected = document.getElementById('paypal').checked;
 
             if (isPayPalSelected) {
-                // Temporarily store the appointment data using AJAX before PayPal payment
                 storeAppointmentData();
             } else {
                 const appointmentForm = document.getElementById('appointmentForm');
 
-                // Set the combined date and time before submitting the form
                 const selectedDate = document.getElementById('preferred_date').value;
                 const selectedTime = document.getElementById('time_value').innerText;
                 const combinedDateTime = selectedDate + "T" + selectedTime;
 
                 document.getElementById('dateOfAppointment').value = combinedDateTime;
 
-                // Set the total price in the hidden input
                 document.getElementById('Total_price').value = document.getElementById('totalPrice').textContent.replace(' JOD', '');
 
-                // Submit the form
                 appointmentForm.submit();
             }
         }
     });
     function storeAppointmentData() {
-        // First, ensure the date and time are combined and set in the hidden input
         const selectedDate = document.getElementById('preferred_date').value;
         const selectedTime = document.getElementById('time_value').innerText;
 
@@ -1154,13 +1112,11 @@ window.onload = function () {
             return;
         }
 
-        // Combine the selected date and time into a single datetime string
         const combinedDateTime = selectedDate + "T" + selectedTime;
         document.getElementById('dateOfAppointment').value = combinedDateTime;
 
         const formData = new FormData(document.getElementById('appointmentForm'));
 
-        // Send the form data to a temporary storage action (via AJAX)
         fetch('/Home/StoreAppointmentData', {
             method: 'POST',
             body: formData
@@ -1168,7 +1124,6 @@ window.onload = function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // After storing, open PayPal modal for payment confirmation
                     openPayPalModal();
                 } else {
                     console.error('Failed to store appointment data.');
@@ -1179,94 +1134,25 @@ window.onload = function () {
     // Function to open the PayPal modal
     function openPayPalModal() {
         var modal = document.getElementById("paypalModal");
-        modal.style.display = "block"; // Show the PayPal modal
+        modal.style.display = "block"; 
     }
 
-    // Function to finalize and submit the appointment form
-    function finalizeFormSubmission() {
-        const appointmentForm = document.getElementById('appointmentForm');
-
-        // Set the combined date and time before submitting the form
-        const selectedDate = document.getElementById('preferred_date').value;
-        const selectedTime = document.getElementById('time_value').innerText;
-        const combinedDateTime = selectedDate + "T" + selectedTime;
-        document.getElementById('dateOfAppointment').value = combinedDateTime;
-
-        // Set the total price in the hidden input
-        document.getElementById('Total_price').value = document.getElementById('totalPrice').textContent.replace(' JOD', '');
-
-        // Submit the form
-        appointmentForm.submit();
-    }
-
-    // Get the confirm and pay button in the PayPal modal
+    //confirm PayPal modal
     document.getElementById('confirmAndPayBtn').addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default button behavior
+        event.preventDefault(); 
 
-        // Trigger PayPal form submission
         let paypalForm = document.querySelector('.paypalForm');
         if (paypalForm) {
-            paypalForm.submit(); // Submit the PayPal form
+            paypalForm.submit(); 
 
-            // Close the PayPal modal
             document.getElementById("paypalModal").style.display = "none";
 
-            //// After PayPal payment, submit the main form
-            //finalizeFormSubmission();
         } else {
             console.error('PayPal form not found');
         }
     });
 
-    //// Get the error modal
-    //var errorModal = document.getElementById("errorModal");
 
-    //// Get the close button in the error modal
-    //var closeErrorModal = errorModal.querySelector(".close");
-
-    //// Function to open the error modal with a custom message
-    //function showErrorModal(message) {
-    //    document.getElementById("errorMessage").textContent = message;
-    //    errorModal.style.display = "block";
-    //}
-
-    //// Close the error modal when the user clicks on the close button
-    //closeErrorModal.onclick = function () {
-    //    errorModal.style.display = "none";
-    //};
-
-    //// Close the error modal if the user clicks outside of it
-    //window.onclick = function (event) {
-    //    if (event.target == errorModal) {
-    //        errorModal.style.display = "none";
-    //    }
-    //};
-
-    //// Function to validate form inputs
-    //function validateForm() {
-    //    // List of required fields
-    //    const requiredFields = [
-    //        document.getElementById('email'),
-    //        document.getElementById('password'),
-    //        document.getElementById('gender'),
-    //        document.getElementById('user_name'),
-    //        document.getElementById('first_name'),
-    //        document.getElementById('last_name'),
-    //        document.getElementById('preferred_date'),
-    //        document.getElementById('time_value')
-    //    ];
-
-    //    // Check if any required field is empty
-    //    for (let field of requiredFields) {
-    //        if (!field || !field.value.trim()) {
-    //            showErrorModal("Please fill in all required fields.");
-    //            return false; // Stop form submission
-    //        }
-    //    }
-
-    //    // If all fields are filled, return true to proceed with form submission
-    //    return true;
-    //}
 
 
 </script>
@@ -1281,11 +1167,6 @@ window.onload = function () {
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the PayPal radio button, open the modal
-    //paypalRadio.onclick = function () {
-    //    modal.style.display = "block";
-    //}
 
     span.onclick = function () {
         modal.style.display = "none";
@@ -1315,10 +1196,9 @@ foreach (var test in testsList)
 <script>
     // error model
 
-    // Get the error modal
+
     var errorModal = document.getElementById("errorModal");
 
-    // Get the close button in the error modal
     var closeErrorModal = errorModal.querySelector(".close");
 
     // Function to open the error modal with a custom message
@@ -1327,12 +1207,10 @@ foreach (var test in testsList)
         errorModal.style.display = "block";
     }
 
-    // Close the error modal when the user clicks on the close button
     closeErrorModal.onclick = function () {
         errorModal.style.display = "none";
     };
 
-    // Close the error modal if the user clicks outside of it
     window.onclick = function (event) {
         if (event.target == errorModal) {
             errorModal.style.display = "none";
@@ -1344,14 +1222,12 @@ foreach (var test in testsList)
 
         const appointmentForm = document.getElementById('appointmentForm');
 
-        // Set the combined date and time before submitting the form
         const selectedDate = document.getElementById('preferred_date').value;
         const selectedTime = document.getElementById('time_value').innerText;
         const combinedDateTime = selectedDate + "T" + selectedTime;
 
         document.getElementById('dateOfAppointment').value = combinedDateTime;
 
-        // List of required fields and their labels
         const fields = [
             { id: 'email', label: 'Full Name' },
             { id: 'password', label: 'Date of Birth' },
@@ -1360,13 +1236,11 @@ foreach (var test in testsList)
             { id: 'first_name', label: 'Phone Number' },
             { id: 'last_name', label: 'Home Address' },
             { id: 'dateOfAppointment', label: 'Preferred Date' },
-           
+
         ];
 
-        // Array to hold missing fields
         let missingFields = [];
 
-        // Check each field and if empty, add its label to the missingFields array
         fields.forEach(field => {
             let input = document.getElementById(field.id);
             if (!input || !input.value) {
@@ -1374,14 +1248,12 @@ foreach (var test in testsList)
             }
         });
 
-        // If there are missing fields, display an error message listing them
         if (missingFields.length > 0) {
             let message = "Please fill in the following fields:\n" + missingFields.join(', ');
             showErrorModal(message);
-            return false; // Stop form submission
+            return false;
         }
 
-        // If all fields are filled, return true to proceed with form submission
         return true;
     }
 </script>

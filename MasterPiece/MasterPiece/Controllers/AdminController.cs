@@ -98,26 +98,25 @@ namespace MasterPiece.Controllers
             }
         }
 
-        public ActionResult AddPatientTests(int orderID)//int orderID
+        public ActionResult AddPatientTests(int orderID)
         {
             var order = db.Test_Order.Find(orderID);
             ViewBag.TestsList = db.Tests.ToList();
-            // Use the ViewModel in your query
             var packageList = db.Packages
     .Select(p => new
     {
         Package_ID = p.Package_ID,
         Package_Name = p.Package_Name,
         Price = p.Price,
-        TestIds = p.Package_Tests.Select(pt => pt.Test_ID) // Retrieve Test IDs only for now
+        TestIds = p.Package_Tests.Select(pt => pt.Test_ID) 
     })
-    .ToList() // Retrieve data into memory
+    .ToList() 
     .Select(p => new PackageViewModel
     {
         Package_ID = p.Package_ID,
         Package_Name = p.Package_Name,
         Price = p.Price,
-        Tests = string.Join(",", p.TestIds.Select(id => id.ToString())) // Now apply string.Join in memory
+        Tests = string.Join(",", p.TestIds.Select(id => id.ToString())) 
     })
     .ToList();
 
@@ -130,7 +129,7 @@ namespace MasterPiece.Controllers
         [HttpPost]
         public ActionResult SaveTests(int orderId, List<Test_Order_Tests> selectedTests, string totalPriceTest)
         {
-            // Get the current order
+            
             var order = db.Test_Order.FirstOrDefault(o => o.Order_ID == orderId);
             if (order == null)
             {
@@ -177,7 +176,7 @@ namespace MasterPiece.Controllers
         
 
 
-        public ActionResult AddPatientPayment(int orderId) //int orderId
+        public ActionResult AddPatientPayment(int orderId) 
         {
             var order = db.Test_Order.Find(orderId);
             return View(order);
@@ -203,7 +202,7 @@ namespace MasterPiece.Controllers
             Order.Amount_Paid += model.Amount_Paid;
             db.Entry(Order).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("AddPatientPayment", new { orderId  = model.Order_ID });//model.Order_ID
+            return RedirectToAction("AddPatientPayment", new { orderId  = model.Order_ID });
 
 
         }
@@ -241,7 +240,7 @@ namespace MasterPiece.Controllers
             return View(tests);
         }
 
-        public ActionResult TestResultsAdd(int OrderID)// int OrderID
+        public ActionResult TestResultsAdd(int OrderID)
         {
             var order = db.Test_Order.Find(OrderID);
             return View(order);
@@ -277,17 +276,16 @@ namespace MasterPiece.Controllers
                 return RedirectToAction("TestResultsAdd", new { Orderid = model.Order_ID });
             }
 
-            return View(model); // Return view with model if there's an error
+            return View(model); 
         }
 
         public ActionResult NotifyDoctor(int orderId)
         {
-            // Get the doctor details (this is just an example)
-            var doctor = db.Lab_Tech.Where(l => l.Status == "Doctor").FirstOrDefault(); // Replace with actual doctor logic
+            
+            var doctor = db.Lab_Tech.Where(l => l.Status == "Doctor").FirstOrDefault(); 
 
             if (doctor != null)
             {
-                // Create a new notification
                 var notification = new Models.Notification
                 {
                     Doctor_ID = doctor.Tech_ID,
@@ -297,7 +295,6 @@ namespace MasterPiece.Controllers
 
                 };
 
-                // Add to the database
                 db.Notifications.Add(notification);
                 db.SaveChanges();
 
@@ -313,7 +310,7 @@ namespace MasterPiece.Controllers
         public ActionResult Appointment()
         {
             var appointments = from a in db.Appointments
-                               orderby a.Date_Of_Appo descending  // Order by Date_Of_Appo in descending order
+                               orderby a.ID descending  
                                select new AppointmentViewModel
                                {
                                    ID = a.ID,
@@ -329,7 +326,6 @@ namespace MasterPiece.Controllers
                                    Billing_ID = a.Billing_ID,
                                    Status = a.Status,
 
-                                   // Query to get the test names for each appointment
                                    TestNames = (from at in db.Appointments_Tests
                                                 join t in db.Tests on at.Test_ID equals t.Test_ID
                                                 where at.Appointment_ID == a.ID
@@ -445,19 +441,16 @@ namespace MasterPiece.Controllers
 
         public ActionResult DeleteAppointment(int id)
         {
-            // Find the appointment by ID
             var appointment = db.Appointments.Find(id);
             if (appointment == null)
             {
                 return HttpNotFound();
             }
 
-            // Remove the appointment from the database
             db.Appointments.Remove(appointment);
             db.SaveChanges();
 
-            // Redirect back to the appointment list or another page
-            return RedirectToAction("Appointment"); // Assuming Index is the action that lists all appointments
+            return RedirectToAction("Appointment"); 
         }
 
 
@@ -471,7 +464,7 @@ namespace MasterPiece.Controllers
     .ToList();
             foreach (var patient in appointmentToday)
             {
-                string selectedTestsList = "";  // Initialize an empty string to store the test names.
+                string selectedTestsList = ""; 
 
                 foreach (var selectedTest in patient.Appointments_Tests)
                 {
@@ -580,15 +573,15 @@ namespace MasterPiece.Controllers
             return RedirectToAction("TestsDocumentation");
         }
 
-        public ActionResult TestsDocumentationssssssssssss()
-        {
-            return View();
-        }
+        //public ActionResult TestsDocumentationssssssssssss()
+        //{
+        //    return View();
+        //}
 
-        public ActionResult TestDocumentationADD()
-        {
-            return View();
-        }
+        //public ActionResult TestDocumentationADD()
+        //{
+        //    return View();
+        //}
 
 
 
@@ -607,7 +600,6 @@ namespace MasterPiece.Controllers
                 db.Lab_Tech.Add(employee);
                 db.SaveChanges();
 
-                // Redirect to the list of employees (or wherever you want)
                 return RedirectToAction("Employees");
             }
 
@@ -682,7 +674,6 @@ namespace MasterPiece.Controllers
             return View(packages);
         }
 
-        // This action gets the selected tests for a specific package via Ajax
         public JsonResult GetPackageDetails(int id)
         {
             var package = db.Packages.Include(p => p.Package_Tests.Select(pt => pt.Test))
@@ -703,18 +694,14 @@ namespace MasterPiece.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Check if a picture was uploaded
                 if (Picture != null && Picture.ContentLength > 0)
                 {
-                    // Generate a unique filename and save the file
                     var fileName = Path.GetFileName(Picture.FileName);
                     var path = Path.Combine(Server.MapPath("~/Uploads/Packages"), fileName);
 
-                    // Save the file to the server
                     Picture.SaveAs(path);
 
-                    // Save the path to the database
-                    model.Picture = fileName; // Assign the file path to the model's Picture property
+                    model.Picture = fileName; 
                 }
                 var package = new Package
                 {
@@ -738,12 +725,10 @@ namespace MasterPiece.Controllers
                 }
                 db.SaveChanges();
 
-                // Save the package data to the database, including the picture path
 
                 return RedirectToAction("Packages");
             }
 
-            // If something went wrong, return the model to the view
             return View(model);
         }
 
@@ -754,20 +739,15 @@ namespace MasterPiece.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Check if a picture was uploaded
                 if (Picture != null && Picture.ContentLength > 0)
                 {
-                    // Generate a unique filename and save the file
                     var fileName = Path.GetFileName(Picture.FileName);
                     var path = Path.Combine(Server.MapPath("~/Uploads/Packages"), fileName);
 
-                    // Save the file to the server
                     Picture.SaveAs(path);
 
-                    // Save the path to the database
-                    model.Picture = fileName; // Assign the file path to the model's Picture property
+                    model.Picture = fileName; 
                 }
-                // Update the package details
                 var package = db.Packages.Find(model.Package_ID);
                 if (package == null)
                 {
@@ -778,9 +758,7 @@ namespace MasterPiece.Controllers
                 package.Description = model.Description;
                 package.Price = model.Price;
                 package.Picture = model.Picture;
-                // Handle image upload if necessary
 
-                // Remove old tests from the package
                 db.Package_Tests.RemoveRange(package.Package_Tests);
 
                 
@@ -801,7 +779,6 @@ namespace MasterPiece.Controllers
                 return RedirectToAction("Packages");
             }
 
-            // If something goes wrong, return the view with the model to show errors
             return RedirectToAction("Packages");
         }
 
@@ -858,33 +835,28 @@ namespace MasterPiece.Controllers
         {
             if (ModelState.IsValid)
             {
-                feedback.Status = "Pending"; // Default status when feedback is created
+                feedback.Status = "Pending"; 
                 db.Feedbacks.Add(feedback);
                 db.SaveChanges();
                 return RedirectToAction("Profile", "User");
             }
 
-            // If there's an issue with the model state, return the same view with validation errors
             return View(feedback);
         }
 
         [HttpPost]
         public ActionResult DeleteFeedback(int Feedback_ID)
         {
-            // Find the feedback by ID
             var feedback = db.Feedbacks.Find(Feedback_ID);
 
-            // Check if feedback exists
             if (feedback == null)
             {
                 return HttpNotFound();
             }
 
-            // Remove the feedback from the database
             db.Feedbacks.Remove(feedback);
             db.SaveChanges();
 
-            // Redirect to the feedback list page
             return RedirectToAction("FeedBacks");
         }
 

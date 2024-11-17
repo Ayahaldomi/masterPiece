@@ -230,7 +230,7 @@
 <style>
     /* Modal styles */
     .modal {
-        display: none; 
+        display: none;
         position: fixed;
         z-index: 1000;
         left: 0;
@@ -297,13 +297,13 @@
 <div class="myDiv">
     <div class="container1" id="container">
         <div class="form-container sign-up-container">
-            <form action="/User/SignUp" method="post">
+            <form id="signUpForm" action="/User/SignUp" method="post">
                 <h1>Create Account</h1>
                 <br />
 
-                <input type="text" placeholder="Full Name" name="Full_Name" />
-                <input type="email" placeholder="Email" name="Email" />
-                <input type="password" placeholder="Phone Number" name="Phone_Number" />
+                <input type="text" placeholder="Full Name" name="Full_Name" required />
+                <input type="email" placeholder="Email" name="Email" required />
+                <input type="number" placeholder="Phone Number" name="Phone_Number" id="PhoneNumber" required pattern="^((07[7-9]|06)[0-9]{7})$" title="Please enter a valid Jordanian phone number (e.g., 079XXXXXXX or 065XXXXXX)" />
                 <br />
                 <button type="submit">Sign Up</button>
             </form>
@@ -312,8 +312,8 @@
             <form action="/User/Login" method="post">
                 <h1>Sign in</h1>
                 <br />
-                <input type="text" placeholder="Patient ID" name="Patient_ID" />
-                <input type="text" placeholder="Phone Number" name="Phone_Number" />
+                <input type="number" placeholder="Patient ID" name="Patient_ID" required />
+                <input type="number" placeholder="Phone Number" name="Phone_Number" />
                 <a href="#" id="forgotPasswordLink">Forgot your Patient ID?</a>
                 <button type="submit">Sign In</button>
             </form>
@@ -334,6 +334,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Forgot Password Modal -->
 <div id="forgotPasswordModal" class="modal">
@@ -398,18 +399,15 @@ window.onload = function () {
         const modal = document.getElementById('forgotPasswordModal');
         const closeModal = document.getElementById('closeModal');
 
-        // Open the modal
         forgotPasswordLink.addEventListener('click', function (e) {
             e.preventDefault();
             modal.style.display = 'block';
         });
 
-        // Close the modal
         closeModal.addEventListener('click', function () {
             modal.style.display = 'none';
         });
 
-        // Close the modal when clicking outside of it
         window.addEventListener('click', function (event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
@@ -417,4 +415,28 @@ window.onload = function () {
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const signUpForm = document.getElementById('signUpForm');
+        const phoneNumberInput = document.getElementById('PhoneNumber');
+
+        signUpForm.addEventListener('submit', function (e) {
+            const phoneNumber = phoneNumberInput.value;
+            const jordanianPhoneRegex = /^((07[7-9]|06)[0-9]{7})$/;
+
+            if (!jordanianPhoneRegex.test(phoneNumber)) {
+                e.preventDefault(); 
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Phone Number',
+                    text: 'Please enter a valid Jordanian phone number (e.g., 079XXXXXXX or 065XXXXXX).',
+                    confirmButtonText: 'Try Again'
+                });
+            }
+        });
+    });
+</script>
+
 

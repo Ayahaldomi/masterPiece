@@ -48,44 +48,46 @@
                 Add New Test
             </button>
         </div>
-        <table class="table table-striped table-bordered" id="testTable">
-            <thead class="table-light">
-                <tr>
-                    <th>Test ID</th>
-                    <th>Test Name</th>
-                    <th>Description</th>
-                    <th>Normal Range</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var test in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="testTable">
+                <thead class="table-light">
                     <tr>
-                        <td>@test.Test_ID</td>
-                        <td>@test.Test_Name</td>
-                        <td>@test.Description</td>
-                        <td>@test.Normal_Range</td>
-                        <td>
-                            <button type="button"
-                                    class="btn btn-sm btn-outline-warning me-2"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editTestModal"
-                                    onclick="populateEditModal('@test.Test_ID', '@test.Test_Name', '@test.Description', '@test.Normal_Range', '@test.Price', '@test.Inventory', '@test.Components', '@test.Unit', '@test.Sample_Type', '@test.Expiration_Date')">
-                                Edit
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTestModal"
-                                    onclick="setDeleteTest('@test.Test_ID', '@test.Test_Name')">
-                                Delete
-                            </button>
-                        </td>
+                        <th>Test ID</th>
+                        <th>Test Name</th>
+                        <th>Description</th>
+                        <th>Normal Range</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var test in Model)
+                    {
+                        <tr>
+                            <td>@test.Test_ID</td>
+                            <td>@test.Test_Name</td>
+                            <td>@test.Description</td>
+                            <td>@test.Normal_Range</td>
+                            <td>
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-warning me-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editTestModal"
+                                        onclick="populateEditModal('@test.Test_ID', '@test.Test_Name', '@test.Description', '@test.Normal_Range', '@test.Price', '@test.Inventory', '@test.Components', '@test.Unit', '@test.Sample_Type', '@test.Expiration_Date')">
+                                    Edit
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTestModal"
+                                        onclick="setDeleteTest('@test.Test_ID', '@test.Test_Name')">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
         <!-- Centered Pagination controls -->
         <div id="pagination" class="text-center">
             <button class="btn btn-outline-primary" onclick="previousPage()">Previous</button>

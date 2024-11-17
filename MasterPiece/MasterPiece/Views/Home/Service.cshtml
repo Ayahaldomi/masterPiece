@@ -109,7 +109,7 @@
         <div class="row g-4">
             @foreach (var service in Model.Package.Select((value, index) => new { value, index }))
             {
-                var delay = 0.1 + (service.index % 3) * 0.2;<!-- Adjust the delay dynamically -->
+                var delay = 0.1 + (service.index % 3) * 0.2;
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="@delay.ToString("0.0")s">
                     <div class="service-item rounded d-flex h-100">
                         <div class="service-img rounded">
