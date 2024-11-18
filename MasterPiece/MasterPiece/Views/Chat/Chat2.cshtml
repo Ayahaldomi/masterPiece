@@ -155,11 +155,7 @@
                                                             Pay with PayPal
                                                         </button>
                                                     }
-                                                    @*<input type="text" class="form-control form-control-lg" id="exampleFormControlInput2"
-                                                               placeholder="Type message">
-                                                        <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
-                                                        <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
-                                                        <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>*@
+                                                   
                                                 </div>
 
                                             </div>
@@ -209,7 +205,6 @@
     <script type="text/javascript">
     $(document).ready(function () {
 
-            // Poll for new messages every 5 seconds
             setInterval(function () {
                 var chatRoomId = '@ViewBag.ChatRoomId';
                 if (chatRoomId) {
@@ -218,9 +213,8 @@
                         $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
                     });
                 }
-            }, 5000); // 5000 milliseconds = 5 seconds
+            }, 5000); 
 
-            // Scroll to the bottom of the chat messages div on page load
             $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
         });
     </script>

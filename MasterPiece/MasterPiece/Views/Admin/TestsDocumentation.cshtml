@@ -365,9 +365,8 @@
     }
 </script>
 <script>
-    // Pagination setup
     var currentPage = 1;
-    var rowsPerPage = 4; // Set the number of rows to display per page
+    var rowsPerPage = 4; 
 
     function displayTableRows(page) {
         var table = document.getElementById("testTable");
@@ -380,19 +379,16 @@
 
         currentPage = page;
 
-        // Hide all rows first
         for (var i = 0; i < totalRows; i++) {
             rows[i].style.display = "none";
         }
 
-        // Show rows for the current page
         var start = (page - 1) * rowsPerPage;
         var end = start + rowsPerPage;
         for (var i = start; i < end && i < totalRows; i++) {
             rows[i].style.display = "";
         }
 
-        // Update page number display
         document.getElementById("pageNumber").innerText = "Page " + currentPage + " of " + totalPages;
     }
 
@@ -411,12 +407,10 @@
         }
     }
 
-    // Initialize pagination on page load
     window.onload = function () {
         displayTableRows(currentPage);
     };
 
-    // Filter by test name
     function filterByTestName() {
         var input = document.getElementById("searchBar");
         var filter = input.value.toLowerCase();
@@ -424,7 +418,7 @@
         var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
         for (var i = 0; i < rows.length; i++) {
-            var testNameCell = rows[i].getElementsByTagName("td")[1]; // The second cell is Test Name
+            var testNameCell = rows[i].getElementsByTagName("td")[1]; 
             var testName = testNameCell.textContent || testNameCell.innerText;
             if (testName.toLowerCase().indexOf(filter) > -1) {
                 rows[i].style.display = "";

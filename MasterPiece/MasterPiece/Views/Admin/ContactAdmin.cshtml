@@ -188,7 +188,6 @@
         const rows = document.querySelectorAll('#feedbackTable tbody .feedback-row');
         let filteredRows = [];
 
-        // Apply the current filter to the rows
         rows.forEach((row) => {
             if (currentFilter === 'all' || row.classList.contains(currentFilter)) {
                 filteredRows.push(row); 
@@ -203,10 +202,9 @@
             row.style.display = 'none';
         });
 
-        // Display only the filtered rows based on the pagination
         filteredRows.forEach((row, index) => {
             if (index >= start && index < end) {
-                row.style.display = ""; // Show the row
+                row.style.display = ""; 
             }
         });
 
@@ -220,9 +218,9 @@
 
     // Function to filter and re-paginate the table
     function filterTable(status) {
-        currentFilter = status; // Update the current filter
-        currentPage = 1; // Reset to first page after applying filter
-        paginateTable(); // Re-apply pagination with the new filter
+        currentFilter = status; 
+        currentPage = 1; 
+        paginateTable(); 
     }
 
 </script>

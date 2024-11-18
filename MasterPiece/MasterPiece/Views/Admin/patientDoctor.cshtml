@@ -159,12 +159,10 @@
 
 <script>
     document.getElementById('edit-button').addEventListener('click', function () {
-        // Enable all form fields
         document.querySelectorAll('#patient-form input, #patient-form select, #patient-form textarea').forEach(function (element) {
             element.disabled = false;
         });
 
-        // Hide the edit button and show the save button
         document.getElementById('edit-button').style.display = 'none';
         document.getElementById('save-button').style.display = 'inline-block';
         document.getElementById('cancel-button').style.display = 'inline-block';

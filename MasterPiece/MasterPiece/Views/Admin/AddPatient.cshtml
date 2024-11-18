@@ -177,14 +177,12 @@
         let homeAddress = element.getAttribute("data-home-address");
         let note = element.getAttribute("data-note");
 
-        // Convert the date to yyyy-MM-dd format if it exists
         let formattedDateOfBirth = '';
         if (dateOfBirth) {
             let date = new Date(dateOfBirth);
             formattedDateOfBirth = date.toISOString().split('T')[0]; 
         }
 
-        // Populate the form fields with the selected user details
         document.getElementById("Patient_ID").value = userId;
         document.getElementById("userSearchInput").value = fullName;
         document.getElementById("Date_Of_Birth").value = formattedDateOfBirth;
@@ -195,9 +193,7 @@
         document.getElementById("Home_Address").value = homeAddress;
         document.getElementById("Note").value = note;
 
-        // Hide the user list after selection
         document.getElementById("userList").style.display = "none";
-        // Optionally, update the search input to the selected user's name
         document.getElementById("userSearchInput").value = fullName;
     }
 

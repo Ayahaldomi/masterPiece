@@ -25,12 +25,12 @@
             @foreach (var chatRoom in Model)
             {
                 <tr>
-                    <td>@chatRoom.Patient.Full_Name</td> <!-- Display the patient's full name -->
+                    <td>@chatRoom.Patient.Full_Name</td> 
                     <td>
                         @(chatRoom.CreatedAt.HasValue
         ? chatRoom.CreatedAt.Value.ToString("MMMM dd, yyyy hh:mm tt")
         : "N/A")
-                    </td> <!-- Display the creation date of the chat room -->
+                    </td> 
                     <td>
                         <a href="@Url.Action("Chat", "Chat", new { chatRoomId = chatRoom.ChatRoom_ID })" class="btn btn-primary">
                             Enter Chat

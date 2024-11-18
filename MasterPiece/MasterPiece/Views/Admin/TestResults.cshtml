@@ -154,11 +154,9 @@
 </div>
 
 <script>
-    // Pagination variables
     let currentPage = 1;
     const rowsPerPage = 5; 
 
-    // Select table body and filter buttons
     const tableBody = document.getElementById('table-body');
     const rows = Array.from(tableBody.querySelectorAll('tr')); 
     let filteredRows = [...rows]; 
@@ -167,7 +165,6 @@
     const showCompletedButton = document.getElementById('show-completed');
     const showPendingButton = document.getElementById('show-pending');
 
-    // Display table rows for the current page
     function displayRows(page) {
         tableBody.innerHTML = ''; 
         const start = (page - 1) * rowsPerPage;
@@ -176,7 +173,6 @@
         updatePageInfo(); 
     }
 
-    // Update page info and disable buttons when necessary
     function updatePageInfo() {
         const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
         document.getElementById('pageNumber').innerText = `Page ${currentPage} of ${totalPages}`;
@@ -184,7 +180,6 @@
         document.querySelector('button[onclick="nextPage()"]').disabled = currentPage === totalPages;
     }
 
-    // Previous page button handler
     function previousPage() {
         if (currentPage > 1) {
             currentPage--;
@@ -192,7 +187,6 @@
         }
     }
 
-    // Next page button handler
     function nextPage() {
         const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
         if (currentPage < totalPages) {
@@ -201,7 +195,6 @@
         }
     }
 
-    // Search functionality
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
 
@@ -217,7 +210,6 @@
         displayRows(currentPage);
     });
 
-    // Filter functionality
     showAllButton.addEventListener('click', () => {
         filteredRows = [...rows]; 
         currentPage = 1; 
@@ -236,7 +228,6 @@
         displayRows(currentPage);
     });
 
-    // Initialize pagination
     displayRows(currentPage);
 </script>
 

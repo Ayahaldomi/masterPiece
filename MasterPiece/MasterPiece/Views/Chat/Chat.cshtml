@@ -149,7 +149,6 @@
                                 </div>
                             }
 
-                            <!-- Payment status banner (red and transparent) -->
                             @if (ViewBag.PaymentStatus == "Unpaid")
                             {
                                 <div class="payment-status-banner text-white text-center p-2" style="background-color: rgba(255, 0, 0, 0.6); border-radius: 5px; font-size: 14px;">
@@ -219,20 +218,19 @@
             // Update chat rooms every 1 minute
             setInterval(function () {
                 $.get('@Url.Action("GetChatRooms", "Chat")', function (data) {
-                    $('#chatRoomsContainer').html(data);
+                    $('#chatRoomList').html(data);
                 });
-            }, 60000); // 60000 milliseconds = 1 minute
+            }, 60000); 
 
             // Handle chat room click to load messages dynamically
             $(document).on('click', '.chat-room-link', function () {
                 var chatRoomId = $(this).data('room-id');
                 $.get('@Url.Action("GetChatMessages", "Chat")', { chatRoomId: chatRoomId }, function (data) {
                     $('#chatMessages').html(data);
-                    $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight); // Scroll to the bottom of the chat
+                    $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight); 
                 });
             });
 
-            // Poll for new messages every 5 seconds
             setInterval(function () {
                 var chatRoomId = '@ViewBag.ChatRoomId';
                 if (chatRoomId) {
@@ -241,44 +239,39 @@
                         $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
                     });
                 }
-            }, 5000); // 5000 milliseconds = 5 seconds
+            }, 5000); 
 
-            // Scroll to the bottom of the chat messages div on page load
             $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
 
 
-            // Search functionality
             $('#searchInput').on('input', function () {
                 var searchTerm = $(this).val().toLowerCase();
 
-                // Loop through each chat room item and hide/show based on the search
                 $('#chatRoomList .chat-room-item').each(function () {
                     var patientName = $(this).data('patient-name');
 
                     if (patientName.includes(searchTerm)) {
-                        $(this).show();  // Show if the name matches the search term
+                        $(this).show();  
                     } else {
-                        $(this).hide();  // Hide if it doesn't match
+                        $(this).hide();  
                     }
                 });
             });
 
 
-            // Show all chat rooms
             $('#showAll').on('click', function () {
                 $('#chatRoomList .chat-room-item').each(function () {
-                    $(this).show(); // Show all chat rooms
+                    $(this).show(); 
                 });
             });
 
-            // Show only chat rooms with unread messages
             $('#showUnread').on('click', function () {
 
                 $('#chatRoomList .chat-room-item').each(function () {
                     if ($(this).data('has-unread') == 'True') {
-                        $(this).show();  // Show if it has unread messages
+                        $(this).show();  
                     } else {
-                        $(this).hide();  // Hide if it doesn't have unread messages
+                        $(this).hide(); 
                     }
                 });
             });

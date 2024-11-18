@@ -219,15 +219,12 @@
                                 }
                             </td>
                             <td class="text-center">
-                                <!-- Flex container for the buttons -->
                                 <div class="d-flex justify-content-center">
-                                    <!-- Edit button to open edit modal with pre-filled package data -->
                                     <button type="button" class="btn btn-sm btn-outline-warning me-2" data-bs-toggle="modal" data-bs-target="#editPackageModal"
                                             onclick="openEditModal('@package.Package_ID', '@package.Package_Name', '@package.Description', '@package.Price', '@package.Picture')">
                                         Edit
                                     </button>
 
-                                    <!-- Delete button to open delete confirmation modal -->
                                     <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deletePackageModal"
                                             onclick="setDeletePackage('@package.Package_ID', '@package.Package_Name')">
                                         Delete
@@ -291,7 +288,6 @@
                         </div>
                     </div>
 
-                    <!-- Table to display selected tests -->
             <div class="mb-3">
                 <h5>Selected Tests:</h5>
                 <table class="table table-striped">
@@ -336,7 +332,7 @@
                 @using (Html.BeginForm("EditPackage", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.Hidden("Package_ID", "", new { id = "edit_Package_ID" }) <!-- Hidden field for package ID -->
+                    @Html.Hidden("Package_ID", "", new { id = "edit_Package_ID" }) 
 
                     <div class="mb-3">
                         <label for="edit_Package_Name" class="form-label">Package Name</label>
@@ -399,7 +395,7 @@
 
 
                     </div>
-                    <div id="selectedTestsInputsEDIT"></div> <!-- Hidden inputs will go here -->
+                    <div id="selectedTestsInputsEDIT"></div> 
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 }
             </div>
@@ -436,27 +432,22 @@
 
 <script>
     function openEditModal(id, name, description, price, picture) {
-        // Set basic package details
         document.getElementById('edit_Package_ID').value = id;
         document.getElementById('edit_Package_Name').value = name;
         document.getElementById('edit_Description').value = description;
         document.getElementById('edit_Price').value = price;
-        //document.getElementById('picturePreview').src = picture;
-        // Fetch selected tests for the package using AJAX
+        
         $.ajax({
             url: '/Admin/GetPackageDetails',
             type: 'GET',
             data: { id: id },
             success: function (data) {
-                // Clear existing table rows
                 document.getElementById('editTestTableBody').innerHTML = '';
 
-                // Loop through the returned selected tests and add them to the table
                 data.selectedTests.forEach(function (test) {
                     addTestToEditTable(test.Test_Name, test.Price, test.Test_ID);
                 });
 
-                // Update total price after populating the table
                 updateEditTotalPrice();
             },
             error: function (err) {
@@ -466,7 +457,6 @@
     }
 
 
-    // Set the package details for the Delete Confirmation Modal
     function setDeletePackage(id, name) {
         document.getElementById('delete_Package_ID').value = id;
         document.getElementById('deletePackageName').innerText = name;
@@ -505,20 +495,19 @@
     }
 
 
-    let selectedTestsCounter = 0; // To index the selected tests
+    let selectedTestsCounter = 0; 
 
 
     // Function to add the selected test and price to the table
     function addTestToTable(testName, price, testId) {
         let tableBody = document.getElementById("testTableBody");
 
-        // Check if the test is already in the table (avoid duplicates)
         let existingRows = tableBody.getElementsByTagName("tr");
         for (let i = 0; i < existingRows.length; i++) {
             let existingTest = existingRows[i].getElementsByTagName("td")[0].textContent;
             if (existingTest === testName) {
                 alert('This test is already added!');
-                return; // Exit if test is already added
+                return; 
             }
         }
 
@@ -539,7 +528,7 @@
         removeBtn.classList.add("btn", "btn-danger", "btn-sm");
         removeBtn.textContent = "Remove";
         removeBtn.onclick = function () {
-            removeTestFromTable(newRow, testId); // Call the remove function
+            removeTestFromTable(newRow, testId); 
         };
         actionCell.appendChild(removeBtn);
 
@@ -555,14 +544,13 @@
         let selectedTestsDiv = document.getElementById("selectedTestsInputs");
         let hiddenTestInput = document.createElement("input");
         hiddenTestInput.type = "hidden";
-        hiddenTestInput.name = `SelectedTests[${selectedTestsCounter}].Test_ID`; // Bind to SelectedTests in the model
+        hiddenTestInput.name = `SelectedTests[${selectedTestsCounter}].Test_ID`; 
         hiddenTestInput.value = testId;
         selectedTestsDiv.appendChild(hiddenTestInput);
 
-        selectedTestsCounter++; // Increment the counter
+        selectedTestsCounter++; 
 
         console.log(selectedTestsDiv)
-        // Update the total price
         updateTotalPrice();
     }
 
@@ -572,7 +560,6 @@
         let totalPriceElement = document.getElementById("totalPrice");
         let total = 0;
 
-        // Loop through the table rows and sum the prices
         let rows = tableBody.getElementsByTagName("tr");
         for (let i = 0; i < rows.length; i++) {
             let priceText = rows[i].getElementsByTagName("td")[1].textContent;
@@ -580,7 +567,6 @@
             total += price;
         }
 
-        // Update the total price in the table footer
         totalPriceElement.textContent = "$" + total;
     }
 
@@ -589,27 +575,22 @@
 
     function removeTestFromTable(row, testId) {
         let tableBody = document.getElementById("testTableBody");
-        tableBody.removeChild(row); // Remove the row from the table
+        tableBody.removeChild(row);
 
-        // Remove the hidden input for the test
         let selectedTestsDiv = document.getElementById("selectedTestsInputs");
         let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
 
-        // Loop through hidden inputs and remove the one matching testId
         for (let i = 0; i < hiddenInputs.length; i++) {
             if (hiddenInputs[i].value == testId) {
                 selectedTestsDiv.removeChild(hiddenInputs[i]);
-                break; // Exit loop after removing the matching input
+                break; 
             }
         }
 
-        // Reindex the remaining hidden inputs to maintain the correct array structure
         reindexHiddenInputs();
 
-        // Update the total price after removal
         updateEditTotalPrice();
 
-        // Debugging: Log the updated state of hidden inputs
         console.log(selectedTestsDiv.innerHTML);
     }
 
@@ -618,12 +599,10 @@
         let selectedTestsDiv = document.getElementById("selectedTestsInputs");
         let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
 
-        // Reindex all hidden inputs after removal
         for (let i = 0; i < hiddenInputs.length; i++) {
-            hiddenInputs[i].name = `SelectedTests[${i}].Test_ID`; // Ensure correct model binding
+            hiddenInputs[i].name = `SelectedTests[${i}].Test_ID`;
         }
 
-        // Update the counter for adding new tests
         selectedTestsCounter = hiddenInputs.length;
     }
 </script>
@@ -649,18 +628,17 @@
     }
 
 
-    let selectedTestsCounterEDIT = 0; // To index the selected tests
+    let selectedTestsCounterEDIT = 0; 
 
    function addTestToEditTable(testName, price, testId) {
        let tableBody = document.getElementById("editTestTableBody");
 
-    // Check if the test is already in the table (avoid duplicates)
     let existingRows = tableBody.getElementsByTagName("tr");
     for (let i = 0; i < existingRows.length; i++) {
         let existingTest = existingRows[i].getElementsByTagName("td")[0].textContent;
         if (existingTest === testName) {
             alert('This test is already added!');
-            return; // Exit if test is already added
+            return; 
         }
     }
 
@@ -681,7 +659,7 @@
     removeBtn.classList.add("btn", "btn-danger", "btn-sm");
     removeBtn.textContent = "Remove";
     removeBtn.onclick = function () {
-        removeTestFromEditTable(newRow, testId); // Call the remove function
+        removeTestFromEditTable(newRow, testId); 
     };
     actionCell.appendChild(removeBtn);
 
@@ -698,14 +676,13 @@
        let selectedTestsDiv = document.getElementById("selectedTestsInputsEDIT");
        let hiddenTestInput = document.createElement("input");
        hiddenTestInput.type = "hidden";
-       hiddenTestInput.name = `SelectedTestsEDIT[${selectedTestsCounterEDIT}].Test_ID`; // Bind to SelectedTests in the model
+       hiddenTestInput.name = `SelectedTestsEDIT[${selectedTestsCounterEDIT}].Test_ID`; 
        hiddenTestInput.value = testId;
        selectedTestsDiv.appendChild(hiddenTestInput);
 
-       selectedTestsCounterEDIT++; // Increment the counter
+       selectedTestsCounterEDIT++; 
        console.log(selectedTestsDiv)
 
-    // Update the total price
     updateEditTotalPrice();
 }
 
@@ -715,7 +692,6 @@
         let totalPriceElement = document.getElementById("editTotalPrice");
         let total = 0;
 
-        // Loop through the table rows and sum the prices
         let rows = tableBody.getElementsByTagName("tr");
         for (let i = 0; i < rows.length; i++) {
             let priceText = rows[i].getElementsByTagName("td")[1].textContent;
@@ -723,33 +699,27 @@
             total += price;
         }
 
-        // Update the total price in the table footer
         totalPriceElement.textContent = "$" + total;
     }
 
     function removeTestFromEditTable(row, testId) {
         let tableBody = document.getElementById("editTestTableBody");
-        tableBody.removeChild(row); // Remove the row from the table
+        tableBody.removeChild(row);
 
-        // Remove the hidden input for the test
         let selectedTestsDiv = document.getElementById("selectedTestsInputsEDIT");
         let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
 
-        // Loop through hidden inputs and remove the one matching testId
         for (let i = 0; i < hiddenInputs.length; i++) {
             if (hiddenInputs[i].value == testId) {
                 selectedTestsDiv.removeChild(hiddenInputs[i]);
-                break; // Exit loop after removing the matching input
+                break; 
             }
         }
 
-        // Reindex the remaining hidden inputs to maintain the correct array structure
         reindexHiddenInputs();
 
-        // Update the total price after removal
         updateEditTotalPrice();
 
-        // Debugging: Log the updated state of hidden inputs
         console.log(selectedTestsDiv.innerHTML);
     }
 
@@ -758,12 +728,10 @@
         let selectedTestsDiv = document.getElementById("selectedTestsInputsEDIT");
         let hiddenInputs = selectedTestsDiv.getElementsByTagName("input");
 
-        // Reindex all hidden inputs after removal
         for (let i = 0; i < hiddenInputs.length; i++) {
-            hiddenInputs[i].name = `SelectedTestsEDIT[${i}].Test_ID`; // Ensure correct model binding
+            hiddenInputs[i].name = `SelectedTestsEDIT[${i}].Test_ID`; 
         }
 
-        // Update the counter for adding new tests
         selectedTestsCounterEDIT = hiddenInputs.length;
     }
 

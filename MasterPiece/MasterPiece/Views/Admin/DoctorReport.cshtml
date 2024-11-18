@@ -138,7 +138,7 @@
                 row.style.display = 'none';
             }
         });
-        paginateTable(); // Reset pagination after filtering
+        paginateTable(); 
     }
 
     // Function to filter by search input
@@ -154,7 +154,7 @@
                 row.style.display = 'none';
             }
         });
-        paginateTable(); // Reset pagination after search
+        paginateTable();
     }
 
     // Pagination logic
@@ -163,9 +163,8 @@
         const totalRows = Array.from(rows).filter(row => row.style.display !== 'none').length;
         const totalPages = Math.ceil(totalRows / rowsPerPage);
 
-        document.getElementById('pagination').innerHTML = ''; // Clear existing pagination
+        document.getElementById('pagination').innerHTML = ''; 
 
-        // Display only the rows for the current page
         let visibleRowCount = 0;
         rows.forEach((row, index) => {
             if (row.style.display !== 'none') {
@@ -174,7 +173,6 @@
             }
         });
 
-        // Create pagination buttons
         for (let i = 1; i <= totalPages; i++) {
             const li = document.createElement('li');
             li.classList.add('page-item');
@@ -195,7 +193,6 @@
         }
     }
 
-    // Initialize pagination on page load
     window.onload = function() {
         paginateTable();
     };

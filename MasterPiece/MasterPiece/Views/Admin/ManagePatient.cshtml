@@ -98,18 +98,16 @@
             const patientName = row.cells[1].textContent.toLowerCase();
 
             if (patientID.includes(searchString) || patientName.includes(searchString)) {
-                row.style.display = ''; // Show the row
+                row.style.display = ''; 
             } else {
-                row.style.display = 'none'; // Hide the row
+                row.style.display = 'none'; 
             }
         });
 
-        // After search, reset pagination
     }
 
-    // Pagination setup
     var currentPage = 1;
-    var rowsPerPage = 6; // Set the number of rows to display per page
+    var rowsPerPage = 6; 
 
     function displayTableRows(page) {
         var table = document.getElementById("testTable");
@@ -122,19 +120,16 @@
 
         currentPage = page;
 
-        // Hide all rows first
         for (var i = 0; i < totalRows; i++) {
             rows[i].style.display = "none";
         }
 
-        // Show rows for the current page
         var start = (page - 1) * rowsPerPage;
         var end = start + rowsPerPage;
         for (var i = start; i < end && i < totalRows; i++) {
             rows[i].style.display = "";
         }
 
-        // Update page number display
         document.getElementById("pageNumber").innerText = "Page " + currentPage + " of " + totalPages;
     }
 
@@ -153,7 +148,6 @@
         }
     }
 
-    // Initialize pagination on page load
     window.onload = function () {
         displayTableRows(currentPage);
     };

@@ -182,7 +182,6 @@
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        // Hide all rows
         rows.forEach((row, index) => {
             if (index >= start && index < end) {
                 row.style.display = '';
