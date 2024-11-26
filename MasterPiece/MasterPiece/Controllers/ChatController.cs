@@ -157,13 +157,12 @@ namespace MasterPiece.Controllers
                     .Where(m => m.ChatRoom_ID == chatRoomId && m.SenderId == senderId && m.SenderType == "Patient")
                     .Count();
 
-                var patient = _context.Patients.Find(senderId);
+            var patient = _context.Patients.Find(senderId);
 
-                if (patientMessageCount >= 2 && patient.PaymentStatus != "Paid")
-                {
-                    return RedirectToAction("PaymentRequired", new { chatRoomId });
-                }
-            
+            if (patientMessageCount >= 2 && patient.PaymentStatus != "Paid")
+            {
+                return RedirectToAction("PaymentRequired", new { chatRoomId });
+            }
 
             var message = new ChatMessage
             {
@@ -197,7 +196,7 @@ namespace MasterPiece.Controllers
             string cancelUrl = Url.Action("PaymentCancel", "Chat", new { patientId }, protocol: Request.Url.Scheme);
 
             // Create PayPal payment
-            var payment = PayPalHelper.CreatePayment(redirectUrl, cancelUrl, 50.00m); 
+            var payment = PayPalHelper.CreatePayment(redirectUrl, cancelUrl, 15.00m);
 
             // Get the PayPal redirect URL and redirect the user
             var redirect = payment.links.FirstOrDefault(link => link.rel.ToLower().Trim().Equals("approval_url"));
@@ -264,7 +263,7 @@ namespace MasterPiece.Controllers
             else
             {
                 // If a room already exists, redirect to that room
-                return RedirectToAction("Chat2", new { chatRoomId = existingRoom.ChatRoom_ID});
+                return RedirectToAction("Chat2", new { chatRoomId = existingRoom.ChatRoom_ID });
             }
         }
 
@@ -301,7 +300,7 @@ namespace MasterPiece.Controllers
                 .OrderBy(m => m.SentAt)
                 .ToList();
 
-            return PartialView("_ChatMessagesPartial", messages); 
+            return PartialView("_ChatMessagesPartial", messages);
         }
 
         // for patient
@@ -312,7 +311,7 @@ namespace MasterPiece.Controllers
                 .OrderBy(m => m.SentAt)
                 .ToList();
 
-            return PartialView("_PatientChat", messages); 
+            return PartialView("_PatientChat", messages);
         }
 
         public ActionResult GetChatRooms()

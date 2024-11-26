@@ -202,7 +202,7 @@
                             </td>
                             <td>@Html.DisplayFor(modelItem => package.Package_Name)</td>
                             <td>@Html.DisplayFor(modelItem => package.Description)</td>
-                            <td>@Html.DisplayFor(modelItem => package.Price)</td>
+                            <td>@Html.DisplayFor(modelItem => package.Price) JOD</td>
                             <td>
                                 @if (package.Package_Tests != null && package.Package_Tests.Any())
                                 {
@@ -221,7 +221,7 @@
                             <td class="text-center">
                                 <div class="d-flex justify-content-center">
                                     <button type="button" class="btn btn-sm btn-outline-warning me-2" data-bs-toggle="modal" data-bs-target="#editPackageModal"
-                                            onclick="openEditModal('@package.Package_ID', '@package.Package_Name', '@package.Description', '@package.Price', '@package.Picture')">
+                                            onclick="openEditModal('@package.Package_ID', '@package.Package_Name', '@package.Description', '@package.Price', '@package.Picture', '@package.Old_price')">
                                         Edit
                                     </button>
 
@@ -332,7 +332,7 @@
                 @using (Html.BeginForm("EditPackage", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.Hidden("Package_ID", "", new { id = "edit_Package_ID" }) 
+                    @Html.Hidden("Package_ID", "", new { id = "edit_Package_ID" })
 
                     <div class="mb-3">
                         <label for="edit_Package_Name" class="form-label">Package Name</label>
@@ -348,11 +348,15 @@
                         <label for="edit_Price" class="form-label">Price</label>
                         <input type="number" class="form-control" id="edit_Price" name="Price" required step="0.01" />
                     </div>
-
                     <div class="mb-3">
                         <label for="edit_Price" class="form-label">Old Price</label>
-                        <input type="number" class="form-control" id="Old_price" name="Old_price" required step="0.01" />
+                        <input type="number" class="form-control" id="edit_Price2" name="Old_price" required step="0.01" />
                     </div>
+
+                    @*<div class="mb-3">
+                        <label for="edit_Price" class="form-label">Old Price</label>
+                        <input type="number" class="form-control" id="Old_price" name="Old_price" required step="0.01" />
+                    </div>*@
 
                     <div class="mb-3">
                         <label for="edit_Picture" class="form-label">Package Image</label>
@@ -395,7 +399,7 @@
 
 
                     </div>
-                    <div id="selectedTestsInputsEDIT"></div> 
+                    <div id="selectedTestsInputsEDIT"></div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 }
             </div>
@@ -431,12 +435,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    function openEditModal(id, name, description, price, picture) {
+    function openEditModal(id, name, description, price, picture, oldPrice) {
         document.getElementById('edit_Package_ID').value = id;
         document.getElementById('edit_Package_Name').value = name;
         document.getElementById('edit_Description').value = description;
         document.getElementById('edit_Price').value = price;
-        
+        document.getElementById('edit_Price2').value = oldPrice;
+        document.getElementById('Old_price').value = oldPrice;
+        console.log('Assigned Old_price:', document.getElementById('Old_price').value);
+
         $.ajax({
             url: '/Admin/GetPackageDetails',
             type: 'GET',

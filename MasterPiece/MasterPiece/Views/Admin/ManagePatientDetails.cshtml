@@ -117,7 +117,7 @@
                     <button type="button" class="btn btn-outline-warning m-1" id="cancel-button" style="display: none;">Cancel</button>
                 </a>
                 <button type="submit" class="btn btn-outline-success m-1" id="save-button" style="display: none;">Save</button>
-                <a href="@Url.Action("AddPatientTests", "Admin")">
+                <a href="@Url.Action("newOrder", "Admin", new { patientID = Model.Patients.Patient_ID })">
                     <button type="button" class="btn btn-outline-primary m-1" id="edit-button">New Test Order</button>
                 </a>
             </div>

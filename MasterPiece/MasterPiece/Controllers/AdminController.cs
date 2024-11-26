@@ -54,6 +54,7 @@ namespace MasterPiece.Controllers
         {
             if (patient.Patient_ID == 0 || patient.Patient_ID == null)
             {
+                patient.Date_Created = DateTime.Now;
                 db.Patients.Add(patient);
 
                 var order = new Test_Order
@@ -96,6 +97,21 @@ namespace MasterPiece.Controllers
                 return RedirectToAction("AddPatientTests", new { orderID = order.Order_ID });
 
             }
+        }
+
+        public ActionResult newOrder(int patientId)
+        {
+            var order = new Test_Order
+            {
+                Patient_ID = patientId,
+                Date = DateTime.Now,
+                Tech_ID = 1,
+                Status = "Pending"
+
+            };
+            db.Test_Order.Add(order);
+            db.SaveChanges();
+            return RedirectToAction("AddPatientTests", new { orderID = order.Order_ID });
         }
 
         public ActionResult AddPatientTests(int orderID)
@@ -235,7 +251,7 @@ namespace MasterPiece.Controllers
         //////////////////////////////////////////   Test Result  ///////////////////////////////////////////////////
         public ActionResult TestResults()
         {
-            var tests = db.Test_Order.OrderByDescending(t =>  t.Patient_ID).ToList();
+            var tests = db.Test_Order.OrderByDescending(t =>  t.Order_ID).ToList();
 
             return View(tests);
         }
@@ -350,6 +366,7 @@ namespace MasterPiece.Controllers
                     Phone_Number = Convert.ToInt32(appointment.Phone_Number),
                     Home_Address = appointment.Home_Address,
                     Email = appointment.Email_Address,
+                    Date_Created = DateTime.Now,
 
                 };
                 db.Patients.Add(patient);
@@ -757,7 +774,11 @@ namespace MasterPiece.Controllers
                 package.Package_Name = model.Package_Name;
                 package.Description = model.Description;
                 package.Price = model.Price;
-                package.Picture = model.Picture;
+                package.Old_price = model.Old_price;
+                if (model.Picture != null)
+                {
+                    package.Picture = model.Picture;
+                }
 
                 db.Package_Tests.RemoveRange(package.Package_Tests);
 
